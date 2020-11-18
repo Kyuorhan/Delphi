@@ -1,0 +1,51 @@
+unit uEstoque;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
+  Vcl.ComCtrls, JvExExtCtrls, JvExtComponent, JvPanel;
+
+type
+  TfrmEstoque = class(TForm)
+    Timer1: TTimer;
+    BalloonHint1: TBalloonHint;
+    JvPanel1: TJvPanel;
+    StatusBar1: TStatusBar;
+    imgVendas: TImage;
+    imgCompras: TImage;
+    imgProdutos: TImage;
+    imgMarcas: TImage;
+    imgGrupos: TImage;
+    procedure Timer1Timer(Sender: TObject);
+    procedure imgGruposClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmEstoque: TfrmEstoque;
+
+implementation
+
+{$R *.dfm}
+
+uses uConsulta_Produtos;
+
+procedure TfrmEstoque.imgGruposClick(Sender: TObject);
+begin
+  frmConsulta_Produto := TfrmConsulta_Produto.Create(self);
+  frmConsulta_Produto.ShowModal;
+  FreeAndNil(frmConsulta_Produto);
+end;
+
+procedure TfrmEstoque.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

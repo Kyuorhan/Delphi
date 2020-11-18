@@ -1,0 +1,24 @@
+unit uConsulta_Unid_Medidas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TfrmConsulta_Unid_Medidas = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Unid_Medidas: TfrmConsulta_Unid_Medidas;
+
+implementation
+
+{$R *.dfm}
+
+end.

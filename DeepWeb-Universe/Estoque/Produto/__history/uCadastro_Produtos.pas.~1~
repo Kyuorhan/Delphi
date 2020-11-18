@@ -1,0 +1,48 @@
+unit uCadastro_Produtos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ActnList,
+  JvExExtCtrls, JvExtComponent, JvPanel;
+
+type
+  TfrmCadastro_Produto = class(TForm)
+    JvPanel1: TJvPanel;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    Timer1: TTimer;
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    BalloonHint1: TBalloonHint;
+    procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastro_Produto: TfrmCadastro_Produto;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadastro_Produto.FormCreate(Sender: TObject);
+begin
+  KeyPreview := True;
+end;
+
+procedure TfrmCadastro_Produto.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = VK_ESCAPE) then
+    Close;
+end;
+
+end.

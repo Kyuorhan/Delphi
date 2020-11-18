@@ -1,0 +1,16 @@
+program Project_CalcularMedia;
+
+uses
+  Vcl.Forms,
+  CalcularMedia in 'CalcularMedia.pas' {cAluno},
+  ClassAluno in 'ClassAluno.pas',
+  ClassPessoa in 'ClassPessoa.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TcAluno, cAluno);
+  Application.Run;
+end.

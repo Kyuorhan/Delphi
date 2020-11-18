@@ -1,0 +1,75 @@
+PreviewOptions, para podemos iniciar as configuracoes:
+
+AllowEdit		: permite editar o relatorio quando o usuário está no preview, assim ele pode fazer anotações e outras alterações.
+Buttons			: os buttons que irão aparecer no preview do relatório
+DoubleBuffered		: setando esta propriedade para True, evita "flickers" na montagem do preview, porém é mais lento.
+Maximized		: inicia o preview maximizado
+MDIChild		: se o preview deve se comportar como formularios MDI
+Modal			: se o relatório deve ser mostrado em modo Modal
+OutlineExpand		: permite expandir/diminuir a largura da Outline (veremos isso em outro post)
+OutlineVisible		: se deve mostrar a Outline
+OutlineWidth		: largura da Outline
+PagesInCache		: quantidade de páginas que serão mantidas em memória. Cuidado ao usar esta opção caso seu relatório tenha imagens, pois quanto mais páginas 
+			  em cache, maior o consumo de memória
+PictureInCacheFile	: se as imagens do relatório devem ser salvas em arquivos temporários. Isso diminui a quantidade de memória usada pelo relatório, porém deixa o mesmo mais lento
+ShowCaptions		: se o caption dos buttons devem ser mostrados. Ao ativar esta opção, você provavelmente terá q reduzir o número de buttos mostrados no preview
+ThumbnailVisible	: se deve mostrar miniaturas das páginas
+Zoom			: tamanho do zoom (1 = 100%)
+ZoomMode		: modo do zoom (pagina inteira, múltiplas páginas, uma página).
+
+Propriedade PrintOptions
+
+Collate			: permite imprimir "múltiplas páginas" em sequencia. Caso você tenha criado um relatório com múltiplas páginas, geralmente é impresso assim Page1: 1,2,3...n, Depois 
+			  Page2: 1,2,3. Setando para True, a impressão será assim: Page1: 1, Page2: 1, Page1: 2, Page2: 2....
+Copies			: número de cópias
+PageNumbers		: as páginas que deverão ser impressas. Exemplo: 1,3,5: imprime somente as páginas 1, 3 e 5. Exemplo: 3-10: imprime da página 3 até a página 10
+Printer			: nome da impressora a ser usada
+PrintMode		: modo de impressão (Juntar páginas pequenas, Dividir, escalar para caber)
+PrintOnSheet		: tamanho do papel
+PrintPages		: quais páginas devem ser impressas: todas, somente as pares, somente as ímpares
+Reverse			: se o relatório deve ser impresso da última página para a primeira
+ShowDialog		: se o diálogo de impressão deve ser exibido. deixe false pra imprimir direto pra impressora, sem intervenção do usuário
+
+Propriedade ReportOptions: são informações relacionadas ao relatório, como autor, data de criação, versão, etc.
+
+Propriedade StoreInDFM: incorpora o relatório ao DFM. Geralmente eu deixo esta opção como False, pois o relatório já está salvo. 
+Se você não quiser salvar o relatório, deixe True, e use um frxReport para cada relatório criado, mas o arquivo .DFM irá ficar "gigantesco"
+
+
+Agora adicione um Button ao form, pra podermos "chamar" o relatório via programação:
+
+
+
+procedure TForm9.Button1Click(Sender: TObject);
+begin
+  // abre a query
+  UniQuery1.Close;
+  UniQuery1.Open;
+
+  // limpa o relatório anterior q foi carregado no frxReport
+  // se vc deixou a propriedade StoreInDfm = True, não use a linha abaixo
+  frxReport1.Clear;
+
+  // carrega o relatório
+  // se vc deixou a propriedade StoreInDfm = True, não use a linha abaixo
+  frxReport1.LoadFromFile(ExtractFilePath(ParamStr(0))+'Relatorio1.fr3');
+
+  // mostra o relatorio
+  frxReport1.ShowReport;
+
+  UniQuery1.Close
+end;
+
+
+As opções dessa tela do GroupHeader são:
+
+Manter grupo unido(Keep group together)			: não separa o cabeçalho do grupo do registro, quando não há espaço na página
+Iniciar nova página(Start new`page)			: inicia uma nova página antes de imprimir o cabeçalho do grupo
+Mostrar no resumo(Show in outline)			: mostra o título do grupo na Outline (se lembra dessa opção na primeira aula?)
+Lançar para baixo (Drill-Down)				: esconde os registros abaixo do cabeçalho, e quando o usuário clicar no Header, mostra todos eles (simulando um ComboBox)
+Restaura número de páginas(Reset Page Numbers)		: reinicia a numeração da página. Iremos ver como usar esta opção na aula de Variáveis.
+
+
+
+
+

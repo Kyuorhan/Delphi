@@ -1,0 +1,222 @@
+object frmPagar: TfrmPagar
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Contas a Pagar'
+  ClientHeight = 451
+  ClientWidth = 449
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnKeyPress = FormKeyPress
+  DesignSize = (
+    449
+    451)
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lbNumero: TLabel
+    Left = 30
+    Top = 126
+    Width = 43
+    Height = 13
+    Caption = 'N'#218'MERO'
+  end
+  object lbData: TLabel
+    Left = 117
+    Top = 126
+    Width = 27
+    Height = 13
+    Caption = 'DATA'
+  end
+  object lbVencimento: TLabel
+    Left = 220
+    Top = 126
+    Width = 65
+    Height = 13
+    Caption = 'VENCIMENTO'
+  end
+  object lbValor: TLabel
+    Left = 323
+    Top = 126
+    Width = 33
+    Height = 13
+    Caption = 'VALOR'
+  end
+  object lbFornecedor: TLabel
+    Left = 30
+    Top = 172
+    Width = 69
+    Height = 13
+    Caption = 'FORNECEDOR'
+  end
+  object lbDocumento: TLabel
+    Left = 220
+    Top = 172
+    Width = 67
+    Height = 13
+    Caption = 'DOCUMENTO '
+  end
+  object Label1: TLabel
+    Left = 30
+    Top = 218
+    Width = 57
+    Height = 13
+    Caption = 'HIST'#211'RICO'
+  end
+  object Label2: TLabel
+    Left = 30
+    Top = 264
+    Width = 93
+    Height = 13
+    Caption = 'PLANO DE CONTAS'
+  end
+  object Label3: TLabel
+    Left = 30
+    Top = 307
+    Width = 38
+    Height = 13
+    Caption = 'CIDADE'
+  end
+  object Label4: TLabel
+    Left = 30
+    Top = 353
+    Width = 84
+    Height = 13
+    Caption = 'CENTRO CUSTOS'
+  end
+  object JvEmbeddedFormPanel1: TJvEmbeddedFormPanel
+    Left = 0
+    Top = 0
+    Width = 449
+    Height = 89
+    AlwaysVisible = False
+    Align = alTop
+    Color = 12306376
+    ParentColor = False
+    TabOrder = 13
+    ExplicitWidth = 416
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 432
+    Width = 449
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitTop = 412
+    ExplicitWidth = 435
+  end
+  object btnSalvar: TButton
+    Left = 55
+    Top = 37
+    Width = 65
+    Height = 33
+    Anchors = [akLeft]
+    Caption = 'SALVAR'
+    ModalResult = 1
+    TabOrder = 11
+    ExplicitTop = 36
+  end
+  object btnCancel: TButton
+    Left = 136
+    Top = 37
+    Width = 65
+    Height = 33
+    Anchors = [akLeft]
+    Caption = 'CANCELAR'
+    ModalResult = 2
+    ParentShowHint = False
+    ShowHint = False
+    TabOrder = 10
+    ExplicitTop = 36
+  end
+  object Edit1: TEdit
+    Left = 30
+    Top = 145
+    Width = 81
+    Height = 21
+    TabOrder = 0
+  end
+  object JvDateData: TJvDateEdit
+    Left = 117
+    Top = 145
+    Width = 97
+    Height = 21
+    ShowNullDate = False
+    TabOrder = 1
+  end
+  object JvDateVencimento: TJvDateEdit
+    Left = 220
+    Top = 145
+    Width = 97
+    Height = 21
+    ShowNullDate = False
+    TabOrder = 2
+  end
+  object edtFornecedor: TEdit
+    Left = 30
+    Top = 191
+    Width = 184
+    Height = 21
+    TabOrder = 4
+  end
+  object edtDocumento: TEdit
+    Left = 220
+    Top = 191
+    Width = 184
+    Height = 21
+    TabOrder = 6
+  end
+  object JvCalValor: TJvCalcEdit
+    Left = 323
+    Top = 145
+    Width = 81
+    Height = 21
+    ButtonFlat = True
+    DisplayFormat = ',0.00;-,0.00'
+    ImageKind = ikCustom
+    TabOrder = 3
+    DecimalPlacesAlwaysShown = False
+  end
+  object edtHistorico: TEdit
+    Left = 30
+    Top = 237
+    Width = 374
+    Height = 21
+    TabOrder = 5
+  end
+  object edtPlanoContas: TEdit
+    Left = 30
+    Top = 283
+    Width = 374
+    Height = 21
+    TabOrder = 7
+  end
+  object edtCidade: TComboBox
+    Left = 28
+    Top = 326
+    Width = 374
+    Height = 21
+    TabOrder = 8
+  end
+  object edtCentroCusto: TComboBox
+    Left = 30
+    Top = 372
+    Width = 374
+    Height = 21
+    TabOrder = 9
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 368
+    Top = 40
+  end
+end

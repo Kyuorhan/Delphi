@@ -1,0 +1,24 @@
+unit uType_Record;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TfrmType_Record = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmType_Record: TfrmType_Record;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,38 @@
+procedure Tfrm_fluxo_caixa.DBGrid1DrawColumnCell(Sender: TObject;
+const Rect: TRect; DataCol: Integer; Column: TColumn;
+State: TGridDrawState);
+begin
+
+   if (Column.Field.FieldName = 'SUBTOTAL') then
+      begin
+         if IBQ_fluxo_caixa.FieldByName ('SUBTOTAL').Value < 0 then
+            begin
+               DBGrid1.Canvas.Font.Color:= clRed;
+               DBGrid1.Canvas.FillRect(Rect);
+               DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+            end
+         else
+             begin
+               DBGrid1.Canvas.Font.Color:= clBlack;
+               DBGrid1.Canvas.FillRect(Rect);
+               DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+             end;
+      end;
+
+   if (Column.Field.FieldName = 'DEBITO') then
+      begin
+         if IBQ_fluxo_caixa.FieldByName ('DEBITO').Value < 0 then
+            begin
+               DBGrid1.Canvas.Font.Color:= clRed;
+               DBGrid1.Canvas.FillRect(Rect);
+               DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+            end
+         else
+             begin
+               DBGrid1.Canvas.Font.Color:= clBlack;
+               DBGrid1.Canvas.FillRect(Rect);
+               DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+             end;
+      end;
+
+end;

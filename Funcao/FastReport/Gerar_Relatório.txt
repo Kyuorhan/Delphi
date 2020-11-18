@@ -1,0 +1,5 @@
+ReportTile: esta banda somente será mostrada na primeira página do relatorio
+MasterData: onde serão listados os registros de nossa query
+PageFooter: rodapé das páginas
+
+PageHeader: usamos esta banda como cabeçalho de páginas, pois ela ira aparecer em todas as páginas do nosso relatório.

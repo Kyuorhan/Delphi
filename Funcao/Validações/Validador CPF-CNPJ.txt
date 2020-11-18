@@ -1,0 +1,59 @@
+procedure TfrmCliente.btmSearchClick(Sender: TObject);
+var sNumeros : String;
+begin
+  sNumeros := SoNumeros(frmCliente.edtCPF.Text);
+  Result := False;
+  if sNumeros <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := sNumeros;
+    if Length(sNumeros) = 11 then
+      frmPrincipal.ACBrValidador.TipoDocto := docCPF
+    else
+      frmPrincipal.ACBrValidador.TipoDocto := docCNPJ;
+      Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+-----------------------------------------------------------------------------------------------------------------
+if not Result then												|
+  begin														|
+    MostraAviso('"ATENÇÃO" CPF/CNPJ - INVÁLIDO');								|
+  end;														|
+end;														|
+														|
+				OR										|
+			      ......										|
+														|
+  if not Result then												|
+  begin														|
+    Application.MessageBox('ATENÇÃO! CPF/CNPJ - INVÁLIDO',' "ERRO" Preenchimento do Formulário', + MB_OK );	|
+    edtCPF.SetFocus;												|
+  end;														|
+end;														|
+														|
+-----------------------------------------------------------------------------------------------------------------
+
+procedure TfrmCliente.edtCPFExit(Sender: TObject);
+begin
+  Result := False;
+
+  if (edtCPF.Text) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := edtCPF.Text;
+    frmPrincipal.ACBrValidador.TipoDocto := docCPF;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    Application.MessageBox('ATENÇÃO! CPF - INVÁLIDO',' "ERRO" Preenchimento do Formulário', + MB_OK );
+end;
+
+begin
+  Result := False;
+
+  if (edtCNPJ.Text) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := edtCNPJ.Text;
+    frmPrincipal.ACBrValidador.TipoDocto := docCNPJ;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    Application.MessageBox('ATENÇÃO! CNPJ - INVÁLIDO',' "ERRO" Preenchimento do Formulário', + MB_OK );
+end;

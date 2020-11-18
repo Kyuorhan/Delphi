@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/08/11 17:45:22.000.117,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 07:44:33.000.021,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 11:13:38.000.618,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/25 13:26:41.000.218,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/25 13:27:47.000.236,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\CalcularMedia.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.dfm</Transaction>
+    <Transaction>2020/08/25 13:27:47.000.236,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\CalcularMedia.pas=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/25 13:28:03.000.551,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj=C:\Users\Programação\Documents\RAD Studio\Projects\Project7.dproj</Transaction>
+    <Transaction>2020/08/25 13:55:49.000.972,=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Unit1.pas</Transaction>
+    <Transaction>2020/08/25 14:08:12.000.672,=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Unit2.pas</Transaction>
+    <Transaction>2020/08/25 14:10:58.000.778,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\ClassPessoa.pas=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Unit2.pas</Transaction>
+    <Transaction>2020/08/25 14:11:08.000.735,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\ClassAluno.pas=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Unit1.pas</Transaction>
+    <Transaction>2020/08/25 14:11:16.000.665,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj</Transaction>
+    <Transaction>2020/08/26 16:59:37.000.888,=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Unit1.pas</Transaction>
+    <Transaction>2020/08/26 17:00:43.000.774,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\ClasseAluno.pas=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Unit1.pas</Transaction>
+    <Transaction>2020/08/26 17:00:52.000.673,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj</Transaction>
+    <Transaction>2020/08/26 17:01:04.000.141,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj</Transaction>
+    <Transaction>2020/08/26 17:04:52.000.967,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Project_CalcularMedia.dproj=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Nova pasta\Project_CalcularMedia.dproj</Transaction>
+    <Transaction>2020/08/26 17:05:33.000.834,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\CalcularMedia.pas=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Nova pasta\CalcularMedia.pas</Transaction>
+    <Transaction>2020/08/26 17:05:33.000.834,C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\CalcularMedia.dfm=C:\My-Projects\Delphi\Delphi\My-Test\CalcularMedia\Nova pasta\CalcularMedia.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

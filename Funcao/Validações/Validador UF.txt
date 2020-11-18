@@ -1,0 +1,38 @@
+procedure TfrmCliente.edtUFExit(Sender: TObject);
+begin
+
+  if (edtUF.Text) <> '' then
+  begin
+    ACBrValidador.Documento := edtUF.Text;
+    ACBrValidador.TipoDocto := docUF;
+    begin
+    if ACBrValidador.Validar then
+      Application.MessageBox('ATENÇÃO!: UF DIGITADO - VÁLIDO','"Preenchimento do Formulário', + MB_OK )
+    else
+    begin
+      Application.MessageBox('ATENÇÃO!: UF DIGITADO - INVÁLIDO','"ERRO" Preenchimento do Formulário', + MB_OK );
+      edtUF.SetFocus;
+    end;
+    end;
+  end;
+end;
+
+
+------------------------------------------------------
+
+procedure TfrmCliente.edtUFExit(Sender: TObject);
+begin
+  Result := False;
+
+  if (edtUF.Text) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := edtUF.Text;
+    frmPrincipal.ACBrValidador.TipoDocto := docUF;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    Application.MessageBox('ATENÇÃO! EMAIL DIGITADO - INVÁLIDO');
+end;
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

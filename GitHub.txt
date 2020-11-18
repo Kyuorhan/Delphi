@@ -1,0 +1,11 @@
+git status  				// Ve modificações 
+git add .  				//adiciona os arquivos para salvar
+git commit -m "comentario"   		// insere um comentario no save local
+git push 				// Envia o repositorio remoto (site)
+git diff 				// Ve ultimas alterações para comparar
+
+git remote add origin remote https:	//github.com/jhonnytopsapp/Delphi.git
+
+git push origin master 			// Co
+
+git config --global credential.helper wincred

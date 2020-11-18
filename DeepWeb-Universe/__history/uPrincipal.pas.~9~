@@ -1,0 +1,155 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, JvExControls,
+  JvEmbeddedForms, Data.DB, ZAbstractRODataset, ZAbstractDataset, ZDataset,
+  ZAbstractConnection, ZConnection, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls,
+  Vcl.ComCtrls, ACBrBase, ACBrValidador, Vcl.ImgList, Vcl.Imaging.pngimage,
+  JvExExtCtrls, JvExtComponent, JvPanel, Vcl.Styles, Vcl.Themes;
+
+type
+  TfrmPrincipal = class(TForm)
+    ZConnection1: TZConnection;
+    StatusBar1: TStatusBar;
+    Timer1: TTimer;
+    dsUsuario: TDataSource;
+    dsContas_pagar: TDataSource;
+    dsMoviment_contas: TDataSource;
+    sqlUsuario: TZQuery;
+    sqlContas_pagar: TZQuery;
+    sqlMoviment_contas: TZQuery;
+    sqlUsuarioid: TIntegerField;
+    sqlUsuarionome: TWideStringField;
+    sqlUsuariocpf: TWideStringField;
+    sqlUsuarioemail: TWideStringField;
+    sqlUsuariodata_cadastro: TDateField;
+    sqlContas_pagarid: TIntegerField;
+    sqlContas_pagarnum_documento: TWideStringField;
+    sqlContas_pagardescricao: TWideStringField;
+    sqlContas_pagarparcela: TIntegerField;
+    sqlContas_pagarvalor_parcela: TFloatField;
+    sqlContas_pagarvalor_compra: TFloatField;
+    sqlContas_pagarvalor_abatido: TFloatField;
+    sqlContas_pagardata_compra: TDateField;
+    sqlContas_pagardata_cadastro: TDateField;
+    sqlContas_pagardata_vencimento: TDateField;
+    sqlContas_pagardata_pagamento: TDateField;
+    sqlContas_pagarstatus: TWideStringField;
+    sqlMoviment_contasid: TIntegerField;
+    sqlMoviment_contasnum_documento: TWideStringField;
+    sqlMoviment_contasdescricao: TWideStringField;
+    sqlMoviment_contasvalor: TFloatField;
+    sqlMoviment_contastipo: TWideStringField;
+    sqlMoviment_contasdt_cadastro: TDateField;
+    imgConsultas: TImage;
+    imgConfig: TImage;
+    imgServiços: TImage;
+    imgFinanceiro: TImage;
+    imgSuporte: TImage;
+    BalloonHint1: TBalloonHint;
+    ACBrValidador: TACBrValidador;
+    ImageList64: TImageList;
+    ImageList32: TImageList;
+    ImageList48: TImageList;
+    ImageList24: TImageList;
+    JvPanel1: TJvPanel;
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure imgConsultasClick(Sender: TObject);
+    procedure imgFinanceiroClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
+    procedure imgConfigClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure LoadStyles;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout, uFinanceiro, uConsulta;
+
+
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if Application.MessageBox('Deseja sair da Consulta','Informação', MB_YESNO) <> mrYes then
+    action := caNone;
+end;
+
+
+procedure TfrmPrincipal.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+
+  // Key = #13 <- Simula tecla Enter
+  if Key = #13 then
+  begin
+    // desabilita o processamento posterior da tecla
+    Key := #0;
+    // simula tecla   "TAB"
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  // Key = #27 <- Simula tecla Esc
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+procedure TfrmPrincipal.FormShow(Sender: TObject);
+begin
+  ZConnection1.HostName := 'localhost';
+  ZConnection1.Database := 'jhonny';
+  ZConnection1.User := 'root';
+  ZConnection1.Password := '123';
+  ZConnection1.Connect;
+end;
+
+procedure TfrmPrincipal.imgConfigClick(Sender: TObject);
+var
+  P1, P2: TPoint;
+begin
+  P1.X := imgConfig.Left;
+  P1.Y := imgConfig.Top + imgConfig.Height;
+  P2 := ClientToScreen(P1);
+  PopupMenu.PopUp(P2.X, P2.Y);
+end;
+
+procedure TfrmPrincipal.imgConsultasClick(Sender: TObject);
+begin
+  frmConsulta := TfrmConsulta.Create(nil);
+  frmConsulta.ShowModal;
+  FreeAndNil(frmConsulta);
+end;
+
+procedure TfrmPrincipal.imgFinanceiroClick(Sender: TObject);
+begin
+  frmFinanceiro := TfrmFinanceiro.Create(self);
+  frmFinanceiro.ShowModal;
+  FreeAndNil(frmFinanceiro);
+end;
+
+procedure TfrmPrincipal.LoadStyles;
+begin
+
+end;
+
+procedure TfrmPrincipal.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.
+
+
+

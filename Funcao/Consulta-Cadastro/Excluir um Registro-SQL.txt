@@ -1,0 +1,23 @@
+begin
+  if Application.MessageBox('Deseja realmente "Excluir" o registro?',
+    'Abertura/Fechamento do Caixa', MB_YESNO) = mrYes then
+  begin
+    try
+      SQL.Delete;
+      SQLApplyUpdates;
+      MostraMensagem('Registro excluido com "Sucesso!"'); //	MostraMensagem um Metodo/Função chamado
+
+    except
+      on E: Exception do
+        raise Exception.Create('Error ao "Excluir" o registro!' + E.Message);
+    end;
+  end;
+end;
+
+
+
+procedure MostraMensagem(ATexto: String);
+begin
+  Application.MessageBox(PChar(ATexto), PChar(Application.Title),
+    MB_OK + MB_ICONINFORMATION);
+end;

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/08/11 17:45:22.000.117,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 07:44:33.000.021,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 11:13:38.000.618,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/20 08:23:12.000.317,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/20 09:28:46.000.488,C:\My-Projects\Delphi\Delphi\My-Test\JurosPagamentos\JurosPagamentos.pas=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/20 09:28:46.000.488,C:\My-Projects\Delphi\Delphi\My-Test\JurosPagamentos\JurosPagamentos.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.dfm</Transaction>
+    <Transaction>2020/08/20 09:28:55.000.881,C:\My-Projects\Delphi\Delphi\My-Test\JurosPagamentos\Project_JurosPagemntos.dproj=C:\Users\Programação\Documents\RAD Studio\Projects\Project7.dproj</Transaction>
+    <Transaction>2020/08/20 15:37:26.000.940,C:\My-Projects\Delphi\Delphi\My-Test\Receber\Project_JurosPagemntos.dproj=C:\My-Projects\Delphi\Delphi\My-Test\Receber\Project_Receber.dproj</Transaction>
+    <Transaction>2020/08/20 15:37:43.000.189,C:\My-Projects\Delphi\Delphi\My-Test\Receber\JurosPagamentos.pas=C:\My-Projects\Delphi\Delphi\My-Test\Receber\Receber.pas</Transaction>
+    <Transaction>2020/08/20 15:37:43.000.189,C:\My-Projects\Delphi\Delphi\My-Test\Receber\JurosPagamentos.dfm=C:\My-Projects\Delphi\Delphi\My-Test\Receber\Receber.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

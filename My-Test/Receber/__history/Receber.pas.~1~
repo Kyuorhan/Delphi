@@ -1,0 +1,59 @@
+unit Receber;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask;
+
+type
+  TForm7 = class(TForm)
+    lbValor: TLabel;
+    edtVencimento: TMaskEdit;
+    edtPagamento: TMaskEdit;
+    edtValor: TEdit;
+    lbVencimento: TLabel;
+    lbPagamento: TLabel;
+    btnProcessar: TButton;
+    lbTotal: TLabel;
+    procedure btnProcessarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form7: TForm7;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm7.btnProcessarClick(Sender: TObject);
+var
+
+Valor, Tempo, Cobrar : Real;
+Vencimento, Pagamento : tDateTime;
+begin
+DateSeparator := '/';
+ShortDateFormat := 'dd/mm/yyyy';
+ThousandSeparator:='.';
+Valor := StrToFloat(edtValor.Text);
+Vencimento := StrToDate(edtVencimento.Text);
+Pagamento := StrToDate(edtPagamento.Text);
+
+if (Pagamento = Vencimento) then
+  Cobrar := Valor
+
+else
+begin
+  if (Pagamento > Vencimento) then
+  begin
+    Tempo := Pagamento - Vencimento;
+    lbTotal.Caption := FormatFloat('#,##0.00',Cobrar);
+    edtValor.SetFocus;
+  end;
+end;
+end;
+end.

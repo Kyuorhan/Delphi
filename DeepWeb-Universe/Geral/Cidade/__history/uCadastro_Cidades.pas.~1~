@@ -1,0 +1,43 @@
+unit uCadastro_Cidades;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.ActnList, Vcl.Buttons, JvExExtCtrls, JvExtComponent, JvPanel, Vcl.ComCtrls;
+
+type
+  TfrmCadastro_Cidades = class(TForm)
+    StatusBar1: TStatusBar;
+    JvPanel1: TJvPanel;
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    ActionList1: TActionList;
+    actSearch1: TAction;
+    actSearch2: TAction;
+    Timer1: TTimer;
+    Label19: TLabel;
+    Label1: TLabel;
+    lbCod_IBGE: TLabel;
+    edtCidade: TEdit;
+    edtUF: TEdit;
+    edtCod_IBGE: TEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastro_Cidades: TfrmCadastro_Cidades;
+
+implementation
+
+{$R *.dfm}
+
+end.

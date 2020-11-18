@@ -1,0 +1,196 @@
+unit uFuncoes;
+
+interface
+
+uses Forms, Dialogs, SysUtils;
+
+function ValidarCEP(ACEP: String): Boolean;
+function ValidarEmail(AEmail: String): Boolean;
+function ValidarUF(AUF: String): Boolean;
+function ValidarCPF(ACPF: String): Boolean;
+function SoNumeros(ATexto: String): String;
+function Calculo_Troco(Saldo, Valor: Real): String;
+
+procedure MostraMensagem(ATexto: String);
+procedure MostraAviso(Atexto: String);
+procedure MostraErro(Atexto: String);
+
+implementation
+
+uses
+  Winapi.Windows, ACBrValidador, uPrincipal, My_Layout, Vcl.Controls;
+
+procedure MostraMensagem(ATexto: String);
+begin
+  Application.MessageBox(PChar(ATexto), PChar(Application.Title), MB_OK + MB_ICONINFORMATION);
+end;
+
+procedure MostraAviso(Atexto: String);
+begin
+  Application.MessageBox(PChar(ATexto), PChar(Application.Title), MB_OK + MB_ICONWARNING);
+end;
+
+procedure MostraErro(Atexto: String);
+begin
+  Application.MessageBox(PChar(ATexto), PChar(Application.Title), MB_OK + MB_ICONERROR);
+end;
+
+function ValidarUF(AUF: String): Boolean;
+begin
+  Result := False;
+
+  if (AUF) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := AUF;
+    frmPrincipal.ACBrValidador.TipoDocto := docUF;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    MostraAviso('ESTADO(UF) - INVÁLIDO');
+end;
+
+function ValidarCEP(ACEP: String): Boolean;
+begin
+  Result := False;
+
+  if (ACEP) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := ACEP;
+    frmPrincipal.ACBrValidador.TipoDocto := docCEP;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    MostraAviso('CEP - Inválido');
+end;
+
+function ValidarEmail(AEMAIL: String): Boolean;
+begin
+  Result := False;
+
+  if (AEMAIL) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := AEMAIL;
+    frmPrincipal.ACBrValidador.TipoDocto := docEmail;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    MostraAviso('EMAIL - Inválido');
+end;
+
+function ValidarCPF(ACPF: String): Boolean;
+var sNumeros : String;
+begin
+  sNumeros := SoNumeros(frmCliente.edtCPF.Text);
+  Result := False;
+  if sNumeros <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := sNumeros;
+    if Length(sNumeros) = 11 then
+      frmPrincipal.ACBrValidador.TipoDocto := docCPF
+    else
+      frmPrincipal.ACBrValidador.TipoDocto := docCNPJ;
+      Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+
+  if not Result then
+  begin
+    MostraAviso('CPF/CNPJ - Inválido');
+  end;
+end;
+
+function ValidarInscEst(AIE: String): Boolean;
+begin
+  Result := False;
+
+  if (AIE) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := AIE;
+    frmPrincipal.ACBrValidador.TipoDocto := docInscEst;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    MostraAviso('"INSC. ESTADUAL - Inválido');
+end;
+
+function SoNumeros(ATexto: String): String;
+var x: Integer;
+    y: String;
+begin
+  x := 0;
+  y := '';
+  for x := 1 to Length(ATexto) do
+  begin
+    if (ATexto[x] IN ['0'..'9']) then
+	    y := y + Copy(ATexto, x, 1);
+  end;
+  result := y;
+end;
+
+function KeyPress(Sender: TObject; var Key: Char);
+begin
+    // Key = #13 <- Simula tecla Enter
+  if Key = #13 then
+  begin
+    // desabilita o processamento posterior da tecla
+    Key := #0;
+    // simula tecla   "TAB"
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  // Key = #27 <- Simula tecla Esc
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+
+function Calculo_Troco(Saldo, Valor: Real): String;
+const   Nota  : array[1..7] of Integer = (100, 50, 20, 10, 5, 2, 1);
+      Money   : array[1..5] of Integer = (50, 25, 10, 5, 1);
+          
+var     Troco : Real;
+  i, vlr, mon : Integer;
+            s : String;
+begin
+  if (Saldo < Valor) then
+     Calculo_Troco := 'Pagamento "Insuficiente, faltam R$ "' + FloatToStr(Saldo - Valor)
+  else begin
+          Troco := Valor - Saldo;
+          s := 'Troco = R$ ' + FloatToStr(Troco);
+          s := s + #13#10 + #13#10;
+// Definindo as notas do troco (Parte inteira)
+          vlr := Trunc(Troco);
+          i := 1;
+          while (vlr <> 0) do
+          begin
+            mon := vlr div Nota[i]; // Calculando a qtds de notas
+            if (mon <> 0) then
+            begin
+              s := s + IntToStr(mon) + ' Nota(s) de R$ '
+               + IntToStr(Nota[i]) + #13#10;
+              vlr := vlr mod Nota[i]; // Sobra
+            end;
+            i := i + 1; // Próxima Nota  
+          end;
+          s := s + #13#10;
+// Definindo as notas do troco (Parte fracionário)
+          vlr := round(Frac(Troco) * 100);
+          i := 1;
+          while (vlr <> 0) do
+          begin
+            mon := vlr div Money[i]; // Calculando a qtds de notas
+            if (mon <> 0) then
+            begin
+              s := s + IntToStr(mon) + ' Moeda(s) de '
+               + IntToStr(Money[i]) + ' centavo(s) ' + #13#10;
+              vlr := vlr mod Money[i]; // Sobra
+            end;
+            i := i + 1; // Próxima moeda  
+          end;
+    
+    Calculo_Troco := s;
+  end;
+end;
+
+end.

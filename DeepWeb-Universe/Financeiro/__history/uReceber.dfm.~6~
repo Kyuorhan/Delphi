@@ -1,0 +1,165 @@
+object frmReceber: TfrmReceber
+  Left = 0
+  Top = 0
+  BiDiMode = bdLeftToRight
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsToolWindow
+  Caption = 'Contas a Receber'
+  ClientHeight = 348
+  ClientWidth = 409
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  ParentBiDiMode = False
+  OnKeyPress = FormKeyPress
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lbCliente: TLabel
+    Left = 24
+    Top = 112
+    Width = 41
+    Height = 13
+    Caption = 'CLIENTE'
+  end
+  object lbValor: TLabel
+    Left = 40
+    Top = 167
+    Width = 33
+    Height = 13
+    Caption = 'VALOR'
+  end
+  object lbPagamento: TLabel
+    Left = 236
+    Top = 211
+    Width = 62
+    Height = 13
+    Caption = 'PAGAMENTO'
+  end
+  object lbVencimento: TLabel
+    Left = 236
+    Top = 165
+    Width = 65
+    Height = 13
+    Caption = 'VENCIMENTO'
+  end
+  object lbJuros: TLabel
+    Left = 152
+    Top = 272
+    Width = 33
+    Height = 13
+    Caption = 'JUROS'
+  end
+  object Label1: TLabel
+    Left = 269
+    Top = 264
+    Width = 79
+    Height = 13
+    Caption = 'TOTAL A PAGAR'
+  end
+  object Label2: TLabel
+    Left = 40
+    Top = 272
+    Width = 68
+    Height = 13
+    Caption = 'DIAS ATRASO'
+  end
+  object JvEmbeddedFormPanel1: TJvEmbeddedFormPanel
+    Left = 0
+    Top = 0
+    Width = 409
+    Height = 89
+    AlwaysVisible = False
+    Align = alTop
+    Color = 12306376
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = False
+    TabOrder = 9
+  end
+  object edtCliente: TEdit
+    Left = 24
+    Top = 131
+    Width = 361
+    Height = 21
+    TabOrder = 0
+  end
+  object edtJuros: TEdit
+    Left = 152
+    Top = 291
+    Width = 96
+    Height = 21
+    TabOrder = 2
+  end
+  object edtTotal: TEdit
+    Left = 269
+    Top = 283
+    Width = 96
+    Height = 21
+    TabOrder = 3
+  end
+  object btnProcessar: TButton
+    Left = 64
+    Top = 226
+    Width = 105
+    Height = 29
+    Caption = 'PROCESSAR'
+    TabOrder = 1
+    OnClick = btnProcessarClick
+  end
+  object edtDiasAtraso: TEdit
+    Left = 40
+    Top = 291
+    Width = 96
+    Height = 21
+    TabOrder = 4
+  end
+  object JvDateVencimento: TJvDateEdit
+    Left = 236
+    Top = 184
+    Width = 121
+    Height = 21
+    ShowNullDate = False
+    TabOrder = 5
+  end
+  object JvDatePagamento: TJvDateEdit
+    Left = 236
+    Top = 230
+    Width = 121
+    Height = 21
+    ShowNullDate = False
+    TabOrder = 6
+  end
+  object JvCalTotal: TJvCalcEdit
+    Left = 40
+    Top = 186
+    Width = 145
+    Height = 19
+    Flat = True
+    ParentFlat = False
+    ButtonFlat = True
+    DisplayFormat = ',0.00;-,0.00'
+    ImageKind = ikCustom
+    TabOrder = 7
+    DecimalPlacesAlwaysShown = False
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 329
+    Width = 409
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 376
+    Top = 48
+  end
+end

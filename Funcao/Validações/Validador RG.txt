@@ -1,0 +1,39 @@
+procedure TfrmCliente.btmSearch1Click(Sender: TObject);
+begin
+
+  if (edtRG.Text) <> '' then
+  begin
+    ACBrValidador.Documento := edtRG.Text;
+    ACBrValidador.TipoDocto := docRG;
+    begin
+    if ACBrValidador.Validar then
+      Application.MessageBox('ATENÇÃO!: RG DIGITADO - VÁLIDO','"Preenchimento do Formulário', + MB_OK )
+    else
+    begin
+      Application.MessageBox('ATENÇÃO!: RG DIGITADO - INVÁLIDO','"ERRO" Preenchimento do Formulário', + MB_OK );
+      edtRG.SetFocus;
+    end;
+    end;
+  end;
+end;
+
+------------------------------------------------------
+
+procedure TfrmCliente.edtCEPExit(Sender: TObject);
+begin
+  Result := False;
+
+  if (edtRG.Text) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := edtRG.Text;
+    frmPrincipal.ACBrValidador.TipoDocto := docRG;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    Application.MessageBox('ATENÇÃO!: RG DIGITADO - INVÁLIDO','"ERRO" Preenchimento do Formulário', + MB_OK );
+    edtRG.SetFocus;
+end;
+end.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

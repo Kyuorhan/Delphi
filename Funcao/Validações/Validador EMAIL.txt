@@ -1,0 +1,42 @@
+PROCEDURE
+
+procedure TfrmCliente.edtEmailExit(Sender: TObject);
+begin
+
+  if (edtEmail.Text) <> '' then
+  begin
+    ACBrValidador.Documento := edtEmail.Text;
+    ACBrValidador.TipoDocto := docEmail;
+    begin
+      if ACBrValidador.Validar then
+        Application.MessageBox('ATENÇÃO!: E-MAIL DIGITADO - VÁLIDO','"Preenchimento do Formulário', + MB_OK )
+      else
+      begin
+        Application.MessageBox('ATENÇÃO!: E-MAIL DIGITADO - INVÁLIDO','"ERRO" Preenchimento do Formulário', + MB_OK );
+        edtEmail.SetFocus;
+      end;
+    end;
+  end;
+end;
+
+
+------------------------------------------------------
+
+procedure TfrmCliente.edtEmailExit(Sender: TObject);
+begin
+  Result := False;
+
+  if (edtEmail.Text) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := edtEmail.Text;
+    frmPrincipal.ACBrValidador.TipoDocto := docEmail;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+     Application.MessageBox('ATENÇÃO!: E-MAIL DIGITADO - INVÁLIDO','"ERRO" Preenchimento do Formulário', + MB_OK );
+     edtEmail.SetFocus;
+end;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+

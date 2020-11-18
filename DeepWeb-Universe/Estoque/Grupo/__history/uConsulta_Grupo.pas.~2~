@@ -1,0 +1,45 @@
+unit uConsulta_Grupo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Buttons, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.ExtCtrls, JvExExtCtrls, JvExtComponent, JvPanel, Vcl.Grids,
+  Vcl.DBGrids;
+
+type
+  TfrmConsulta_Grupos = class(TForm)
+    DBGrid1: TDBGrid;
+    JvPanel1: TJvPanel;
+    Timer1: TTimer;
+    Label1: TLabel;
+    edtLocalizar: TEdit;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    BalloonHint1: TBalloonHint;
+    StatusBar1: TStatusBar;
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Grupos: TfrmConsulta_Grupos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmConsulta_Grupos.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

@@ -1,0 +1,32 @@
+unit ClassAluno;
+
+interface
+uses
+  Classes, System, ClassPessoa;
+
+type TAluno = class(TPessoa)
+
+  private
+    FMedia1 : Double;
+    FMedia2 : Double;
+    FMedia3 : Double;
+    FMedia4 : Double;
+  public
+    property Media1 : Double read FMedia1 write FMedia1;
+    property Media2 : Double read FMedia2 write FMedia2;
+    property Media3 : Double read FMedia3 write FMedia3;
+    property Media4 : Double read FMedia4 Write FMedia4;
+
+    Function CalcularMedia : Double;
+end;
+
+implementation
+
+{ TAluno }
+
+function TAluno.CalcularMedia: Double;
+begin
+  Result := (Fmedia1 + Fmedia2 + Fmedia3 + Fmedia4) / 4;
+end;
+
+end.

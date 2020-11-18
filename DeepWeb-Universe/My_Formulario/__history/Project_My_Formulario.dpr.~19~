@@ -1,0 +1,30 @@
+program Project_My_Formulario;
+
+uses
+  Vcl.Forms,
+  My_Layout in 'Cliente\My_Layout.pas' {frmCliente},
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  uReceber in 'Financeiro\uReceber.pas' {frmReceber},
+  uFinanceiro in 'Financeiro\uFinanceiro.pas' {frmFinanceiro},
+  uPagar in 'Financeiro\uPagar.pas' {frmPagar},
+  uConsulta in 'Financeiro\uConsulta.pas' {frmConsulta},
+  Vcl.Themes,
+  Vcl.Styles,
+  uFuncoes in 'uFuncoes.pas',
+  uContas_Caixa in 'Caixa\uContas_Caixa.pas' {frmContas_Caixa},
+  uCaixa_Cadastro in 'Caixa\uCaixa_Cadastro.pas' {frmCaixa_Cadastro},
+  uCaixa_Banco in 'Caixa\uCaixa_Banco.pas' {frmCaixa_Banco},
+  uContas_Banco in 'Caixa\uContas_Banco.pas' {frmContas_Caixa1},
+  uContas_Bancos in 'Caixa\uContas_Bancos.pas' {Form1};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmCaixa_Banco, frmCaixa_Banco);
+  Application.CreateForm(TfrmContas_Caixa1, frmContas_Caixa1);
+  Application.CreateForm(TForm1, Form1);
+  Application.Run;
+end.

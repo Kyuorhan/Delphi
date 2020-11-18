@@ -1,0 +1,303 @@
+object frmCadastro_Produto: TfrmCadastro_Produto
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Cadastro/Produto'
+  ClientHeight = 531
+  ClientWidth = 602
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lbDescricao: TLabel
+    Left = 48
+    Top = 149
+    Width = 72
+    Height = 16
+    Caption = 'DESCRI'#199#195'P'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lbP_Compra: TLabel
+    Left = 280
+    Top = 198
+    Width = 71
+    Height = 16
+    Caption = 'P. COMPRA'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lbUnidade: TLabel
+    Left = 48
+    Top = 198
+    Width = 56
+    Height = 16
+    Caption = 'UNIDADE'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label1: TLabel
+    Left = 376
+    Top = 198
+    Width = 56
+    Height = 16
+    Caption = 'P. CUSTO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 280
+    Top = 247
+    Width = 60
+    Height = 16
+    Caption = 'M. LUCRO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lbGrupo: TLabel
+    Left = 48
+    Top = 247
+    Width = 42
+    Height = 16
+    Caption = 'GRUPO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lbMarca: TLabel
+    Left = 159
+    Top = 198
+    Width = 48
+    Height = 16
+    Caption = 'MARCA'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 376
+    Top = 247
+    Width = 59
+    Height = 16
+    Caption = 'P. VENDA'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 48
+    Top = 302
+    Width = 42
+    Height = 16
+    Caption = 'GRUPO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 151
+    Top = 302
+    Width = 42
+    Height = 16
+    Caption = 'GRUPO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object JvPanel1: TJvPanel
+    Left = 0
+    Top = 0
+    Width = 602
+    Height = 121
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 13095379
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitWidth = 444
+  end
+  object JvPanel2: TJvPanel
+    Left = 0
+    Top = 481
+    Width = 602
+    Height = 50
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = cl3DLight
+    ParentBackground = False
+    TabOrder = 1
+    ExplicitTop = 409
+    ExplicitWidth = 444
+    object btnSalvar: TSpeedButton
+      Left = 10
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'SALVAR'
+      CustomHint = BalloonHint1
+      Action = actSalvar1
+      Flat = True
+    end
+    object btnCancelar: TSpeedButton
+      Left = 78
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'CANCELAR'
+      CustomHint = BalloonHint1
+      Action = actCancelar
+      Flat = True
+    end
+  end
+  object edtNome: TEdit
+    Left = 48
+    Top = 171
+    Width = 353
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 2
+  end
+  object Edit2: TEdit
+    Left = 416
+    Top = 171
+    Width = 50
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 3
+  end
+  object Edit3: TEdit
+    Left = 48
+    Top = 324
+    Width = 97
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 4
+  end
+  object ComboBox1: TComboBox
+    Left = 48
+    Top = 220
+    Width = 105
+    Height = 21
+    CharCase = ecUpperCase
+    TabOrder = 5
+  end
+  object Edit4: TEdit
+    Left = 280
+    Top = 220
+    Width = 90
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 6
+  end
+  object Edit5: TEdit
+    Left = 376
+    Top = 269
+    Width = 90
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 7
+  end
+  object Edit1: TEdit
+    Left = 376
+    Top = 220
+    Width = 90
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 8
+  end
+  object Edit6: TEdit
+    Left = 280
+    Top = 269
+    Width = 90
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 9
+  end
+  object ComboBox2: TComboBox
+    Left = 48
+    Top = 269
+    Width = 202
+    Height = 21
+    CharCase = ecUpperCase
+    TabOrder = 10
+  end
+  object Edit7: TEdit
+    Left = 151
+    Top = 324
+    Width = 97
+    Height = 21
+    Color = cl3DLight
+    TabOrder = 11
+  end
+  object ComboBox3: TComboBox
+    Left = 160
+    Top = 220
+    Width = 105
+    Height = 21
+    CharCase = ecUpperCase
+    TabOrder = 12
+  end
+  object ActionList2: TActionList
+    Images = frmPrincipal.ImageList48
+    Left = 464
+    Top = 64
+    object actSalvar1: TAction
+      ImageIndex = 0
+    end
+    object actCancelar: TAction
+      ImageIndex = 1
+    end
+  end
+  object Timer1: TTimer
+    Interval = 100
+    Left = 472
+    Top = 8
+  end
+  object BalloonHint1: TBalloonHint
+    Style = bhsStandard
+    Left = 394
+    Top = 64
+  end
+end

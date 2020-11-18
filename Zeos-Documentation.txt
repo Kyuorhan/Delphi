@@ -1,0 +1,2369 @@
+Zeos Documentation Collection
+----------------------------------------------------------------
+
+
+
+\capítulo{Introdução}
+Este documento é um esforço para combinar toda a documentação Zeos disponível em um Manual.
+Inclui um tutorial como encontrado na Internet e várias outras peças.
+Começa na esperança de que de alguma forma evolua para um tipo de manual.
+
+Atualmente toda a documentação aqui está meio desatualizada.
+Ele está em processo de ser compilado em um manual e, em seguida, será atualizado como permissão de tempo.
+As partes que foram atualizadas serão marcadas no futuro.
+
+A documentação do usuário destina-se a ajudar pelo menos alguns usuários do Zeos e ajudá-los a começar.
+
+A documentação do desenvolvedor está aqui para interesses históricos e para ser um guia sobre o que pensar enquanto trabalha em uma nova documentação do desenvolvedor.
+Também deve ajudar a entender como Zeos foi organizado no passado e ainda está organizado.
+
+\part{Documentação do usuário Zeos}
+
+\capítulo{Um tutorial de noções básicas zeos não só para Firebird ...}
+Este tutorial foi originalmente escrito por Michael Seeger.
+
+\seção{Prefácio}
+Os ZeosLib DBOs 6.1.5 - Com Delfos 7 e Firebird 1.5.
+Este pequeno artigo mostra como acessar os bancos de dados do Firebird usando a Biblioteca de componentes ZEOS na versão 6.1.5 (incluindo patches 1\&2) e como usar esses componentes em aplicativos de banco de dados.
+Não importa se você usa o SQL-Server "real" ou a versão incorporada que está restrita aos bancos de dados locais.
+Alguns exemplos (também migrados de demos Delphi-BDE) devem explicar como usar o ZEOS
+Componentes.
+
+Embora este artigo descreva o uso da Biblioteca ZEOS usando o Firebird, todos os fundamentos podem ser usados com outros servidores/bancos de dados SQL que são suportados pelo ZEOS.
+
+Nota: O Firebird Server pode ser baixado a partir da seção de download de
+http://www.ibphoenix.com
+http://www.firebirdsql.org
+
+\seção{A Biblioteca ZEOS}
+O nome "ZEOS" não tem um significado especial. Os fundadores da ZEOS descobriram que esse nome soava bem.
+Desde então, a Biblioteca é chamada de "ZEOS".
+
+Geralmente podemos dizer sobre a Biblioteca ZEOS que os desenvolvedores são intensificados para
+copiar as funções e o comportamento dos componentes BDE correspondentes como bom
+o mais possível.
+A intenção é minimizar o aprendizado para os desenvolvedores que
+migrar do BDE para o ZEOS.
+É claro que deve ter havido alguns compromissos para que não sejam cem por cento compatíveis, porque os componentes ZEOS devem ser aplicáveis universalmente.
+
+A Biblioteca ZEOS na versão 6.1.5 consiste nos nove componentes a seguir
+que devem ser introduzidos no seguinte:
+\começar{itemize}
+\item TZConnection
+\item TZQuery
+\item TZReadOnlyQuery
+\item TZUpdatesQL
+\item TZTable
+\item TZStoredProc
+\item Processador TZSQL
+\item TZSQLMonitor
+\item TZSQLMetadata
+\end{itemize}
+
+\seção{Instalação da Biblioteca ZEOS e coisas adicionais}
+
+A instalação da Biblioteca ZEOS sob o profissional delphi 7 não é tão complicada.
+Uma vez que a versão ZEOS atual e todos os patches (ao escrever este artigo, era a versão 6.1.5 da biblioteca e os patches correspondentes 1\&2) são baixados e descompactados em um diretório de sua escolha completamente você só tem que seguir as instruções de instalação (nota: Firebird não precisa de DLL's adicionais, aqui!):
+
+Abra o grupo de projetos delphi ZeosDbo.bpg a partir de pacotes subdiretórios\textbackslash delphi7 ZeosDbo.bpg e instale
+os seguintes componentes em determinada ordem:
+\começar{itemize}
+\item ZCore.bpl
+\item ZParseSql.bpl
+\item ZPlain.bpl
+\item ZDbc.bpl
+\item ZComponent.bpl
+\end{itemize}
+
+Nota: Se ocorrer alguns erros ao compilar que dizem que um determinado arquivo dcu não poderia ser encontrado, basta adicionar os pacotes subdiretórios\textbackslash delphi7\textbackslash build to delphis library path.
+Todos os arquivos dcu que são criados durante a compilação estão localizados aqui.
+
+Atenção: A biblioteca cliente do Firebird Server versão 1.5.1 (não incorporada!) foi entregue como "gds32.dll" e não "fbclient.dll".
+Isso causa problemas ao acessar via ZEOS porque o protocolo "firebird1.5" assume um DLL chamado "fbclient.dll".
+Uma solução alternativa é copiar o "gds32.dll" e renomear esta cópia para "fbclient.dll".
+
+\seção{Noções Básicas: Transações}
+Alguns fundamentos obrigatórios sobre transações devem ser informados para entender como o TZConnection
+componente funciona internamente e como trabalhar com ele.
+
+Em geral: Você só pode ter acesso a um banco de dados no contexto de uma transação válida ("running").
+Uma transação tem que cumprir as seguintes quatro características que são conhecidas como características ACID de uma transação.
+
+Atomicidade: Todas as ações realizadas em um banco de dados devem ser executadas com sucesso.
+Se ocorrer apenas um erro, então o estado original do banco de dados deve ser restaurado.
+De acordo com o princípio "tudo ou nada".
+
+Consitency: Uma transação transfere um banco de dados de um estado consitent para outro estado consistente.
+Se ocorrer um erro, o estado original do banco de dados deve ser restaurado.
+
+Isolamento: Uma transação tem que ser tratada pelo servidor como se fosse a única em execução.
+Isso significa que ele tem que ser executado indepentemente a partir de outras transações.
+O usuário não deve notar as alterações feitas por outros usuários.
+
+Durabilidade: As alterações no conjunto de dados de um banco de dados causados por declarações SQL que são executadas entre o início de uma transação e um COMMIT devem ser corrigidas irrevogavelmente.
+
+As transações encapsulam acessos consecutivos em um banco de dados.
+Um acesso ao banco de dados pode ser de natureza de leitura ou escrita (INSERT, UPDATE, DELETE) ou pode alterar a estrutura de um banco de dados.
+As transações são encerradas por COMMIT ou ROLLBACK.
+A COMMIT confirma todas as alterações em um banco de dados desde o início de uma transação.
+A REVERSÃO redefine todas as alterações em um banco de dados desde o início de uma transação.
+
+As transações em execução no servidor devem ser isoladas umas das outras.
+Então eles podem correr independentemente.
+Uma transação tem que ser tratada pelo servidor, pois era a única que está sendo executada no momento.
+Isso significa para o usuário que ele nunca deve ver as mudanças de outros usuários enquanto ele está em uma transação em execução, porque as outras alterações não têm nada a ver com sua transação.
+Isso é chamado de isolamento de uma transação.
+Usando diferentes níveis de isolamento de transações (TILs), o desenvolvedor pode proteger os dados de um resultado SQL do acesso por outras transações.
+O comportamento descrito acima é chamado de nível de isolamento padrão conhecido como SERIALIZABLE.
+O nível de isolamento padrão do Firebird é chamado SNAPSHOT e chega muito perto de SERIALIZABLE.
+
+\seção{Os Componentes Zeos}
+
+\subseção{TZConnection}
+O componente TZConnection é uma combinação de um BDE TDatabase como componente um componente que
+lida com uma transação.
+Essa combinação faz sentido porque todo o acesso a um banco de dados Firebird (e também outros bancos de dados) é sempre feito em uma transação em execução.
+Tal transação é inicial pela Biblioteca ZEOS sempre que uma conexão (método Conectar de TZConnection) a um banco de dados é aberta.
+Isso faz com que cada acesso ao banco de dados seja feito dentro do contexto de uma transação em execução, automaticamente.
+O chamado modo AutoCommit está sempre ligado (definido como "True").
+Este também é o comportamento padrão do componente BDE correspondente.
+Se o AutoCompmit for ativado, cada alteração de uma instrução SQL será confirmada no banco de dados pela COMMIT após sua execução bem sucedida.
+Se esse comportamento for desligado e uma transação explícita for iniciada, o método StartTransaction deverá ser chamado.
+Dentro dessa transação explícita é possível executar algumas declarações SQL que fazem alterações no banco de dados, em sucessão.
+Essas declarações, então, podem ser confirmadas como um "grupo" pelo COMMIT.
+Se uma transação explícita estiver ativa, o AutoCommit será sempre desligado.
+Ao chamar o método, todas as alterações feitas nesta transação explícita são confirmadas.
+Chamar o método De reversão redefine essas alterações.
+Em ambos os casos, o AutoCommit será definido como True quando a chamada de método (Commit ou Rollback) for feita.
+A transação explícita terminou.
+
+\subsubseção{Retenção}
+Depois de confirmar os chanes feitos em uma transação por COMMIT ou redefini-los por ROLLLBACK o
+a transação normalmente será encerrada e um resultado existente de uma consulta ou procedimento armazenado será descartado.
+Esses COMMITs e ROLLBACKs são chamados de "hard" commit ou "hard" rollback.
+Ao usar a biblioteca ZEOS, isso se tornará um pouco diferente.
+Zeos mantém o resultado vivo.
+Isso é conseguido fechando a transação com compromissos "suaves" ou reversões "suaves".
+Tudo isso é feito pelo objeto TZConnection.
+Este método é chamado de retenção.
+Os comandos COMMIT e ROLLBACK são executados com a adição RETAINING.
+A retenção causa o fechamento da transação atual e a abertura imediata de uma nova transação com todos os dados e recursos (especialmente o resultado) da transação "antiga".
+
+A retenção torna-se um problema se for uso para mesas enormes.
+Restringe o mecanismo interno de limpeza do firebird (coleta de lixo).
+Isso leva (por causa da versão e da arquitetura multigeracional do Firebird) a muitos registros antigos que precisam ser mantidos, mas não serão mais necessários.
+Isso influencia o desempenho do servidor de forma negativa.
+A chamada varredura descartaria essas versões antigas e melhoraria o desempenho.
+Esta varredura só será executada enviando um COMMIT ou ROLLBACK "duro".
+A Biblioteca ZEOS só executa esses comandos "difíceis" ao terminar a conexão do banco de dados (conexão de fechamento).
+Não é possível enviá-los enquanto uma conexão de banco de dados estiver ativa. Assim, a conexão do banco de dados deve ser desativada e imediatamente ativada ocasionalmente para obter essa melhoria de desempenho.
+
+\subsubseção{Níveis de isolamento de transações da TZConnection}
+
+O componente TZConnection fornece quatro níveis úteis e predefinidos de isolamento de transações (TIL):
+
+tiRepeatableRead:
+Corresponde ao TIL "SNAPSHOT" que é o padrão dos servidores Firebird.
+É uma combinação dos parâmetros de trasação "concurrency" e "nowait".
+Um instantâneo do banco de dados atual é feito.
+Outros usuários só são influenciados (constrangidos) se duas transações funcionarem em um registro simultaneamente.
+Se surgirem conflitos ao acessar dados, uma mensagem de erro será devolvida.
+Alterações dentro de outras transações não serão notadas.
+Este TIL abrange amplamente a exigência do padrão SQL (SERIALIZABLE).
+
+tiReadCommitted:
+Corresponde ao TIL "READ COMMITTED".
+É uma combinação dos parâmetros de transação "read\_committed", "rec\_version" e "nowait".
+Esta TIL reconhece todas as alterações em outras transações que foram confirmadas pelo COMMIT.
+O parâmetro "rec\_version" é responsável pelo comportamento que serão considerados os valores mais atuais que foram cometidos por outros usuários.
+O parâmetro "nowait" é resposível para o comportamento de que não há como esperar pela liberação de um registro bloqueado.
+Assim, o servidor está mais estressado do que no TIL tiRepeatableRead porque ele tem que fazer todas as atualizações para obter esses valores de novo e de novo.
+
+tiSerializable:
+Corresponde à "ESTABILIDADE DA TABELA SNAPSHOT"DE TIL .
+É usado para ter um acesso exclusivo ao conjunto de resultados.
+Realizado pelo parâmetro de transação "consistência" evita que a transação "estrangeira" possa acessar os dados escritos.
+Somente a transação que escreveu os dados pode acessá-los.
+Isso impede também o acesso de vários usuários aos dados escritos.
+Como esta TIL é muito restritiva ao acessar dados escritos, ela deve ser aplicada com cautela e cuidado.
+
+tiNone: Nenhum TIL é usado para isolar a transação.
+
+O TIL tiReadUncompmitted não é suportado pelo Firebird.
+Se este TIL for usado, um erro será acionado e a transação não será isolada (como usar tiNone).
+
+\subsubseção{Recomendação}
+É aconselhável isolar transações com o nível de isolamento de transações tiRepeatableRead (o padrão Firebird).
+Este TIL abrange amplamente a exigência do padrão SQL (SERIALIZABLE).
+Evita todos os problemas relativos à consistência que possam surgir usando transações.
+A segunda escolha seria tiReadCommitted, mas isso depende do aplicativo e da necessidade se o conjunto de reseult sempre tem que ser atual.
+
+\subsubseção{Personalização de TILs}
+
+Se você quiser personalizar seus TILs ou expandir um determinado TIL, então você pode fazer isso usando os parâmetros do TZConnection.
+A coisa mais importante sobre isso é que o TIL que deve ser expandido tem que ser definido em
+Isolamento da propriedadeLevel.
+Se ele for definido os parâmetros TIL (ver referência API IB/FB) que você deseja adicionar pode ser adicionado no código de origem.
+O exemplo a seguir mostra a expansão de uma pré-finição de TIL para tiNone:
+\começar{verbatim}
+ZConnection.TransactIsolationLevel := tiNone;
+ZConnection.Properties.Add('isc_tpb_concurrency');
+ZConnection.Properties.Add('isc_tpb_wait');
+ZConnection.Connect;
+\fim{verbatim}
+
+\subsubseção{Protocolo}
+A configuração mais importante em um objeto TZConnection é o protocolo do servidor que está definido no Protocolo de propriedade.
+Ele determina qual protocolo deve ser usado e, portanto, qual servidor SQL será acessado.
+Este método torna o ZEOS tão flexível.
+Você não precisa instalar componentes especiais para cada banco de dados que deseja acessar como era nas versões 5.x e anterior.
+Os componentes serão instalados uma vez.
+Isso é o suficiente.
+Você só escolhe o protocolo para o servidor SQL suportado que deseja acessar e está pronto.
+Então você ateou o protocolo "firebird1.5" para acessar o servidor Firebird 1.5.
+
+\subsubseção{Conexão somente leitura}
+
+A conexão de banco de dados mantida por um objeto TZConnection é definida para leitura apenas por padrão (ReadOnly = True).
+Isso significa que não é permitido o acesso à redação ao banco de dados conectado.
+Para obter acesso à escrita ao banco de dados, você tem que definir ReadOnly to False.
+
+\subsubseção{Códigos}
+As páginas de código serão determinadas definindo o parâmetro "lc\_ctype" ou "Codepage" no TZConnection.
+Este parâmetro deve ser adicionado às propriedades da propriedade. Por exemplo:
+\começar{verbatim}
+ZConection.Properties.Add ('lc\_ctype=ISO8859\_1');
+\fim{verbatim}
+Ou
+\começar{verbatim}
+ZConnection.Properties.Add ('Codepage=ISO8859\_1');
+\fim{verbatim}
+
+Nota: O suporte de codepage do Firebird (versão também incorporada) na versão 1.5 com ZEOS é um pouco bugado. Estes bugs são corrigidos na versão 1.5.1 do Firebird.
+
+\subsubseção{Características do servidor incorporado Firebird}
+
+Normalmente, o nome do servidor ou o endereço IP do servidor são dados no HostName de propriedade.
+Ao usar um servidor incorporado Firebird, você pode deixar esta propriedade vazia.
+Apenas o banco de dados de propriedades deve ser determinado.
+Aqui você tem que especificar o caminho da unidade e o nome do banco de dados, incluindo extensão.
+
+Um outro recurso do servidor incorporado é que você pode especificar qualquer nome de login com uma palavra-senha de sua escolha.
+Não importa o que você escolher você vai se conectar.
+
+Definir a propriedade de objeto TZConnection Connected to True em tempo de design é extremamente ruim se você não redefini-lo para False antes de compilar.
+Se você então iniciar o aplicativo compilado com o IDE em execução, você terá um erro que diz que o banco de dados não pode ser aberto porque ele já está em uso.
+Assim, você deve estabelecer a conexão com o banco de dados ao iniciar o aplicativo (por exemplo, no evento OnCreate do formulário principal) e, em seguida, abrir as consultas e tabelas necessárias.
+A desativação da conexão também deve ser feita na forma principal (por exemplo, no OnDestroy).
+Não é necessário fechar todas as consultas e tabelas abertas.
+Isso será feito ao fechar a conexão do objeto TZConnection.
+Se você usar formulários de datamodel, você tem que tomar cuidado para que o formulário de datamodel seja criado antes que o formulário principal seja criado (definido nas opções de projeto do IDE)...
+
+\subsubseção{Parâmetros úteis de conexão TZ}
+
+Parâmetros adicionais para estabelecer conexões aos bancos de dados Firebird são:
+
+Criar NewDataBase:
+Um novo banco de dados será criado com base nas instruções de "CRIAR BANCO DE DADOS" especificadas.
+Quando o banco de dados for criado, a conexão será estabelecida imediatamente.
+Tudo isso acontece chamando o método Connect de TZConnection.
+\começar{verbatim}
+ZConnection1.Banco de dados := 'd:\db1.fdb';
+ZConnection1.Protocolo := 'firebird-1.5';
+ZConnection1.Propriedades.Adicionar ('CreateNewDatabase=CREATE DATABASE ' + QuotedStr ('d:\db1.fdb') + ' USER ' + QuotedStr ('sysdba') + ' PASSWORD ' + QuotedStr ('masterkey') + ' PAGE\_SIZE 4096 DEFAULT CHARACTER SET ISO8859\_1');
+ZConnection1.Conecte-se;
+\fim{verbatim}
+
+Para executá-lo corretamente, você tem que definir as propriedades do Banco de Dados e protocolo no mínimo (também possível no objectinspector).
+
+Dialeto:
+Este parâmetro põe o dialito SQL do Firebird. Para definir o dialeto "1" você tem que usar o seguinte código:
+\começar{verbatim}
+ZConnection.Properties.Add ('Dialect=1');
+\fim{verbatim}
+
+O dialeto do Firebird 1.5.x é definido como "3" por padrão.
+
+Rolename:
+Este parâmetro define um nome de papel. Um usuário logado então funciona no contexto dos direitos da função, mas antes que o usuário tenha que ser designado para essa função.
+O servidor incorporado Firebird não suporta esse recurso.
+
+\subseção{TZQuery}
+
+O uso do TZQuery é semelhante ao uso do componente TQuery da BDE.
+
+\subsubseção{Recomandação: RequestLive e TZUpdateSQL}
+Se um conjunto de dados SQL for atualizado, o RequestLive deve ser definido como verdadeiro e você geralmente deve usar de acordo com as instruções SQL de atualização que serão definidas em TZUpdateSQL.
+Se isso for feito, basta atribuir TZUpdateSQL ao objeto TZQuery.
+Agora, todas as alterações que serão feitas no conjunto de resultados serão feitas ao banco de dados usando as instruções definidas do TZUpdateSQL.
+De acordo com a experiência, o modo RequestLive funciona mais suavemente usando TZUpdateSQL.
+
+\subsubseção{Uso de parâmetros em instruções SQL}
+
+Usar parâmetros em instruções SELECT é tão fácil quanto usá-los com o TQuery do BDE.
+Se o TZQuery tiver um conjunto de resultados, então você terá que usar o método Open.
+Se você quiser executar uma instrução SQL que não tem conjunto de resultados (por exemplo: INSERT ou UPDATE) você terá que usar ExecSQL (ver também: TZStoredProc).
+
+\subseção{TZReadOnlyQuery}
+
+Este é um componente de consulta bastante semelhante ao componente TZQuery.
+Há apenas uma diferença:
+O conjunto de resultados é lido apenas.
+Não há possibilidade de atribuir um objeto TZUpdateSQL.
+
+\subseção{TZUpdateSQL}
+
+Um objeto TZUpdateSQL fornece instruções para modificar os dados de um conjunto de resultados que é recuperado por um objeto TZQuery.
+O componente TZUpdateSQL é comparável ao componente TUpdateSQL da BDE.
+Aqui está um exemplo de como definir as declarações de uma instrução SQL com declarações de atualização correspondentes (com base em um banco de dados dialeto 3):
+
+SQL: SELECIONE * DOS nomes
+
+UpdateSQL.InsertSql: INSERIR EM nomes (recno, nome) VALORES (:recno, :nome)
+
+UpdateSQL.ModifySql: NOME DE ATUALIZAÇÃO SET recno = :RecNo, nome = :nome WHERE recno = :old\_recno
+
+UpdateSQL.DeleteSql: EXCLUIR DOS nomes WHERE recno = :old\_recno
+
+\subsubseção{O prefixo do parâmetro "OLD\_" para instruções SQL}
+
+O prefixo "old\_" é manuseado de acordo com o manuseio com componentes BDE.
+Ao usar "OLD\_" como prefixo para um nome de campo, você pode acessar o valor do campo antes de ser alterado.
+Isso é muito útil se você tiver que comparar valores de campo em uma cláusula WHERE.
+
+\subsubseção{Consultas com resultados somente lidos}
+Em geneal, um objeto TZUpdateSQL é atribuído a um objeto TZQuery que tem um conjunto de resultados somente leitura.
+Isso torna possível alterar seus dados.
+Tais consultas de leitura são consultas que se juntam a várias tabelas.
+Mas também com os resultados "normais" "RequestLive" você pode usar TZUpdateSQL (ver: TZQuery).
+
+\subsubseção{Várias declarações em TZQuery e TZUpdateSQL}
+Os componentes TZQuery e TZUpdateSql fornecem a possibilidade de executar várias declarações, internamente.
+Assim, é possível colocar várias declarações SQL (mesmo com parâmetros) para execução em propriedades SQL.
+Eles só têm que ser separados por ponto e vírgula. Aqui um exemplo:
+\começar{verbatim}
+:
+Com a consulta do Begin
+Sql.Clear;
+Sql.Add ('EXCLUIR DA tabela1;');
+Sql.Add ('INSERIR NA tabela1 VALORES (:Val1, :Val2);');
+Sql.Add ('INSERIR NA tabela2 VALORES (:Val3, :Val2);');
+Sql.Add ('TABELA UPDATE3 SET field1 = :Val4;');
+Params.ParamByName('Val1'). AsInteger := 123;
+:
+ExecSql;
+Fim;
+:
+\fim{verbatim}
+
+As declarações serão executadas em ordem.
+Também é possível executar várias declarações se elas forem agrupadas desta maneira dentro de vários TZUpdateSqlObjects, a fim de atualizar várias tabelas.
+
+\subseção{TZTable}
+TZTable age como o TTable da BDE.
+Como princípio, você só deve usar TZTable em um aplicativo C/S se você tiver tabelas muito pequenas, porque todos os registros da tabela serão transferidos do servidor para a memória do cliente por
+abrindo o TZTable.
+Este é um bahaviour semelhante a uma instrução "SELECT * FROM XYZ".
+Você deve até mesmo evitar uma declaração como esta em um aplicativo C/S.
+A intensificação é manter o resultado que deve ser transferido de servidor para cliente o menor possível (perferivelmente onle um registro).
+
+\subseção{TZStoredProc}
+O TZStoredProc fornece a possiblidade para executar procedimentos armazenados que são salvos em um banco de dados.
+Existem dois tipos de procedimentos armazenados: Procedimentos que retornam um resultado e procedimentos que não retornam um resultado.
+O TZStoredProc funciona semelhante ao TStoredProc da BDE.
+A única diferença entre eles é que você não precisa ligar para o Prepare antes de chamar o método ExecProc.
+
+\subsubseção{Procedimentos armazenados com resultsets}
+
+Se um procedimento armazenado retornar um conjunto de resultados, ele será ativado chamando o método Abrir (quando todos os parâmetros existentes tiverem seus valores):
+
+\começar{verbatim}
+:
+Com spSumByName do Begin
+Feche;
+ParamByName ('Nome'). Valor := 'DontKnowHow';
+Aberto;
+Fim;
+:
+\fim{verbatim}
+
+O resultado pode ser trabalhado como um resultado de um TZQuery.
+
+\subsubseção{Procedimentos armazenados sem resultsets}
+
+Se um procedimento armazenado não tiver resultados, ele será executado chamando o método ExecProc (quando todos os parâmetros existentes tiverem seus valores).
+Aqui está um exemplo (conConnection.AutoCommit = True):
+
+\começar{verbatim}
+:
+Com spDeleteByName do Begin
+ ParamByName ('Nome'). Valor := 'DontKnowHow';
+  conConnection.StartTransaction
+ Tentar
+ executar StoredProc
+    ExecProc;
+ Exceto
+    conConnection.Rollback;
+ Fim;
+  conConnection.Commit;
+Fim;
+:
+\fim{verbatim}
+
+\subsubseção{Problemas com TZStoredProc ao usar bancos de dados dialetos 1}
+O problema ao usar bancos de dados dialetos 1 é que os metadados do proecedure armazenado não são corretamente
+transferido para os objetos TZStoredProc ao escolher o procedimento armazenado no inspetor de objetos.
+Todos os dados do parapeter não são interpretados corretamente.
+Uma atualização do dialeto 1 para o dialeto 3 resolve este problema.
+O banco de dados dialeto 1 é vital para o sistema de aplicativos, então um TZQuery ou TZReadOnlyQuery deve ser usado como solução alternativa.
+
+\subseção{TZSQLMonitor}
+Usando o componente TZSQLMonitor, você pode registrar certas ações ou eventos do banco de dados ZEOS
+Componentes. O diário pode ser escrito como arquivo ou coletado em um objeto TMemo ou algo assim.
+
+Escrever as ações ou eventos para um arquivo de registro só precisa de algumas configurações:
+
+\começar{verbatim}
+:
+sqlMonitor.FileName := 'C:\Log\MyAppLog.log';
+sqlMonitor.Active := True;
+sqlMonitor.AutoSave := Verdadeiro;
+:
+\fim{verbatim}
+
+Para coletar as ações ou eventos registrados em um objeto TMemo, você tem que implementar o evento OnLogTrace como
+Segue:
+
+\começar{verbatim}
+Procedimento Tfrm_MyApp.sqlMonitorLogTrace (Remetente: TObject; 
+ Evento: TZLoggingEvent);
+Começar
+ Se trim (Event.Error) > '' Então
+    memMontor.Lines.Add (DateTimeToStr (Event.Timestamp) + ': ' 
+ + Event.Message + #13#10 + ' Erro: ' + Event.Error)
+ Mais
+    memMontor.Lines.Add (DateTimeToStr (Event.Timestamp) + ': ' 
+		      + Event.Message);
+Fim; sqlMonitorLogTrace
+\fim{verbatim}
+
+O evento OnLogTrace é sempre acionado quando uma ação ou evento foi registrado por sqlMonitor.LogEvent(oEvent).
+O parâmetro oEvent significa uma instância de um objeto de classe TZLoggingEvent.
+
+\subsubseção{Propriedades do TZLoggingEvent}
+Categoria (TZLoggingCategory): Representa a categoria da ação ou evento registrado (lcConnect,
+lcDisconnect, lcTransaction, lcExecute ou lcOther)
+
+Protocolo (String): O protocolo que é usado para acessar o banco de dados (ver: TZConnection)
+
+Mensagem (String): O texto que está registrado.
+
+ErrorCode (Inteiro): O código de erro em caso de erro.
+
+Erro (String): O texto de erro em caso de erro.
+
+Timestamp (TDateTime): Data e hora da ação ou evento registrados.
+
+\subseção{TZSQLMetadata}
+Com este componente especial TDataSet é possível acessar os metadados de um banco de dados como tabelas, colunas, etc.
+(Este capítulo ainda está para ser expandido!)
+
+\subseção{TZIBEventAlerter}
+Ao usar este componente, você é capaz de interceptar eventos desencadeados por procedimentos armazenados de um Firebird
+banco de dados e reagir a eles.
+Você só precisa registrar o texto (string) do evento que deseja reagir em eventos de propriedade que é uma lista de stringlist.
+Você pode fazer isso usando o objetoinspetor ou dentro do código de origem.
+O alerta de eventos é ativado registrando os eventos listados.
+Para isso, você deve ligar para o método Registerevents porque as propriedades AutoRegister e Registered não funcionam corretamente.
+Se você já registrou os eventos, o componente é capaz de reagir a eles.
+Todos os eventos não são registrados (excluídos) pelo método de chamada UnregisterEvents e o alerta de evento é desligado.
+
+Registro de eventos e "ativação" do alerta do evento:
+
+\começar{verbatim}
+:
+EventAlerter.Events.Add ('Nível mínimo de estoque atingido');
+EventAlerter.Events.Add ('Limite de crédito excedido');
+EventAlerter.RegisterEvents;
+:
+\fim{verbatim}
+
+\seção{Mestre/Detalhe com biblioteca ZEOS}
+Os componentes zeos dataset vêm com dois tipos de conexões mestre/detalhe:
+aqueles com um filtro lateral do servidor e aqueles com um filtro lateral do cliente.
+Ambos os tipos e um tipo em additioin que é independente da ZEOS (e, portanto, sem qualquer conforto) serão descritos aqui.
+
+Nota: Se falarmos sobre "mestre" ou "detalhe" então um descendente de TDataSet (TZQuery/TZReadOnlyQuery, TZTable ou um TZStoredProc) significa que acessa um resultset mestre ou um resultado detalhado de uma conexão mestre/detalhada.
+
+\subseção{Mestre/Detalhe com filtros laterais do servidor}
+Este método é o comportamento padrão do componente TQuery do BDE.
+Uma conexão mestre/detalhada de dois Conjuntos de Dados é estabelecida da seguinte forma:
+
+\começar{itemize}
+  \item O DataSource do mestre é atribuído ao DataSource dos detalhes.
+	\item Todos os campos-chave primários do mestre devem ser comparados com os campos-chave estrangeiros dos detalhes na instrução sql detalhada.
+\end{itemize}
+
+Este é um exemplo para uma simples consulta de mestre/detalhe. Requisito: Usamos TZQuery ou TZReadOnlyQuery para estabelecer a conexão mestre/detalhe:
+
+\começar{itemize}
+\item Mestre SQL:
+\começar{verbatim}
+SELECT id, feld1, feld2, feld3
+DO mestre
+\fim{verbatim}
+
+\item DetalhesQL:
+\começar{verbatim}
+SELECT feld1, feld2, master_id
+DE detalhes
+ONDE master_id = :id
+\fim{verbatim}
+\end{itemize}
+
+Parâmetro :id significa o conteúdo do campo "id" do mestre (é a chave principal) porque o DataSource do mestre é atribuído à propriedade DataSource do detalhe.
+Então este parâmetro faz referência ao campo "id" do mestre.
+O campo "master\_id" em consulta detalhada é o campo-chave estrangeiro da tabela de detalhes que faz referência à chave primária do mestre.
+
+Se o cursor do mestre mudar sua posição enquanto os filtros laterais do servidor forem usados, a instrução SQL do detalhe será executada usando os valores-chave atuais.
+Assim, o conjunto de resultados dos detalhes é automaticamente atualizado.
+
+\subseção{Mestre/Detalhe com filtros laterais do cliente}
+Este é o comportamento padrão de um componente BDE TTable.
+Aqui, uma conexão mestre/detalhada entre dois DataSets é estabelecida da seguinte forma:
+
+\começar{itemize}
+  \item O DataSource do mestre é atribuído à propriedade MasterDataSource dos detalhes.
+	\item Os principais campos-chave do mestre são atribuídos à propriedade MasterField dos detalhes.
+	\item A chave estrangeira do detalhe que faz referência à chave primária do mestre é atribuída ao Propety IndexFieldNames.
+\end{itemize}
+
+Este é um exemplo para uma simples consulta de mestre/detalhe.
+Requisito: Usamos TZQuery ou TZReadOnlyQuery para estabelecer a conexão mestre/detalhe:
+
+\começar{itemize}
+  \item Mestre SQL:
+	  \começar{verbatim}
+SELECT id, feld1, feld2, feld3
+DO mestre
+    \fim{verbatim}
+  \item DetalhesQL:
+	  \começar{verbatim}
+SELECT feld1, feld2, master_id
+DE detalhes
+ONDE master_id = :id
+    \fim{verbatim}
+\end{itemize}
+
+Parâmetro :id significa o conteúdo do campo "id" do mestre (é a chave principal) porque o DataSource do mestre é atribuído à propriedade DataSource do detalhe.
+Então este parâmetro faz referência ao campo "id" do mestre.
+O campo "master\_id" em consulta detalhada é o campo-chave estrangeiro da tabela de detalhes que faz referência à chave primária do mestre.
+
+Se o cursor do mestre mudar sua posição enquanto os filtros laterais do servidor forem usados, a instrução SQL do detalhe será executada usando os valores-chave atuais.
+Assim, o conjunto de resultados dos detalhes é automaticamente atualizado.
+
+\subseção{Mestre/Detalhe com filtros laterais do cliente}
+Este é o comportamento padrão de um componente BDE TTable. Aqui, uma conexão mestre/detalhada entre dois DataSets é estabelecida da seguinte forma:
+
+\começar{itemize}
+  \item O DataSource do mestre é atribuído à propriedade MasterDataSource dos detalhes.
+  \item Os principais campos-chave do mestre são atribuídos à propriedade MasterField dos detalhes.
+  \item A chave estrangeira do detalhe que faz referência à chave primária do mestre é atribuída à propriedade IndexFieldNames.
+\end{itemize}
+
+Com filtros laterais do cliente, ambos os DataSets primeiro transferem todas as linhas de tabela de servidor para cliente.
+O detalhe então define um filtro (do lado do cliente) para obter os detalhes de acordo com o registro mestre atual.
+
+No caso de criar um novo registro de detalhes para uma conexão mestre/detalhe com um filtro lateral do cliente, há uma espécie de automatismo:
+Os campos-chave estrangeiros do detalhe (definidos em índices de propriedadeNonos do detalhe) serão preenchidos automaticamente com os dados de chave primária (atual) do mestre (definidos no proptery MasterField do detalhe).
+Nota: Com filtros laterais do servidor, você tem que se preocupar com essa funcionalidade, manualmente no código do seu programa.
+Isso pode ser alcançado implementando o evento OnNewRecord do detalhe.
+Este evento é sempre acionado quando um novo disco deve ser criado (ver: Delphi ajuda on-line para TDataSet).
+De acordo com as instruções SQL, definidas acima, você só precisa implementar o seguinte:
+
+\começar{verbatim}
+Procedimento dmMasterDetail.qryDetailNewRecord (DataSet: TDataSet);
+Começar
+ qryDetailMASTER_ID. Valor := qryMasterID.Value;
+Fim;
+\fim{verbatim}
+
+TFields correspondentes foram criados para os campos "master\_id" dos detalhes e "id" do mestre usando o fieldeditor.
+
+Para conexões mestre/detalhe no ZEOS, há uma opção adicional definida em propriedades Opções: É doAlwaysResyncDetail.
+Se essa opção for definida, o resultado do detalhe só será atualizado quando a postagem for chamada ou uma alteração de registro (ambas dentro do DataSet mestre).
+
+\subseção{Mestre/Detalhe "à mão" }
+Normalmente você implementa uma conexão mestre/detalhe de acordo com o método usado pelos filtros laterais do servidor.
+As declarações do SQL para isso são exatamente assim.
+Apenas as propriedades que são definidas em mestre e detalhes (veja acima) não serão definidas aqui.
+Ambos os TZQueris estão trabalhando de forma independente.
+Isso significa: O DataSet de detalhes não reconhece nenhuma alteração no Conjunto de Dados mestre.
+Sua sincronzação deve ser implementada manualmente.
+Isso será feito no evento OnChange do mestre.
+O OnChange é acionado ao mudar para um novo registro ou dados de campo foi alterado (ver: Ajuda on-line delphi para TDataSource).
+A sincronização dos detalhes (de acordo com o exemplo acima) seria implementada assim:
+
+\começar{verbatim}
+Procedimento dmMasterDetail.dsMasterDataChange (
+ Remetente: TObject; Campo: TField);
+Começar
+ Com qryDetail do Begin
+ Feche;
+ ParamByName('id'). Valor := qryMasterID.Value;
+ Aberto;
+ Fim;
+Fim;
+\fim{verbatim}
+
+Esta é a mesma função que o ZEOS executa automaticamente ao usar filtros laterais do servidor:
+A consulta detalhada é executada (agin) com o valor atual de ID do mestre que será atribuído ao parâmetro ":id" na consulta detalhada.
+Assim, o resultado do detalhe será atualizado de acordo com o registro mestre atual.
+
+Se um novo registro for criado em detalhes DataSet, então você terá que agir da mesma forma que com filtros laterais do servidor (veja acima).
+
+\seção{Atualizações em cache}
+Os desenvolvedores da Biblioteca ZEOS destinam-se a implementar a funcionalidade dos componentes BDE da melhor maneira possível.
+É por isso que há também a possibilidade de atualizações em cache com ZEOS.
+Você só tem que definir a propriedade CachedUpdates de um descendente do DataSet (TZTable, TZQuery oder TZStoredProc) como true.
+A partir deste momento, todas as alterações no conjunto de resultados serão armazenadas em cache e elas podem ser facilmente comprometidas com o banco de dados chamando ApplyUpdates e CommitUpdates uma após a outra automaticamente no código do seu programa ou acionada manualmente por um usuário.
+CancelamentoArdas faz com que as canges não sejam comprometidas com o banco de dados.
+Neste caso, todas as alterações em cache serão redefinidas (como usar um ROLLBACK).
+Aqui você encontrará um pequeno trecho de código que tenta mostrar como as atualizações em cache são implementadas (não discuta sobre o sentido neste...).
+O modo AutoCommit de TZConnectin está ligado (True):
+
+\começar{verbatim}
+:
+Com o DataSet do Begin
+ bEverythingOK := Verdadeiro;
+  CachedUpdates := True;
+ Conjunto de dados.Primeiro;
+ Enquanto (não DataSet.EOF) e (bEverythingOK) começam
+  DataSet.Edit;
+  :
+ registro de processo
+  :
+ DataSet.Post.
+ Conjunto de dados.Próximo;
+  :
+  bEverythingOK := AFunctionForValidation;
+Fim;
+Se bEverythingOK Então comece
+ AplicarUpdates;
+ Compromissos;
+Final
+ Mais
+ CancelarEsputas;
+ CachedUpdates := Falso;
+Fim;
+:
+\fim{verbatim}
+\seção{Campos BLOB}
+De acordo com os componentes do BDE, os componentes da Biblioteca ZEOS são capazes de manusear campos BLOB.
+Aqui está um exemplo de como um novo registro com um campo BLOB é criado.
+O campo BLOB está cheio de um bitmap.
+Para conseguir isso, temos que usar um Fluxo:
+\começar{verbatim}
+:
+Var TheStream : TMemoryStream;
+Começar
+ TheStream := TMemoryStream.Criar;
+ Tentar
+    Image1.Picture.Bitmap.Savetostream(TheStream);
+ Com qryBlobInsert do Begin
+ Sql.Text := 'INSERT IN EVENTS (EventNo,EVENT_PHOTO) ' 
+ + 'VALORES (100,:ThePicture)';
+      Params.Clear;
+ Params.CreateParam(ftBlob, 'ThePicture', ptInput);
+ ParamByName ('ThePicture'). LoadfromStream (TheStream,ftBlob);
+ Execsql;
+ Fim;
+ Finalmente
+    TheStream.Free;
+ Fim;
+Fim;
+:
+\fim{verbatim}
+
+\seção{Projeto de amostra: "EasyQuery" }
+Para evitar ser muito teórico agora vamos criar um pequeno projeto de amostra tho demonstrar como os componentes ZEOS são usados em geral.
+Criaremos um pequeno aplicativo que acessa as tabelas "Cliente" e "País" da base de dados da firebird "Employee".
+Você deve ser capaz de navegar na tabela "Cliente" e editar seus dados.
+E não sendo muito chato vamos implementar um DBLookupCombobox para o campo "Country" na tabela "Cliente".
+Este campo é uma chave estrangeira que faz referência ao campo "País" na tabela "País".
+
+Então vamos começar!
+
+Em primeiro lugar, temos que criar um novo projeto em Delfos.
+Adicionalmente ao formulário padrão que temos para criar um DataModule.
+
+As seguintes propriedades do DataModule devem ser definidas:
+\começar{itemize}
+\item Nome: dmEasyQuery
+\end{itemize}
+
+\subseção{Componentes para o DataModule}
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=0,7\textwidth]{ZeosTutorial/dmEasyQuery.png}
+  \caption{dmEasyQuery}
+  \rótulo{fig:dmEasyQuery}
+\end{figura}
+
+TZConnection:
+\começar{itemize}
+  \item Banco de dados: Employee.fdb
+  \item Nome: conEmployee
+  \item Senha: "senha"
+  \item Protocolo: firebird-1.5
+  \item ReadOnly: Falso
+  \item TransactionIsolationLevel: tiReadCommitted
+  \item Usuário: "nome de usuário"
+\end{itemize}
+
+TZQuery:
+\começar{itemize}
+  \item Conexão: conEmployee
+  \item Nome: qryCustomer
+  \item RequestLive: True
+  \item SQL: SELECIONE * DO PEDIDO DO CLIENTE POR cliente
+  \item UpdateObject: updCustomer
+\end{itemize}
+
+Nota: Você tem que criar TFields persistentes para todos os campos de mesa usando o fieldeditor!
+
+O evento OnAfterPost do qryCustomer será implementado assim:
+\começar{verbatim}
+procedimento TdmEasyQuery.qryCustomerAfterPost(DataSet: TDataSet);
+Começar
+ Atualização do conjunto de resultados para efetivar (classificar) dados mostrados no DBGrid.
+ qryCustomer.Atualizar;
+fim;
+\fim{verbatim}
+
+TZReadOnlyQuery
+\começar{itemize}
+  \item Conexão: conEmployee
+	\item Nome: roqryCountry
+	\item SQL: PAÍS SELETO DA ORDEM DO PAÍS POR 1
+\end{itemize}
+
+Nota: Você tem que criar TFields persistentes para todos os campos de mesa usando o fieldeditor!
+
+TZUpdatesQL
+\começar{itemize}
+  \item DeleteSQL: criado pelo editor UpdateSql
+  \item InsertSQL: criado pelo editor UpdateSql
+  \item ModifySQL: criado pelo editor UpdateSql
+  \item Nome: updCustomer
+\end{itemize}
+
+As instruções de exclusão, inserção e modificação do objeto TZUpdateSQL são criadas automaticamente com o editor UpdateSQL.
+O editor será ativado clicando duas vezes no componente TZUpdateSQL.
+Como campo-chave, você tem que selecionar o campo CUST\_NO. Os campos ENDEREÇO\_LINE1, ENDEREÇO\_LINE2, CITY, STATE\_PROVINCE, COUNTRY und POSTAL\_CODE serão selecionados como campos de atualização na lista "Campos de atualização".
+Agora, as instruções serão geradas clicando no botão "Gerar SQL" (ver firgures \ref{fig:dmEasyQuery_updCustomer_options} e \ref{fig:dmEasyQuery_updCustomer_sql}).
+Se você tiver apenas consultas tão fáceis, você pode salvar um monte de digitação usando o editor UpdateSQL.
+Se ficar um pouco mais complexo, você deve criar as declarações necessárias "à mão".
+
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=0,7\textwidth]{ZeosTutorial/dmEasyQuery_updCustomer_options.png}
+  \caption{guia de opções no editor UpdateSQL updCustomer}
+  \rótulo{fig:dmEasyQuery_updCustomer_options}
+\end{figura}
+
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=0,7\textwidth]{ZeosTutorial/dmEasyQuery_updCustomer_sql.png}
+  \caption{sql guia no editor UpdateSQL updCustomer}
+  \rótulo{fig:dmEasyQuery_updCustomer_sql}
+\end{figura}
+	
+TDataSource
+\começar{itemize}
+  \item Conjunto de dados: sqlCustomer
+  \item Nome: dsCustomer
+\end{itemize}
+
+TDataSource
+\começar{itemize}
+  \item Conjunto de Dados: rosqlCountry
+	\item Nome: dsCountry
+\end{itemize}
+
+Agora, o DataModule criado será salvo como dm\_EasyQuery.pas.
+
+\subseção{Componentes para o formulário}
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=0,7\textwidth]{ZeosTutorial/frmEasyQuery.png}
+  \caption{Formulário principal EasyQuery}
+  \rótulo{fig:frmEasyQuery}
+\end{figura}
+
+A forma principal terá os seguintes componentes e é inicializada da seguinte forma:
+
+Propriedades:
+\começar{itemize}
+  \item Legenda: Demonstração de consulta fácil
+  \item Nome: frmEasyQuery
+\end{itemize}
+
+Na interface da Unidade você tem que adicionar dm\_EasyQuery à cláusula de uso para ter acesso aos componentes do banco de dados.
+
+Os seguintes eventos da forma principal devem ser implementados:
+
+Oncreate:
+Ao criar o formulário, será estabelecida a conexão com o banco de dados.
+Após a conexão ao banco de dados, as consultas serão abertas:
+\começar{verbatim}
+procedimento TForm1.FormCreate(Remetente: TObject);
+Começar
+  dmEasyQuery.conEmployee.Connect;
+  dmEasyQuery.qryCustomer.Open;
+  dmEasyQuery.roqryCountry.Open;
+fim;
+\fim{verbatim}
+
+Ondestroy:
+Ao fechar o aplicativo (destruindo o formulário principal) a conexão do banco de dados será cortada.
+Todas as consultas serão encerradas automaticamente antes de desconectar.
+\começar{verbatim}
+procedimento TForm1.FormDestroy(Remetente: TObject);
+Começar
+  dmEasyQuery.conEmployee.Disconnect;
+fim;
+\fim{verbatim}
+
+TLabel
+\começar{itemize}
+  \item Legenda: CLIENTE
+\end{itemize}
+
+TDBGrid
+\começar{itemize}
+  \item DataSource: dmEasyQuery.dsCustomer
+	\item Options.dgTabs: Falso
+\end{itemize}
+
+No editor de colunas, criaremos um TColumn definindo sua propriedade FieldName para "CUSTOMER".
+Depois disso, a coluna de desastrado no DBGrid1 será ampliada.
+
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=0,7\textwidth]{ZeosTutorial/dbgrid1_columns.png}
+  \caption{editor de colunas do DBGrid1}
+  \rótulo{fig:dbgrid1_columns}
+\end{figura}
+
+TDBEdit
+\começar{itemize}
+  \item (5x)
+\end{itemize}
+
+TLabel
+\começar{itemize}
+  \item (5x)
+\end{itemize}
+
+Esses objetos serão criados usando o editor de colunas do qryCustomer:
+Selecione as colunas ENDEREÇO\_LINE1, ENDEREÇO\_LINE2, CITY, STATE\_PROVINCE e CEP\_e arraste e solte-as na forma principal.
+Alinhe-os e adapte-os ao layout que você vê na captura de tela (figura \ref{fig:frmEasyQuery}).
+
+TLabel
+\começar{itemize}
+  \item Legenda: PAÍS
+\end{itemize}
+
+TDBLookUpComboBox
+\começar{itemize}
+  \item DataField: PAÍS
+	\item DataSource: dmEasyQuery.dsCustomer
+	\item KeyField: PAÍS
+	\item ListField: PAÍS
+	\item ListSource: dmEasyQuery.dsCountry
+\end{itemize}
+
+TDBNavigator
+\começar{itemize}
+  \item DataSource: dmEasyQuery.dsCustomer
+\end{itemize}
+
+Agora, o formulário criado será salvo como frm\_EasyQuery.pas.
+
+Nota: As seguintes opções de projeto devem ser alteradas:
+
+dmEasyQuery deve ser colocado no topo da ordem de criação na lista "Criar automaticamente".
+Isso garante que todos os objetos do frmEasyQuery possam acessar os objetos do banco de dados.
+frmEasyQuery ainda é a forma principal (ver figura \ref{fig:EasyQuery_ProjectOptions}).
+	
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=0,7\textwidth]{ZeosTutorial/EasyQuery_ProjectOptions.png}
+  \caption{Opções de projeto EasyQuery}
+  \rótulo{fig:EasyQuery_ProjectOptions}
+\end{figura}
+
+\seção{Exemplos adicionais}
+FishFact:
+Esta é a demonstração de banco de dados mais popular para Delphi. Foi migrado para usar componentes ZEOS.
+
+Transações:
+Um aplicativo de amostra sobre "transações com ZEOS". Ele usa um pequeno banco de dados de teste auto-feito.
+
+StoredProc:
+Esta é uma applikation amostral que mostra como usar proecedures armazenados. O banco de dados é o Firebird.
+Banco de dados de amostras de funcionários.
+
+Detalhe mestre:
+Um pequeno aplicativo que mostra como conexões mestre/detalhe (lado do servidor e cliente) serão implementadas.
+
+EventDemo:
+Também uma amostra de banco de dados Delphi que foi migrada do IBX para zeos.
+Ele usa o componente TIBEventAlerter.
+Este aplicativo precisa do banco de dados Eventos (enviados com Delphi) que tiveram que ser migrados para o dialeto 3 para obter esta amostra em execução.
+
+\capítulo{Uma introdução à API ZDBC}
+Este documento foi recuperado da base original zeoslib foum knoledge.
+
+Zeos Database Connectivity Interface (ou ZDBC para abreviar) é uma API de baixo nível usada pela ZeosDBO para "ocultar" diferenças nas APIs de clientes de banco de dados nativos e fornecer uma interface uniforme para camadas de componentes de alto nível. Originalmente, ZDBC foi uma porta de JDBC 2.0 (Java Database Connectivity API) para Object Pascal. Desde então, a API foi ligeiramente estendida, mas as principais ideias permanecem inalteradas.
+
+O principal objetivo da ZDBC é ser uma camada intermediária no ZeosDBO. Mas também é útil para a programação de aplicativos, pois fornece acesso extremamente leve e rápido aos bancos de dados SQL.
+
+A melhor maneira de dominar o ZDBC é estudar a especificação JDBC 2.0 http://java.sun.com/products/jdbc/jdbc20.pdf e, em seguida, usar analogia para converter abstrações e chamadas JDBC para ZDBC. Para entender o papel da API ZDBC na arquitetura ZeosDBO, você pode olhar para o documento Architecture Overview http://www.zeoslib.net/modules.php?name=News\&file=article\&sid=23\&mode=\&order=0\&thold=0 Para aqueles que preferem uma introdução mais simples ao ZDBC propomos um guia de "hackers" como ponto de partida. 
+
+\seção{Prós e Contras do uso do ZDBC}
+Antes da codificação vamos pensar por que e quando devemos usar ZDBC. Usar o ZDBC em aplicativos tem alguns benefícios claros:
+\começar{itemize}
+  \item É extremamente rápido e leve.
+  \item É independente do banco de dados e suporta muitos servidores SQL. Todos os bancos de dados SQL suportados no ZeosDBO têm drivers ZDBC correspondentes.
+  \item Não é necessário que a unidade DB esteja presente. Algumas edições pessoais de compiladores Borland não incluem a unidade DB com a implementação do TDataset. Isso impede o uso de componentes ZeosDBO com estes compiladores.
+\end{itemize}
+
+Há também algumas desvantagens que você precisa considerar cuidadosamente: 
+\começar{itemize}
+  \item Não é portátil. Você não será capaz de mudar para outros produtos sem grandes mudanças em suas aplicações (exceto Java e JDBC, é claro).
+  \item Ele não fornece vinculação com controles visuais com reconhecimento de dados. A implementação dessas vinculações manualmente pode ser um trabalho hercúleo.
+  \item Ele não contém todas as funcionalidades de TDatasets, como filtragem do lado do cliente, vinculação de detalhes mestres, classificação, etc.
+\end{itemize}
+
+Assim, do nosso ponto de vista o uso do ZDBC faz sentido apenas em poucas situações especiais (é claro que você pode ter sua opinião pessoal):
+\começar{itemize}
+  \item Seu aplicativo é um aplicativo do tipo console ou não permite que os usuários editem dados relacionais diretamente.
+  \item O desempenho de acesso ao banco de dados é muito importante.
+  \item Você não se importa em portar seu aplicativo para outros produtos de conectividade de banco de dados.
+\end{itemize}
+
+\seção{Estabelecendo conexões}
+No JDBC/ZDBC, o ponto de entrada da API é um objeto especial do DriverManager que serve como uma fábrica para conexões de banco de dados. 
+
+\começar{verbatim}
+usa ZDbcIntfs...
+...
+Var
+ Conexão: TZConnection;
+...
+Conexão := DriverManager.GetConnection (<Connection URL>);
+...
+\fim{verbatim}
+
+A URL de conexão também vem do JDBC e tem o seguinte formato:
+\começar{verbatim}
+zdbc:<protocol>://<host>[:<port>]/<database>[?<param1>[=<value1>]...]
+\fim{verbatim}
+
+Protocolo é essencialmente o nome do driver ZDBC que você deseja usar. ZeosDBO versão 6.1 tem uma série de protocolos:
+\começar{itemize}
+  \item MySQL: mysql, mysql-3.20, mysql-3.23, mysql-4.0
+	\item Pós-1SQL: pós-anot², pós-6,5, pós-gresql-7.2, pós-gresql-7.3
+	\item Interbase: interbase, interbase-5, interbase-6
+	\item Firebird: firebird, firebird-1.0, firebird-1.5
+	\item Sybase: sybase
+	\item MS SQL: mssql
+	\item ADO: ado
+\end{itemize}
+
+Os parâmetros na URL de conexão especificam diferentes switches para os drivers.
+Existem vários parâmetros padrão para todos os motoristas.
+Para outros parâmetros específicos do driver, você precisa consultar a documentação zeosdbo. 
+\começar{itemize}
+  \nome de usuário item – nome de usuário para se conectar ao banco de dados.
+  \senha do item – senha de usuário para se conectar ao banco de dados.
+  \item padrão  \[sim \| não\]  – calcular valores padrão.
+  \item update  \[alterado \| todos\]  – atualização apenas alterada ou todos os campos.
+  \item onde  \[keyonly \| all\]  – incluem onde a cláusula apenas chave ou todos os campos.
+\end{itemize}
+
+Por exemplo, para se conectar ao banco de dados MySQL 4.0 com o protocolo de compactação ativado você precisa escrever:
+\começar{verbatim}
+usa ZDbcIntfs...;
+...
+Var
+ Conexão: TZConnection;
+...
+Conexão := DriverManager.GetConnection(
+  'zdbc:mysql-4.0://localhost:3306/mydb?'
+ + 'nome de usuário=myuser;password=mypwd;compress=sim');
+...
+\fim{verbatim}
+
+Se você quiser, você pode especificar o login e a senha separadamente: 
+
+\começar{verbatim}
+...
+Conexão := DriverManager.GetConnectionWithLogin(
+  'zdbc:mysql-4.0://localhost:3306/mydb'
+ + '?compress=yeah', 'myuser', 'mypwd');
+...
+\fim{verbatim}
+
+Ou você pode especificar parâmetros em um objeto TStringList:
+
+\começar{verbatim}
+...
+Var
+ Conexão: IZConnection;
+  Params: TStrings;
+...
+Params := TStringList.Criar;
+Params.Values['nome de usuário'] := 'myuser';
+Params.Values['password'] := 'mypwd';
+Params.Values['compress'] := 'sim';
+Conexão := DriverManager.GetConnectionWithParams(
+  'zdbc:mysql-4.0://localhost:3306/mydb', Params);
+\fim{verbatim}
+
+\seção{Executando declarações SQL}
+Já sabemos como nos conectar ao nosso banco de dados SQL. Mas para fazer algo útil você precisa executar instruções SQL. Vamos ver como fazer isso.
+
+A maneira mais simples de executar instruções estáticas de SQL é a seguinte:
+\começar{verbatim}
+Var
+  ...
+ Declaração: IZStatement;
+ AtualizadoRows: Inteiro;
+...
+Declaração := Conexão.CriarStatement;
+AtualizadoRows := Statement.ExecuteUpdate(
+  'UPDATE MyTable SET MyField=''abc'' WHERE MyKey=123');
+...
+\fim{verbatim}
+
+Além das consultas estáticas do SQL, você pode executar consultas com parâmetros.
+Em alguns casos, eles podem ser mais eficientes porque o passo de análise é ignorado.
+Mas alguns bancos de dados SQL como MySQL ou PostgreSQL não suportam esse recurso e consultas com parâmetros são emuladas no lado do cliente. 
+
+\começar{verbatim}
+Var
+  ...
+ Declaração: IZPreparedStatement;
+ AtualizadoRows: Inteiro;
+...
+Declaração := Conexão.PreparaçãoStatement(
+ 'ATUALIZAR MyTable SET MyField=? ONDE MyKey=?');
+Execute a primeira atualização
+Statement.SetString(1, 'abc');
+Statement.SetInt(2, 123);
+Declaração.ExecutePrepared;
+Execute a segunda atualização
+Statement.SetString(1, 'xyz');
+Statenent.SetInt(2, 789);
+Declaração.ExecutePrepared;
+...
+\fim{verbatim}
+
+Se você executar várias consultas SQL uma a uma, faz sentido agrupar-as em uma única "atualização em lote". 
+
+\começar{verbatim}
+...
+Statement.AddBatch ('UPDATE MyTable SET MyField=''abc'' WHERE MyKey=123');
+Statement.AddBatch ('UPDATE MyTable SET MyField=''xyz'' WHERE MyKey=789');
+Statement.ExecuteBatch;
+...
+\fim{verbatim}
+
+Atualizações em lote também são suportadas para declarações preparadas (declarações com parâmetros): 
+
+\começar{verbatim}
+...
+Declaração := Conexão.PreparaçãoStatement(
+ 'ATUALIZAR MyTable SET MyField=? ONDE MyKey=?');
+Execute a primeira atualização
+Statement.SetString(1, 'abc');
+Statement.SetInt(2, 123);
+Declaração.AddBatchPrepared;
+Execute a segunda atualização
+Statement.SetString(1, 'xyz');
+Statenent.SetInt(2, 789);
+Declaração.AddBatchPrepared;
+Statement.ExecuteBatch;
+...
+\fim{verbatim}
+
+\seção{Manipulação de erros}
+Se algum erro no lado do cliente ou do servidor acontecer, o ZDBC aumentará uma exceção EZSQLException.
+Esta exceção permite que você saiba não apenas a mensagem de erro, mas também o código de erro do servidor
+
+\começar{verbatim}
+Tentar
+  ...
+  Statement.ExecuteUpdate(...);
+   ...
+Pegar
+ em E: EZSQLException do
+ WriteLn (Formato('Erro SQL: %d com Código: %d',
+ [E.Message, E.ErrorCode]);
+fim;
+\fim{verbatim}
+
+\seção{Gerenciamento de transações}
+O gerenciamento de transações no ZDBC é controlado pelo objeto Conexão.
+Por padrão, o Connection funciona no modo AutoCompmit, mas também fornece todos os métodos necessários para gerenciar transações manualmente.
+Vejamos como executar declarações SQL em uma transação comprometida com leitura:
+
+\começar{verbatim}
+...
+Connection.SetAutoCommit(Falso);
+Connection.SetTransactionIsolation(tiReadCommited);
+...
+Tentar
+  ...
+  Statement.ExecuteUpdate(...);
+  Statement.ExecuteUpdate(...);
+  ...
+ Declaração.Commit;
+Exceto
+ Declaração.Reversão;
+fim;
+...
+\fim{verbatim}
+
+Por favor, note que não há estado fora de transação.
+Seu objeto de conexão está sempre em transação para que você não precise iniciar transações manualmente.
+A conexão inicia uma transação automaticamente quando:
+\começar{itemize}
+  \item Uma conexão é estabelecida
+  \item O nível de AutoCommit ou TransactIsolation é alterado
+  \item Commit ou Rollback são executados
+\end{itemize}
+
+A JDBC considera esta uma abordagem mais segura.
+Você só precisa ter cuidado e concluir transações explicitamente quando você alterar propriedades do AutoCommit ou TransactionIsolation. 
+
+\seção{Recuperando dados do servidor SQL}
+
+Obter dados do seu servidor SQL pode ser a parte mais interessante da história. Felizmente, não é muito mais complicado do que o que vimos até agora. A API ZDBC tem duas abstrações para consultas: IZResultSet e IZResultSetMetadata. O IZResultSet fornece acesso aos dados relacionais recuperados como resultado da execução de uma instrução SELECT ou de um procedimento armazenado. O IZResultSetMetadata contém metadados para a consulta como: número de colunas, nomes de colunas e seus tipos, etc.
+
+O exemplo a seguir mostra como executar uma instrução SELECT e ler seus dados:
+
+\começar{verbatim}
+Var
+...
+ ResultadosSet: IZResultSet;
+ Metadados: IZResultSetMetadata;
+...
+Declaração := Conexão.CriarStatement;
+ResultSet := Statement.ExecuteQuery('SELECT * FROM MyTable');
+Metadados := ResultSet.GetMetadata;
+Cabeçalhos de coluna de impressão
+para I := 1 para Metadata.GetColumnCount do
+  Write(Metadata.GetColumnName(I), ' ');
+WriteLn;
+Impressão de dados de consulta
+enquanto resultset.next do
+Começar
+ para I := 1 para Metadata.GetColumnCount do
+ Write (ResultSet.GetString(I), ' ');
+  WriteLn;
+fim;
+...
+\fim{verbatim}
+
+As consultas SQL também podem conter parâmetros. Veja o próximo exemplo para ver como usá-los:
+
+\começar{verbatim}
+...
+Var
+...
+ Declaração: IZPreparedStatement;
+ ResultadosSet: IZResultSet;
+...
+Declaração := Conexão.PreparaçãoStatement(
+  'SELECT * FROM MyTable WHERE MyKey=?');
+Statement.SetInt(1, 123);
+ResultSet := Statement.ExecuteQueryPrepared;
+...
+\fim{verbatim}
+
+A boa notícia sobre o ZDBC é que ele permite que você não só leia, mas também escreva dados.
+Você só precisa definir um modo resultSetConcurrency para o objeto Statement.
+
+\começar{verbatim}
+...
+Statement.SetResultSetConcurrency (rcUpdatable);
+Statement.SetResultSetType(rtScrollInsensitive);
+ResultSet := Statement.ExecuteQuery('SELECT * FROM MyTable');
+...
+Insira uma nova linha
+ResultSet.moveToInsertRow;
+ResultSet.UpdateInt(1, 123);
+ResultSet.UpdateString(2, 'abc');
+ResultSet.InsertRow;
+...
+Linha de atualização
+ResultSet.UpdateString(2, 'xyz');
+ResultSet.UpdateRow;
+...
+Excluir linha
+ResultSet.DeleteRow;
+...
+\fim{verbatim}
+
+\seção{Tópicos Avançados}
+Esta descrição da API ZDBC não está completa.
+O ZDBC tem muitos outros recursos como Metadados de Banco de Dados, Blobs, Atualizações em Cache, Procedimentos Armazenados, Geradores de Sequência, etc.
+Infelizmente, devido a restrições de tamanho, não pudemos discutir todos esses tópicos neste artigo.
+Se você quiser explorar mais do ZDBC, você precisa olhar para a especificação JDBC e o código-fonte da unidade ZDbcIntfs para obter mais informações.
+
+c Equipe ZeosLib de 2005
+
+\part{Documentação do desenvolvedor Zeos}
+
+\capítulo{Getting Started with ZeosLib}
+\seção{Bem-vindo ao ZeosLib!}
+Talvez você tenha começado a ler este documento porque você está interessado em se juntar à equipe de desenvolvimento da ZeosLib.
+ZeosLib é um projeto de freeware de código aberto que foi fundado por voluntários e ainda existe apenas por causa da contribuição não remunerada de muitas pessoas que têm um objetivo de ajudar os outros.
+Você deve ser um desses altruístas e estamos felizes em recebê-lo em ZeosLib!
+Nós, antigos membros da equipe, tentaremos fazer o melhor que pudermos para fazer você trabalhar o mais simples e rápido possível no projeto.
+
+\seção{Estude o Projeto}
+Da causa, você já deve ver os produtos ZeosLib e ter uma ideia do que eles fazem.
+Provavelmente você já sabe qual área você gostaria de contribuir para o projeto.
+Na verdade, o código que você viu nos lançamentos zeosLib é apenas uma pequena parte da história.
+Para ser sustentável, o projeto tem muita infraestrutura ao redor.
+Inclui organização de projetos, testes e bancos de dados de testes, normas, procedimentos e práticas.
+Para ser produtivo, você precisa conhecer tudo isso muito bem.
+
+Para cada novo candidato estamos dizendo as mesmas coisas:
+\começar{itemize}
+  \item Envie-nos seu e-mail para assinar a lista de e-mails de desenvolvimento
+	\item Estude a organização e estrutura do projeto
+	\item Obtenha código-fonte do repositório SVN do projeto
+	\item Execute seus primeiros testes
+\end{itemize}
+
+Há pouco tempo, a comunicação direta com membros experientes da equipe era a única fonte de informação sobre o projeto.
+Ele fez uma barreira bastante alta para começar e ver o "quadro geral".
+A situação está melhorando agora.
+Entendemos a importância da documentação normal do projeto e este documento é uma de nossas novas "iniciativas de documentação".
+Outros documentos também estão disponíveis para você ler e podem ser solicitados ao gerente do projeto.
+
+Embora os documentos sejam bons, a conversa ao vivo com as pessoas não pode ser substituída.
+Os membros da equipe têm maneiras diferentes de conversar uns com os outros, via correio pessoal, sessões de bate-papo ao vivo.
+Mas o principal lugar de nossas conversas é o "ZeosLib development maillist".
+
+O maillist de desenvolvimento é criado pela fundação SourceForge e pode ser acessado em http://lists.sourceforge.net/lists/listinfo/zeoslib-devel.
+A lista de correio é moderada.
+Isso significa que você não pode se inscrever ou postar lá até obter uma aprovação do gerente de projeto.
+Então, se você decidiu se juntar à equipe de desenvolvimento, selecione um de seus endereços de e-mail, onde você gostaria de receber a correspondência relacionada ao projeto e defina-a ao gerente do projeto.
+Ao se inscrever, receberá um e-mail com notificação. 
+
+É uma boa ideia aprender sobre o projeto lendo o arquivo maillist de desenvolvimento.
+Você pode fazer isso em http://sourceforge.net/mailarchive/forum.php?forum=zeoslib-devel
+
+O próximo passo será conhecer a organização e estrutura do projeto.
+Este tema é abordado em um documento especial que é chamado de "ZeosLib - Organização e Estrutura do Projeto" [1].
+Descreve a organização do projeto, os principais padrões, procedimentos e práticas do projeto.
+Também dá uma ideia de como os produtos ZeosLib estão estruturados no repositório cvs do projeto.
+
+\seção{Projeto de acesso SVN Repositório}
+Depois de obter informações iniciais sobre os internos do projeto, você está pronto para ver como tudo isso funciona.
+Para isso, você precisa obter uma cópia do código fonte do projeto da SVN.
+
+O projeto ZeosLib está hospedado no SourceForge e usa o Subversão (SVN) para manter o código em um só lugar e compartilhá-lo entre os desenvolvedores do projeto.
+Se você ainda não está familiarizado com a SVN, é uma boa chance de aprender sobre isso.
+O SVN é amplamente utilizado e as informações sobre ele podem ser facilmente encontradas na Internet.
+O bom guia dedicado ao CVS é "Open Source Development with CVS" em http://cvsbook.red-bean.com/cvsbook.html.
+O SVN tem uma interface de linha de comando, então para quem gosta de GUIs, existem muitas entradas SVN disponíveis.
+O que é usado em nossa equipe é a TortoiseSVN de https://tortoisesvn.net.
+
+Uma vez que você instalou CVS e aprendeu noções básicas como usá-lo, você pode obter código-fonte ZeosLib.
+SourceForge possui bons documentos que cobrem o uso do SourceForge CVS.
+Para aprender você pode começar a partir daqui: http://sourceforge.net/cvs/?group\_id=35994
+
+ZeosLib tem vários produtos.
+Cada produto é armazenado no repositório CVS como um módulo independente.
+Existem vários produtos/módulos disponíveis:
+\começar{itemize}
+  \item zeosdbo\_retrabalho – Zeos Database Objects (versão 6.0 ou acima)
+	\item zeosctrl\_reworkwork – Zeos Controls (versão 2.0 ou acima)
+	\item zsql – Utilitário da linha de comando Zeos SQL
+	\item zde – Zeos Database Explorer (a versão antiga)
+	\item zdd – Zeos Database Designer (a versão antiga)
+\end{itemize}
+
+Os desenvolvedores ativos do ZeosLib usam o acesso SSH ao repositório CVS para obter o código e cometer alterações.
+Até que você entre em todos os detalhes do projeto é seguro para você e o projeto trabalhar através do acesso PSERVER anônimo no modo somente leitura.
+Quando você provar que está pronto para trabalhar, você será adicionado à lista de desenvolvedores de projetos no SourceForge e terá acesso através do SSH.
+Até lá, você poderá usar o seguinte comando:
+
+\começar{verbatim}
+> cvs –d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/zeoslib co <module_name>
+\fim{verbatim}
+
+Por exemplo, para obter a cópia dos componentes ZeosDBO, execute o seguinte:
+
+\começar{verbatim}
+> cvs –d:pserver:anonymous@cvs.sourceforge.net/cvsroot/zeoslib co zeosdbo_rework
+\fim{verbatim}
+
+\seção{Executar testes}
+O teste é uma das atividades mais importantes do projeto.
+Você pode atender a testes em quase todos os lugares: durante o desenvolvimento, construções noturnas, preparação de lançamento e, de causa, suporte e fixação de bugs.
+Para apoiar testes O projeto ZeosLib possui  uma estrutura de teste especial e ambiente de teste (BTE).
+
+Para configurar o ambiente completo de compilação \amp; teste poucas coisas que você precisa saber.
+Felizmente para executar os testes e começar a jogar com eles você pode usar um atalho. 
+
+\começar{enumerar}
+  \item
+ Para se ter uma ideia de por que os testes são tão importantes e como eles funcionam, você precisa ler o documento "Fundamentos dos Testes de Software" [2].
+ Ele lhe dará algumas ideias básicas sobre testes e explica sobre o DUnit – estrutura de teste de unidade para Object Pascal.
+	\item
+ O código ZeosDBO do repositório CVS já deve estar em vigor. Se ainda não checou, é o momento certo para fazer isso.
+	\item
+ Para executar os testes, você pode usar qualquer banco de dados suportado.
+ Para simplificar sua vida, explicaremos quem usar o banco de dados SQLite em testes.
+ SQLite é um mecanismo de banco de dados SQL embutido extremamente simples e requer trabalho mínimo para configurá-lo.
+
+ Baixe SQLite 2.8 de http://www.sqlite.org.
+ Você precisa baixar arquivos sqlitedll-*.zip e sqlite-*.zip.
+ Coloque sqlite.dll em seu diretório Windows/System e copie sqlite.exe em algum lugar onde você deseja manter seus bancos de dados de teste.
+
+ A descrição dos dados de testes e dados de teste está localizada no arquivo /banco de dados/test.properties em seu diretório ZeosDBO.
+ /banco de dados/test-template.properties contém um exemplo.
+ Para você, recomendamos criar o arquivo manualmente e colocar as seguintes linhas (substituir texto marcado por valores apropriados para você):
+
+\começar{verbatim}
+[comum]
+comum.configs=sqlite28
+[sqlite28]
+sqlite28.protocol=sqlite-2.8
+sqlite28.host=localhost
+sqlite28.database=<caminho para o seu sqlite dir>\zeoslib.db
+sqlite28.user=
+sqlite28.password=
+sqlite28.rebuild=sim
+sqlite28.createscripts=create_sqlite.sql,populate_any.sql
+sqlite28.dropscripts=drop_sqlite.sql
+\fim{verbatim}
+
+  \item
+ Execute seu compilador IDE, abra ZeosDevel.bpg a partir de /pacotes/$<$seu compilador$>$/ diretório. 
+ Selecione Ver -$>$  Project Group para ver o conteúdo do grupo do projeto.
+ Selecione Projeto -$>$  Construir Tudo para compilar o código.
+ Adicione  $<$caminho para zeosdbo$> $/pacotes/$<$seu compilador$>$/construir diretório para Library Path in Tools -$>$ Opções  ambientais -$>$  Biblioteca.
+
+  \item
+ No grupo de projetos você pode ver vários pacotes (.bpl) e executáveis (.exe).
+ Os pacotes contêm o código fonte do projeto; executáveis são obrigados a executar vários testes para testar o código.
+ Selecione e execute um por um os seguintes testes:
+		\começar{itemize}
+		  \item ZTestCoreAll.exe – testes para o pacote ZCore.bpl (classes e funções principais)
+		  \item ZTestParseSqlAll.exe – testes para pacote ZParseSql.bpl (analisadores léxicos SQL e analisadores de sintaxe)
+		  \item ZTestDbcAll.exe – testes para pacotes ZDbc.bpl (Zeos DBC API)
+		  \item ZTestComponentAll.exe – testes para ZComponent.bpl (componentes ZeosDBO)
+		  \item ZTestBugReport.exe – testes para relatórios de bugs de projeto
+		\end{itemize}
+ Deixe o teste ZTestPerformance por enquanto.
+ Você aprenderá a configurar e executar testes de desempenho mais tarde.
+\fim{enumerar}
+
+Se você fez tudo certo, você deve obter resultados como este:
+\começar{verbatim}
+DUnit / Teste
+...........................................
+Horário: 0:00:04.717
+OK: 34 testes
+\fim{verbatim}
+
+Se você ficar empilhado em algum momento, não se preocupe.
+Poste uma mensagem na lista de desenvolvimento e descreva seu problema.
+Membros experientes da equipe definitivamente vão ajudá-lo a fazê-lo correr!
+
+\seção{Continue o trabalho}
+Parabéns, vocês deram o primeiro passo no projeto ZeosLib!
+Para se tornar um desenvolvedor ZeosLib totalmente caracterizado, você precisa saber um pouco mais.
+Leia a documentação disponível, configure e execute o projeto Build \& Test Environment, aprenda o código-fonte.
+Você precisa estudar como desenvolver, testar e apoiar produtos ZeosLib.
+Suas primeiras mudanças e testes você se comprometerá no CVS através de um dos desenvolvedores experientes.
+Seu objetivo final é aprender a trabalhar no projeto corretamente para adicionar funcionalidade valiosa e manter o código estável.
+Quando você provar que pode trabalhar de acordo com os procedimentos do projeto, você será adicionado à lista de desenvolvedores de projetos e terá o direito de cometer alterações no SVN você mesmo.
+
+\seção{Nota Especial para Hackers}
+Se você quiser participar do projeto apenas para adicionar o seu método favorito DoAllWhatINeedInOneCall, talvez o grupo de desenvolvimento ZeosLib não seja um bom lugar para você.
+Basta pensar no seguinte: os produtos ZeosLib são usados por milhares de pessoas.
+Se todos ficarem nos recursos específicos de código que ele precisa em breve, os componentes se parecerão com uma lata de lixo. 
+
+Para entregar produtos de qualidade profissional, o grupo de desenvolvimento ZeosLib segue um rigoroso Processo de Engenharia de Software.
+Cada novo recurso antes de entrar em desenvolvimento deve ser discutido como ele deve ser implementado, qual é o melhor lugar para ele e, finalmente, ele precisa ser implementado em tudo.
+Cada pedaço de código deve ser desenvolvido de acordo com as normas, acompanhado de testes e suportado em base continua. 
+
+Se você tem uma ótima ideia, tente subclassificar os componentes e colocar suas características adoráveis lá.
+O desenvolvimento de software profissional não é divertido, mas muita rotina, às vezes desagradável, trabalho. Pense nisso...
+
+\seção{Referências}
+\começar{enumerar}
+  \item ZeosLib – Organização e Estrutura
+  \item ZeosLib – Fundamentos dos Testes de Software
+  \item ZeosLib – Construir \& Ambiente de Teste
+\fim{enumerar}
+
+\capítulo{ZeosLib – Organização e Estrutura}
+
+\seção{Visão geral}
+
+ZeosLib é um projeto de código aberto freeware para fornecer ferramentas de desenvolvimento de banco de dados de qualidade profissional para a comunidade de programação. 
+
+Todo o trabalho no projeto é feito por voluntários, que aderiram ao projeto em base permanente, e colaboradores, que gentilmente apresentam seu código e documentos.
+Agradecemos qualquer ajuda e agradecemos a todos que nos dão.
+Além disso, iniciamos o programa "Projetos De Cooperação".
+Destina-se a pessoas físicas e jurídicas que preferem ficar fora do projeto, mas desenvolver produtos em relação ao nosso trabalho.
+Em "Projeto cooperante" você pode ver várias extensões de código aberto freeware para nossos componentes, bem como outros componentes ou ferramentas que são baseados no ZeosLib ou integrados com ele.
+
+Nossos produtos são gratuitos, até mesmo para projetos comerciais, e distribuídos sob licença pública menor GNU.
+Os usuários são livres para usar nossos produtos, modificar o código-fonte e incluí-los em aplicativos próprios.
+As únicas coisas que estamos tentando restringir são mudar nossos direitos autorais e revender os componentes e ferramentas de qualquer forma, exceto em aplicativos de usuário final funcionando. 
+
+Embora todos os nossos produtos sejam uma equipe de desenvolvimento livre, o direito de fornecer serviços comerciais valiosos em torno do projeto.
+Pode incluir suporte ao usuário quente, documentação, consultoria – qualquer coisa que possa aumentar a qualidade dos produtos, ajudar nossos usuários e membros da equipe de suporte em seu trabalho árduo.
+
+\seção{Escopo do projeto}
+Todos os produtos desenvolvidos no projeto estão concentrados em bases de dados SQL.
+Nosso projeto consiste em várias bibliotecas de componentes orientadas para desenvolvedores de aplicativos de banco de dados e prontas para usar ferramentas para administradores de banco de dados e usuários finais.
+Nosso produto principal é "Zeos Database Objects" – um conjunto de componentes nativos do banco de dados escritos na linguagem de programação Object-Pascal.
+
+No momento, a lista de produtos ZeosLib é a seguinte:
+\começar{itemize}
+  \item Zeos Database Objects – uma biblioteca de componentes nativos de conectividade de banco de dados.
+  \item Zeos Controls – uma biblioteca de controles visuais para apoiar o desenvolvimento de aplicativos de banco de dados.
+	\item Zeos SQL – uma ferramenta de linha de comando para executar SQL, semelhante a mysql, psql, isql utilitários, mas com suporte para todos os servidores SQL compatíveis com ZeosLib.
+	\item Zeos Database Explorer – um utilitário GUI para executar instruções SQL, visualizar metadados de banco de dados e editar tabelas de banco de dados e grandes objetos (BLOBs).
+	\item
+ Zeos Database Designer – um designer de esquema de banco de dados gui.
+ A grande vantagem desta ferramenta é que ela suporta a geração de SQL portátil que trabalhará com o ZeosDBO em todos os bancos de dados suportados.
+\end{itemize}
+
+Todos os produtos dentro do projeto ZeosLib são desenvolvidos em Borland Delphi.
+Isso significa que eles estão escritos na linguagem de programação Object Pascal e usam o modelo de componente VCL/CLX.
+Esse fato limita o escopo de nossos componentes de desenvolvimento por ferramentas de desenvolvimento que suportam Object Pascal e VCL/CLX.
+A lista de compiladores compatíveis inclui compiladores Borland - Delphi, C++ Builder e Kylix, e compiladores alternativos gratuitos de código aberto, como Free Pascal e Lazarus.
+Nossas ferramentas de desenvolvimento são mais genéricas e não se ligam a nenhum compilador. Eles podem ser usados por qualquer um que esteja trabalhando com bancos de dados relacionais.
+
+A única vantagem significativa do nosso projeto é uma ampla cobertura.
+Estamos tentando suportar um grande número de bancos de dados SQL, suas versões e uma longa lista de compiladores.
+
+A partir da versão ZeosDBO 6.5, a lista de servidores SQL suportados é a seguinte:
+\começar{itemize}
+  \item MySQL 3.20, 3.23, 4.0, 4.1
+	\item PostgreSql 6.5, 7.0, 7.2, 7.3, 7.4
+	\item Interbase 5.0 – 7.0
+	\item Firebird 1.0, 1.5
+	\item MS SQL 6.5, 7.0, 2000
+	\item Sybase ASE 12.0, 12.5
+	\item SQLite 2.8
+	\item Oracle 9i
+\end{itemize}
+
+Os compiladores suportados são:
+\começar{itemize}
+  \item Delphi 5, 6, 7 (versão 8 está chegando em breve)
+	\item C++ Builder 5, 6 (versão X está chegando em breve)
+	\item Kylix 2, 3
+	\item Livre Pascal Lazarus 0.93 (em breve)
+\end{itemize}
+
+\seção{Organização}
+ZeosLib é um projeto tecnicamente complexo.
+Sem a organização adequada é impossível desenvolver um produto respeitável e estável dentro do escopo selecionado.
+Por outro lado, o projeto utiliza o voluntariado para trabalho não remunerado e é difícil perguntar às pessoas que não têm obrigação de seguir regras e procedimentos rigorosos.
+Tendo isso em mente, estamos tentando nos concentrar apenas em aspectos vitais do trabalho, mantendo nosso processo o mais leve possível para evitar sobrecargas desnecessárias e incentivar o interesse pessoal. 
+
+O projeto ZeosLib é desenvolvido e mantido pela equipe de desenvolvimento da ZeosLib.
+A equipe é composta por 3 grupos: "Grupo de Desenvolvimento", "Grupo de Garantia da Qualidade" e "Grupo de Documentação e Suporte":
+
+\começar{descrição}
+  \item [Grupo de Desenvolvimento] é responsável por definir requisitos do produto, desenvolver produtos e testes associados, produtos portuários para plataformas e compiladores suportados, corrigir bugs encontrados.
+	\item [Quality Assurance Group (QA Group)] é responsável por manter a infraestrutura do projeto, testes de pré-lançamento, lançamentos, processamento de relatórios de bugs e replicação de bugs em uma forma de "casos de teste".
+	\item [Grupo de Documentação e Suporte] é responsável por escrever documentação do produto, tutoriais e exemplos, manter o site do projeto e espelhos nacionais, preparação de PERGUNTAS FREQUENTES e outros documentos relacionados ao usuário, suporte dos usuários através de fóruns web, publicidade do projeto na Internet.
+\end{descrição}
+
+O projeto conta com um "Gerente de Projetos". Em suas responsabilidades estão tarefas administrativas como:
+\começar{itemize}
+  \item Recheio do projeto
+	\item Planejamento de lançamentos de produtos
+	\item Aplicação de procedimentos e práticas de projetos
+\end{itemize}
+
+Exceto um "Gerente de Projetos" há um "CoManager" que desempenha funções do "Gerente de Projetos" em sua ausência.
+
+Cada um dos três grupos do projeto tem um "Coordenador de Grupo".
+O "Coordenador de Grupo" é responsável pela definição da direção do trabalho e alocação de tarefas do grupo.
+
+Como o projeto tem um número muito limitado de pessoas, não as separamos estritamente por grupos no momento.
+O "Grupo" agora é principalmente direção lógica ou tipo de trabalho, mas não uma entidade organizacional.
+Cada membro da equipe pode selecionar onde ele quer participar e trabalhar em vários grupos ao mesmo tempo.
+O bom exemplo dessa organização é o trabalho dos desenvolvedores de projetos.
+Quando estão fazendo desenvolvimento, estão atuando dentro do "Grupo de Desenvolvimento".
+Quando eles fazem testes como parte da preparação de lançamento seu trabalho é coordenado pelo "QA Group".
+
+Os cargos de "Gerente de Projetos", "CoManager de Projetos" e "Coordenadores de Grupo" são eletivos.
+Qualquer membro do projeto pode pedir a reeleição para qualquer cargo a qualquer momento.
+Se a maioria dos membros da equipe concordar com isso, o titular da posição será demitido e substituído por outra pessoa.
+
+Uma das regras fundamentais do projeto é a separação por "áreas de responsabilidade".
+Cada área lógica do projeto tem uma "pessoa responsável" atribuída.
+A "pessoa responsável" tem uma grande liberdade em sua "área".
+Ele pode selecionar a maneira mais preferível de realizar seu trabalho.
+Ele pode iniciar mudanças e fazer melhorias dentro do escopo.
+Ninguém mais pode fazer nada na área dele até conseguir a aprovação da "pessoa responsável".
+O "responsável" assume responsabilidades por sua área e deve corrigir problemas quando são encontrados. 
+
+As "áreas de responsabilidade" nos permitem prevenir conflitos de interesses e estimular a motivação nos resultados finais.
+Embora existam poucas restrições para manter o projeto sob controle:
+\começar{itemize}
+  \item Todo o trabalho deve ser feito de acordo com as normas, procedimentos e práticas do projeto.
+	\item Se alguma alteração estiver fora do escopo da versão atual, definida pelo Coordenador do Grupo, ou se afetar outras áreas do projeto ou usuários finais do projeto, ela deve ser coordenada e aprovada pelo Coordenador do Grupo antes da implementação.
+\end{itemize}
+
+\seção{Estrutura}
+ZeosLib é um projeto multiproduto.
+Está hospedado no SourceForge e a estrutura do projeto vem desses pontos.
+Todos os códigos de projeto, scripts e documentos são controlados pelo sistema de controle de versão CVS, localizado nos servidores SourceForge.
+Cada produto é representado como um módulo de alto nível no repositório CVS:
+\começar{verbatim}
+Zeosdbo
+/zde
+/zsql
+/zdd
+/zeosctrl
+\fim{verbatim}
+
+Cada módulo contém todos os códigos-fonte relacionados, documentação, pacotes e scripts.
+No momento, a estrutura típica de um projeto (produto) é a seguinte:
+
+\começar{descrição}
+  \item [/build] scripts para Build \& Test Environment
+  \item [/banco de dados] banco de dados SQL scripts e configurações necessárias para testes
+  \item [/doc] projeto e documentação do usuário
+    \começar{descrição}
+      \item [/desenvolvimento] documentação de desenvolvimento (não está incluída em versões)
+      \item [/usuário] documentação do usuário (incluído em versões)
+      \item [/lançamento] várias notas de versão (Alterações, ReadMe, Instalar) incluídas no dir raiz no pacote de versão.
+		\end{descrição}
+	\item [/exemplo] projetos de amostra que apresentam como usar o produto
+  \item [/lib] várias bibliotecas externas necessárias para executar o produto
+  \item [/pacote] pacotes (usuário e desenvolvimento) necessários para compilar o produto
+    \começar{descrição}
+		  \item [/$<Compilador de $1$>$]
+      \item [...]
+      \item [/$<Compilador de $N$>$]
+		\end{descrição}
+	\item [/src] o código-fonte do projeto
+	\item [/teste] o código de teste do projeto
+\end{descrição}
+
+A infraestrutura do projeto é chamada de "Ambiente de construção \-amp; teste" (BTE para abreviar).
+BTE transforma uma pilha de código em um produto profissional.
+Todos os scripts de compilação, scripts de banco de dados, estrutura de teste são partes do BTE.
+
+As principais funções do "Ambiente de compilação \-amp; teste" são as seguintes:
+\começar{itemize}
+  \item Fornecer aos desenvolvedores e membros do grupo DE QA uma estrutura de teste abrangente para testar o projeto
+	\item Forneça uma plataforma de teste consistente para a integração continuada, testes noturnos de compilação e pré-lançamento para cobrir todos os compiladores e servidores SQL suportados
+	\item Compilar o código do projeto e gerar a documentação do produto
+	\item Preparar pacotes de distribuição de versão
+\end{itemize}
+
+No momento, o BTE consiste em poucos scripts ANT http://jakarta.apache.org/ant para executar as metas do projeto: Clean, Compile, Test, Release, ReleaseDoc.
+Infelizmente, a ANT é uma ferramenta muito genérica e de baixo nível e não fornece uma plataforma consistente para tarefas de Gerenciamento de Projetos e difícil de reutilizar em vários projetos.
+Para melhorar e melhorar o BTE, estamos olhando para outras ferramentas de gerenciamento de projetos de alto nível, como a Maven http://maven.apache.org .
+
+\seção{Padrões, Procedimentos e Práticas}
+Como foi dito no capítulo "Organização", estamos tentando manter o projeto o mais simples possível e evitar sobrecargas desnecessárias introduzidas por processo formal.
+Há poucas coisas que achamos vitais para o sucesso do projeto.
+
+A saída do nosso trabalho é o código fonte e a documentação.
+É uma questão de profissionalismo mantê-lo consistente e bonito quem fez isso.
+No momento, estamos tentando manter dois padrões:
+\começar{itemize}
+  \item Padrão para código fonte
+	\item Padrão para documentação escrita
+\end{itemize}
+
+Há poucos procedimentos e práticas estabelecidos no projeto:
+\começar{itemize}
+  \item Procedimento de Desenvolvimento
+	\item Procedimento de liberação
+	\item Procedimento de emissão de relatórios de bugs
+\end{itemize}
+
+O Procedimento de Desenvolvimento garante a consistência e a manutenção do projeto.
+Ele define os próximos passos:
+\começar{enumerar}
+  \item Coordene e obtenha uma aprovação para implementar um recurso do Coordenador do Grupo de Desenvolvimento antes de iniciá-lo.
+	\item Siga o Padrão de Codificação ao escrever um código
+	\item Implementar testes em conjunto com o código para cobrir a funcionalidade mais importante
+	\item Portar o código para todos os compiladores suportados (ou coordenar com outros para fazer isso)
+	\item Teste o código com todos os compiladores e servidores SQL suportados (ou coordene com outros para fazer isso)
+	\item Suporte o código e corrija bugs após o produto ser lançado
+\fim{enumerar}
+
+Procedimento de liberação é importante para arquivar a estabilidade das versões do produto.
+\começar{itemize}
+  \item
+ No estágio Alfa do desenvolvimento do produto, quaisquer alterações são permitidas.
+ Nesse estágio, todas as grandes alterações no código devem ser concluídas.
+	\item
+ No estágio Beta, apenas pequenas alterações na funcionalidade do produto são permitidas.
+ Qualquer novidade sobre isso deve ser aprovado pelo Coordenador de Desenvolvimento (Coordenador de QA e Gerente de Projetos na linha).
+	\item
+ No estágio Gama, qualquer alteração na funcionalidade é proibida.
+ Apenas correções de bugs e testes podem ser feitos.
+\end{itemize}
+
+O Procedimento de Liberação deve ser realizado para cada versão importante ou menor e inclui as seguintes etapas:
+\começar{enumerar}
+  \item Prepare um plano de lançamento pelo Project Manager
+	\item Anuncie o início da etapa de preparação de lançamento pelo Coordenador de QA
+	\item Pare todas as atividades de desenvolvimento
+	\item Inicie testes abrangentes em todos os compiladores e servidores SQL suportados
+	\item Quando os bugs forem encontrados, denuncie-os a desenvolvedores responsáveis, corrija e repita todos os testes desde o início
+	\item Atualize notas de alteração, libere notas e prepare um anúncio de lançamento
+	\item Construa um pacote de distribuição de versão
+	\item Carregue o pacote de lançamento para o "Gerenciador de lançamento de arquivos" do SourceForge
+	\item Notifique usuários subscritos no SourceForge
+	\item Adicione um link para a página "Downloads" no site do projeto e espelhos nacionais.
+	\item Envie uma página de anúncio no site e espelhos nacionais
+\fim{enumerar}
+
+O procedimento correto de notificação de bugs é absolutamente fundamental para melhorar a qualidade dos produtos.
+Ele define etapas para corrigir bugs, notificar o usuário relatado sobre a alteração e atualizar o arreio de teste para garantir que o bug nunca mais aconteça.
+Infelizmente no projeto freeware é difícil manter uma boa cobertura de teste.
+O procedimento do Relatório do Bug permite melhorar a cobertura do teste e aumentar a estabilidade dos produtos posteriormente, quando o código é escrito e liberado.
+Ele alivia os desenvolvedores porque os testes de escrita são parcialmente movidos para responsabilidades do grupo de QA.
+
+O procedimento de emissão de relatórios de bugs consiste nas seguintes etapas:
+\começar{enumerar}
+  \item O usuário envia um relatório de bugs no sourceForge bug tracker.
+	\item
+ Elaborar informações sobre o bug e fechar o bug que é não faz sentido.
+ Notifique o usuário sobre a ação e explique por que foi feita (Realizada pelo QA Group).
+	\item Implementar um caso de teste de relatório de bugs que replica o problema (Realizado pelo QA Group).
+	\item Troque o bug para o desenvolvedor responsável.
+	\item Corrigir o bug (Executado pelo Desenvolvedor Responsável)
+	\item Feche o relatório do bug e notifique o usuário sobre a alteração feita (se possível) e mencione quando ela será lançada oficialmente (Realizada pelo Desenvolvedor Responsável).
+\fim{enumerar}
+
+\capítulo{ZeosLib Build \& Test Environment}
+
+A maioria dos projetos tem alguma forma de automatizar tarefas repetitivas, como compilar código-fonte ou artefatos de liberação de edifícios.
+Pode ser feito com a ajuda de makefiles antigos do Unix, scripts de formiga XML ou usando ferramentas ultra-modernas de gerenciamento de projetos.
+O projeto ZeosLib não é uma exceção.
+
+\seção{Visão geral}
+A maioria dos projetos tem alguma forma de automatizar tarefas repetitivas, como compilar código-fonte ou artefatos de liberação de edifícios.
+Pode ser feito com a ajuda de makefiles antigos do Unix, scripts de formiga XML ou usando ferramentas ultra-modernas de gerenciamento de projetos.
+O projeto ZeosLib não é uma exceção.
+
+O projeto ZeosLib tem uma noção de Ambiente de Construção \& Teste (BTE).
+No âmbito do BTE entendemos um conjunto de ferramentas, necessárias para trabalhar nos scripts de projeto e automação para executar tarefas comuns de projeto.
+
+Ferramentas necessárias para tarefas de projeto ZeosLib:
+\começar{itemize}
+  \item Java Standard Development Kit (JSDK)
+	\item Ferramenta de fazer ANT
+	\item Ferramenta de gerenciamento de projetos da Maven
+	\item Pacote de emulação Cygwin Unix para Windows
+\end{itemize}
+
+Ferramentas, necessárias para a documentação zeosLib:
+\começar{itemize}
+  \item Processador de objetos de formatação FOP
+	\item Compilador de ajuda html
+	\item Ferramenta de geração doc de origem DoxyGen
+	\item Editor XMLSpy XML
+	\item Ferramenta de modelagem UML
+\end{itemize}
+
+As tarefas comuns automatizadas pelo Ambiente de Compilação \-amp; Teste são:
+\começar{itemize}
+  \item Limpeza de arquivos gerados
+	\item Compile código-fonte usando compiladores especificados
+	\item Execute testes para compiladores e bancos de dados especificados
+	\item Gerar documentação do projeto
+	\item Construir distribuição de lançamento de projeto
+\end{itemize}
+
+Antes de começar a descrição detalhada do BTE devemos dizer mais uma coisa.
+A implementação do Ambiente de Construção \& Teste no momento da redação deste documento (agosto de 2004) está longe de ser ideal.
+O BTE conta com scripts ANT personalizados.
+Esses scripts fazem seu trabalho, mas não podem ser facilmente reutilizados em vários projetos.
+Para melhorar a consistência e a reutilização do BTE, tomamos a decisão de substituir a ANT pela ferramenta de gerenciamento de projetos Maven.
+Maven em frente a ferramentas de baixo nível como a ANT propõe um novo nível de abstração.
+Chama-se Project Object Model (POM).
+Todas as tarefas em Maven são implementadas de forma altamente genérica e levam informações sobre a estrutura do projeto da POM.
+O POM separa os detalhes do projeto dos scripts de tarefas e aumenta consideravelmente a reutilização do BTE. 
+
+\seção{Ferramentas necessárias}
+
+Há um conjunto de ferramentas necessárias para trabalhar com zeosLib BTE.
+Alguns deles são obrigados a executar scripts e executar tarefas comuns; outros são necessários para trabalhar na documentação do projeto.
+
+\subseção{Java Standard Development Kit}
+Java Standard Development Kit é um componente obrigatório que deve ser instalado no computador onde o BTE é executado.
+Java implementa uma linguagem verdadeiramente portátil e máquina virtual para executar programas em diferentes plataformas.
+Isso é muito importante para nós, pois um dos principais requisitos é executar o BTE em todas as plataformas suportadas.
+No momento essas plataformas são Windows e Linux.
+
+Instruções de instalação:
+\começar{enumerar}
+  \item Vá para http://java.sun.com e baixe o J2SE 1.4 SDK mais recente
+	\item Instale o Java SDK no seu computador
+	\item
+ Adicione a variável de ambiente JAVA\_HOME e defina-a igual ao caminho onde o JSDK está instalado.
+ Por exemplo: JAVA\_HOME=C:\\Arquivos do programa\\Java\\j2sdk\_1.4.2\_05
+	\item Adicione à variável de ambiente PATH do sistema um caminho para Java como \%JAVA\_HOME\textbackslash\textbackslash bin
+	\item Verifique a instalação do Java executando o próximo comando no prompt de comando:
+	  \começar{verbatim}
+C:\\>java -versão
+versão java "1.4.2_05"
+Java(TM) 2 Ambiente de tempo de execução, Edição Padrão (build 1.4.2_05-b04)
+Java HotSpot(TM) Client VM (build 1.4.2_05-b04, modo misto)
+    \fim{verbatim}
+\fim{enumerar}
+
+\subseção{Cygwin}
+Cygwin é outro componente obrigatório do ZeosLib BTE.
+É um kit de ferramentas desenvolvido sob o guarda-chuva RedHat para portar o ambiente Unix para a plataforma Windows.
+Cygwin inclui um monte de utilitários Unix famosos, como ssh, cvs, make, bash, ftpd, etc.
+Cygwin traz o ambiente Windows o mais próximo possível do Unix e nos dá como uma oportunidade de usar o mesmo conjunto de ferramentas em ambas as plataformas. 
+
+Instruções de instalação:
+\começar{enumerar}
+  \item Vá para http://www.cygwin.org e clique em "Baixar agora"
+	\item No utilitário de configuração, defina o tipo de texto padrão para "DOS", escolha o espelho que deseja usar e selecione componentes para instalar.
+    \begin{figura}[htbp] 
+      \centralizando
+      \includegraphics[largura=0,7\textwidth]{BTE/CygwinSetup.png}
+      \caption{dmEasyQuery}
+      \rótulo{fig:CygwinSetup}
+    \end{figura}
+ Por favor, certifique-se de selecionar para os próximos componentes:
+		\começar{itemize}
+		  \item open-ssh (ferramentas ssh para conectar aos cvs ZeosLib através do protocolo ssh)
+			\cvs de itens (sistema de controle de versão simultânea)
+			\item pós-resql (porta Windows do banco de dados PostgreSQL)
+			\item docbook-xml (DocBook XML DTD)
+			\item docbook-xsl (DocBook XML StyleSheets para gerar várias saídas)
+			\item xmlto (script simples para tarefas comuns de geração docbook)
+			\links de itens (navegador da Web de texto para gerar saída de texto simples para DocBook)
+			\item lynx (navegador da Web de texto para gerar saída de texto simples para DocBook)
+		\end{itemize}
+	\item 
+ Adicione ao ambiente PATH do sistema uma variável de caminho para o diretório de bin Cygwin.
+ Por exemplo: C:\textbackslash Cygwin\textbackslash bin
+	\item Adicionar cvs variável de ambiente\_RSH=ssh
+	\item Verifique a instalação do Cygwin executando na linha de comando os seguintes comandos:
+	  \começar{verbatim}
+==============================================
+C:\>bash
+bash-2.05b$
+bash-2.05b$ ssh -V
+OpenSSH_3.7.1p2, protocolos SSH 1.5/2.0, OpenSSL 0.9.7c 30 Set 2003
+bash-2.05b$
+bash-2.05b$ cvs -v
+Sistema de Versões Simultâneas (CVS) 1.11.6 (cliente/servidor)
+Direitos autorais (c) 1989-2003 Brian Berliner, david d 'zoo' zuhn,
+ Jeff Polk, e outros autores
+O CVS só pode ser copiado nos termos da Licença Pública Geral do GNU,
+uma cópia da qual pode ser encontrada com o kit de distribuição CVS.
+Especifique a opção de ajuda para obter mais informações sobre o CVS
+bash-2.05b$
+bash-2.05b$ xmlto --ajuda
+uso: xmlto [OPÇÃO]... FORMATO XML
+OPTIONs são:
+ -v verbose saída (-vv para muito verbose)
+ -x folha de estilo use a folha de estilo especificada em vez de escolher uma
+ -m usar o fragmento XSL para personalizar a folha de estilo
+ -o diretório colocar saída no diretório especificado em vez de
+ o diretório de trabalho atual
+ -p postprocopts opção de passe para pós-processador
+ --extensões ligam extensões de folha de estilo para esta cadeia de ferramentas
+ --lista separada de cólon de busca
+ --validação de pular
+ não tente validar a entrada antes do processamento
+OS FORMATs disponíveis dependem do tipo do arquivo XML (que é
+determinado automaticamente).
+FIND: Interruptor inválido
+bash-2.05b$
+bash-2.05b$ lynx -versão
+Lynx Versão 2.8.4rel.1 (17 jul 2001)
+libwww-FM 2.14, SSL-MM 1.4.1, OpenSSL 0.9.7b
+Construído em cygwin Ago 11 2003 22:59:49
+Direitos autorais mantidos pela Universidade do Kansas, CERN, e outros colaboradores.
+Distribuído sob a Licença Pública Geral GNU.
+Consulte http://lynx.browser.org/ e a ajuda online para obter mais informações.
+Consulte http://www.moxienet.com/lynx/ para obter informações sobre o SSL para Lynx.
+Consulte http://www.openssl.org/ para obter informações sobre o OpenSSL.
+bash-2.05b$$ % o segundo $ foi adicionado para ter o destaque de sintaxe correta no TexnicCenter.
+===========================================================
+    \fim{verbatim}
+\fim{enumerar}
+
+\subseção{ANT}
+
+ANT é uma famosa ferramenta de make baseada em Java e XML.
+Ele é usado para interpretar scripts atuais de automação ZeosLib.
+ANT é muito mais sofisticado do que o velho Unix faz.
+Ele propõe um monte de tarefas padrão de maneira verdadeiramente independente da plataforma.
+
+Instruções de instalação:
+\começar{enumerar}
+  \item Vá para http://ant.apache.org e baixe a mais recente distribuição binária estável (1.6.2 no momento)
+	\item Descompacte ANT para algum diretório em seu disco rígido
+	\item
+ Adicione a variável de ambiente HOME ANT\_e defina-a igual ao caminho do diretório ANT.
+ Por exemplo: ANT\_HOME=C:\textbackslash Arquivos do programa\textbackslash ant\_1.6.2
+	\item Adicione ao ambiente PATH do sistema uma variável de caminho para a ferramenta ANT como \%ANT\_HOME\%\textbackslash bin
+	\item Verifique a instalação em execução no comando prompt o seguinte comando:
+	  \começar{verbatim}
+C:\>ant -versão
+Apache Ant versão 1.6.2 compilado em 16 de julho de 2004
+    \fim{verbatim}
+\fim{enumerar}
+
+\subseção{Maven}
+Maven é outra ferramenta de compilação baseada em Java e XML.
+Ao contrário da ANT, propõe um novo nível de abstração para tarefas comuns do projeto.
+A Maven introduz o Project Object Model (POM), que separa detalhes específicos do projeto das tarefas genéricas do projeto.
+Esse fato melhora muito a reutilização das tarefas comuns em vários projetos.
+A herança do POM torna possível aplicar as regras do projeto em todos os subprojetos.
+
+No momento, Maven não é usado em BTE.
+Adicionamos estas instruções para preparar os membros da equipe ZeosLib para simplificar sua mudança para esta ferramenta da ANT.
+
+Instruções de instalação:
+\começar{enumerar}
+  \item Vá para http://maven.apache.org e baixe a mais recente distribuição binária estável
+	\item Instale o Maven em algum diretório no seu disco rígido
+	\item
+ Adicione a variável de ambiente HOME MAVEN\_e defina-a igual ao caminho do diretório Maven.
+ Por exemplo: MAVEN\_HOME=C:\textbackslash Arquivos do programa\textbackslash maven\_1.0
+	\item Adicione ao ambiente PATH do sistema uma variável de caminho para a ferramenta Maven como \%MAVEN\_HOME\%\textbackslash bin
+	\item Verifique a instalação em execução no comando prompt o seguinte comando:
+	  \começar{verbatim}
+C:\>maven -v
+|  \/  |__ _Apache__ ___
+| |\/| / _' \ V / -_) \ ~ projetos inteligentes ~
+|_| |_\__,_|\_/\___|_|| _| v. 1.0
+    \fim{verbatim}
+\fim{enumerar}
+
+\subseção{FOP}
+
+O FOP (Formatting Objects Processor, processador de objetos de formatação) é necessário para gerar saída PDF a partir de arquivos DocBook.
+
+Instruções de instalação:
+\começar{enumerar}
+  \item Vá para http://xml.apache.org/fop e baixe a distribuição binária mais recente (0.20.5 no momento)
+	\item Descompactá-lo para algum diretório em seu disco rígido
+	\item 
+ Adicione a variável de ambiente FOP\_HOME e defina-a igual ao caminho para o diretório FOP.
+ Por exemplo: FP\_HOME=C:\textbackslash Arquivos do programa\textbackslash fop\_.0.20.5
+	\item Adicione ao ambiente PATH do sistema um caminho para FOP como \%FOP\_HOME\%
+	\item
+ Verifique a instalação em execução no comando prompt o seguinte comando:
+		\começar{verbatim}
+===========================================
+C:\>fop
+Uso
+Fop [opções] [-fo|-xml] infile [-xsl file] [-awt|-pdf|-mif|-pcl|-ps|-txt|-at|-p
+rint] <outfile>
+ [OPÇÕES]
+ modo de depuração -d
+ configurações de configuração de dump -x
+ -q modo silencioso
+ -c cfg.xml use arquivo de configuração adicional cfg.xml
+ -l lang o idioma a ser usado para informações do usuário
+ -s (-saída) omitir árvore abaixo das áreas do bloco
+ -txt.encoding (codificação de saída txt use a codificação para o arquivo de saída.
+ A codificação deve ser uma codificação java válida.
+.....
+============================================
+    \fim{verbatim}
+\fim{enumerar}
+
+\subseção{Ajuda HTML}
+O compilador de ajuda HTML é necessário para gerar arquivos de ajuda HTML a partir da documentação do projeto.
+
+Instruções de instalação:
+\começar{enumerar}
+  \item
+ Vá para http://www.microsoft.com/downloads.
+ Em seguida, faça uma pesquisa pela palavra-chave "Html Help", encontre "HTML Help Workshop and Documentation" e baixe o arquivo htmlhelp.exe.
+  \item Instale htmlHelp no seu computador.
+	\item Para verificar a instalação tente executar HTML Help Workshop a partir de Start -> Programas
+\fim{enumerar}
+
+\subseção{DoxyGen}
+
+DoxyGen é uma ferramenta para gerar documentação diretamente do código fonte.
+No momento da redação deste documento, o DoxyGen foi definido como a escolha mais preferível para a geração sourcedoc, mas ainda não o comprometemos.
+
+Você pode baixar as ferramentas DoxyGen dos seguintes locais:
+\começar{enumerar}
+  \item http://www.sourceforge.net/projects/doxygen
+	\item http://www.sourceforge.net/projects/pasdoc
+\fim{enumerar}
+
+\subseção{XMLSpy}
+
+DocBook é um formato XML amplamente utilizado para fins de documentação.
+Ele permite gerar a partir de documentos de origem única em vários formatos: HTML, PDF, Html Help, Plain Text e outros.
+Para trabalhar com o DocBook, você pode usar um simples editor de texto, como o Bloco de Notas, e, em seguida, executar o comando xmlto do pacote Cygwin para gerar documentos.
+Embora, para algumas pessoas, que se acostumam com as ferramentas de estilo WYSIWYG, essa abordagem pode ser desconfortável.
+Para tornar a vida mais simples existem muitas ferramentas comerciais e gratuitas existentes disponíveis na Internet. 
+
+A única das melhores ferramentas para trabalhar com documentos docbook é xMLSpy.
+É uma ferramenta comercial desenvolvida pela Altova.
+O XMLSpy fornece um editor XML muito confortável e gera uma saída HTML a partir do documento XML editado em tempo real.
+Uma versão de teste do XMLSpy pode ser baixada no site da Altova em http://www.xmlspy.com
+
+Existem algumas fotos para lhe dar algumas ideias sobre XMLSpy.
+
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=1.0\textwidth]{BTE/XmlSpy1.png}
+  \legenda{XMLSpy 1}
+  \rótulo{fig:XmlSpy1}
+\end{figura}
+
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=1.0\textwidth]{BTE/XmlSpy2.png}
+  \legenda{XMLSpy 2}
+  \label{fig:XmlSpy2}
+\end{figura}
+				
+\subseção{Juntos}
+
+Juntos é uma das melhores ferramentas de modelagem uml desenvolvidas pela Borland Corp.
+É uma notícia muito boa que Borland lançou uma versão gratuita da Community Edition do Together, que gostaríamos de usar para tarefas de documentação no projeto ZeosLib.
+Além dos diagramas uml padrão Juntos propõem diagramas ER que são muito úteis para projetar bancos de dados de relacionamento.
+A limitação do Together Community Edition é que ele não inclui dois diagramas importantes de atividade UML – Sequência e Colaboração.
+Mas achamos que os diagramas de pacotes e classes serão suficientes para nossas tarefas de documentação simples.
+
+Instruções de instalação:
+\começar{enumerar}
+  \item Acesse o site da Borland Together em http://www.borland.com/together
+	\item Solicite uma chave para a Edição Comunitária Juntos. Quando você receber a chave por e-mail, copie-a para o catálogo da sua casa
+	\item Baixe e instale o Together Community Edition
+\fim{enumerar}
+
+Há poucas fotos para apresentar as capacidades de Juntos.
+
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=1.0\textwidth]{BTE/Together1.png}
+  \legenda{Togeter 1}
+  \rótulo{fig:Together1}
+\end{figura}
+
+\begin{figura}[htbp] 
+  \centralizando
+  \includegraphics[largura=1.0\textwidth]{BTE/Together2.png}
+  \legenda{Juntos 2}
+  \rótulo{fig:Together2}
+\end{figura}
+
+\seção{Estrutura de diretórios}
+A estrutura do diretório de projetos ZeosLib é outra coisa importante.
+Como zeosLib é um projeto de vários produtos, estamos tentando reutilizar a mesma estrutura de diretório em todos os subprojetos para garantir a consistência do projeto.
+Quando o BTE será trocado para a Maven, a estrutura do diretório pode ser alterada, mas não esperamos grandes mudanças nessa área.
+
+Cada subprojeto ZeosLib é armazenado no repositório CVS como um módulo separado.
+Quando você faz o checkout, você pode querer colocar todos os subprojetos em um diretório.
+Além disso, você pode querer trabalhar com diferentes ramos de cada subprojeto.
+Para fazer isso, a maneira recomendada é renomear o catálogo superior do subprojeto.
+Por exemplo:
+\começar{verbatim}
+> cvs –d:ext:developer@cvs.sourceforge.net:/cvsroot/zeoslib co –r v6_0_final zeosdbo_rework
+> renomeie zeosdbo_rework zeosdbo_6_0
+> cvs –d:ext:developer@cvs.sourceforge.net:/cvsroot/zeoslib co –r v6_1_final zeosdbo_rework
+> renomeie zeosdbo_rework zeosdbo_6_1
+> cvs –d:ext:developer@cvs.sourceforge.net:/cvsroot/zeoslib co zeosdbo_rework
+> renomeie zeosdbo_rework zeosdbo_6_5
+\fim{verbatim}
+
+A estrutura completa do diretório de alto nível pode ser a seguinte:
+\começar{verbatim}
+C:\Projetos\zeoslib
++ zde
++ zeosdbo_5_5
++ zeosdbo_6_0
++ zeosdbo_6_1
++ zeosdbo_6_5
++ zeosctrl_2_0
++ zeosctrl_2_1
++ zsql
+\fim{verbatim}
+
+Como dissemos antes, para cada subprojeto estamos tentando seguir a mesma estrutura de diretório:
+\começar{verbatim}
+zeoslib_project
++ construir
++ banco de dados
++ doc
+ + projeto
+ + lançamento
+ + usuário
++ exemplos
+ + <exemplo 1>
+ + <exemplo 2>
+ + <exemplo 3>
++ lib
++ pacotes
+ + <compilador 1>
+ + construir
+ + <compilador 2>
+ + construir
++ lançamentos
++ src
+ + <pacote 1>
+ + <pacote 2>
+  + Zeos.inc
++ teste
+ + <pacote 1>
+ + <pacote 2>
+\fim{verbatim}
+
+A descrição detalhada dos catálogos do projeto:
+\começar{enumerar}
+  \item Build – mantém scripts de compilação BTE e configuração de compilação no arquivo build.properties.
+	\item Banco de dados – contém scripts SQL para criar e soltar objetos de banco de dados de teste (portáteis e específicos) e configuração de teste no arquivo test.properties.
+	\item Doc – contém toda a documentação em formato XML DocBook.
+	  \começar{itemize}
+		  \item project – Documentação relacionada ao projeto. Não está incluído na distribuição de liberação e serviços para fins internos do projeto
+			\lançamento de item – Liberar notas como README, INSTALL, KNOWN\_BUGS. Esses arquivos são gerados no formato Texto Simples e incluídos no catálogo raiz da distribuição de lançamento
+			\usuário de item – Uma documentação do usuário. Ele está incluído na distribuição de lançamento no catálogo doc.
+		\end{itemize}
+  \item
+ Cada catálogo de documentação contém arquivos DocBook nomeados como \documento sem texto \textgreater .xml.
+ Além disso, possui imagens subcatalog para manter imagens relacionadas aos documentos.
+ A conversão para arquivos de imagem de nome é \documento sem texto \textgreater\textless num\textgreater. \ramal sem texto \textgreater. Por exemplo:
+    \começar{verbatim}
+Doc
+ + projeto
+ + imagens
+ + Visão geral1.jpg
+ + Visão geral2.gif
+ + Visão geral.xml
+    \fim{verbatim}		
+  \item
+ Exemplos – vários exemplos de usuários e tutoriais.
+ Cada subdiretório tem um projeto de exemplo independente com todos os arquivos de origem e dados necessários.
+	\item
+ Lib – bibliotecas externas necessárias para compilar ou executar o produto.
+ Por exemplo: o projeto ZeosDBO tem ali suportado libmysql e libpq dlls para se conectar a diferentes versões de servidores MySQL e PostgreSQL.
+  \item
+ Pacotes – pacotes de compilação para todos os compiladores suportados.
+ Cada subdiretório é nomeado de acordo com o nome e versão do compilador (fpc10, cbuilder5, delphi7, etc).
+ O subdiretório build é definido para manter todos os binários (.dcu, .obj, .exe...) gerados durante o projeto de compilação. 
+		
+ Se o compilador específico apoiar grupos de projetos, o diretório do pacote do compilador deve conter dois grupos de projeto: 
+		\sem texto Project\textgreater.bpg apenas com pacotes de lançamento e \textless Project\textgreater Devel.bpg com todos os pacotes e aplicativos de teste disponíveis no projeto.
+ Esses grupos de projetos simplificam muito as tarefas de instalação e desenvolvimento quando são feitas a partir do compilador IDE.
+
+ O exemplo do projeto ZeosDBO:
+    \começar{verbatim}
++ pacotes
+   + fpc10
+ + construir
+   + cbuilder5
+ + construir
+     + ZeosDbo.bpg
+     + ZeosDboDevel.bpg
+ ...
+   + delphi7
+ + construir
+     + ZeosDbo.bpg
+     + ZeosDboDevel.bpg
+ ...
+    \fim{verbatim}
+  \item
+ Lançamentos – mantém pacotes de distribuição de documentação e de versão.
+ Este diretório é criado automaticamente quando as tarefas de lançamento são executadas.
+	\item
+ Src – um diretório para manter o código de produção do projeto.
+ Se o projeto for complexo, pode ser necessário dividir o código em pacotes separados; cada pacote é um diretório próprio.
+ O arquivo Zeos.inc tem todas as diretivas de compilação para o projeto.
+	\item
+ Teste – um diretório semelhante ao Src, mas mantém testes de projeto que não estão incluídos na distribuição de versão.
+\fim{enumerar}
+
+\seção{Configuração}
+
+Depois de instalar todas as ferramentas necessárias e verificar projetos do repositório CVS, você deve configurar o BTE para começar a usá-lo.
+O procedimento de configuração pode ser o seguinte:
+\começar{enumerar}
+  \item
+ Leia o documento "ZeosLib Test Framework".
+ Seguindo o documento:
+		\começar{itemize}
+		  \item Crie bancos de dados de teste que você deseja usar em seus testes
+			\item Preparar /banco de dados/arquivo de configuração de propriedades de teste
+			\item Certifique-se de que os testes podem ser executados a partir de seus IDE(s" do compilador.
+		\end{itemize}
+	\item
+ Defina a configuração de compilação no arquivo /banco de dados/build.properties.
+ Nesse arquivo, você deve especificar caminhos para construir ferramentas, bandeiras para usar certos compiladores e testes.
+ Como exemplo, você pode pegar o arquivo build\_template.properties que é armazenado no CVS:
+		\começar{verbatim}
+==========================================
+[comum]
+project.home=D:/Projetos/zeosdbo_6_5
+release.version=6.5.1-alfa
+copy.verbose=false
+[compiladores]
+; Configurações de Delphi 5
+delphi5.active=true
+delphi5.home=C:/Desenvolvimento/Borland/Delphi5
+; Configurações de Delphi 6
+delphi6.active=true
+delphi6.home=C:/Desenvolvimento/Borland/Delphi6
+; Configurações de Delphi 7
+delphi7.active=true
+delphi7.home=C:/Desenvolvimento/Borland/Delphi7
+; Configurações do CBuilder 5
+cbuilder5.active=true
+cbuilder5.home=C:/Desenvolvimento/Borland/CBuilder5
+; CBuilder 6 settings
+cbuilder6.active=true
+cbuilder6.home=C:/Desenvolvimento/Borland/CBuilder6
+; Configurações de Kylix 2
+kylix2.active=falso
+kylix2.home=/opt/kylix2
+; Configurações de Kylix 3
+kylix3.active=falso
+kylix3.home=/opt/kylix3
+[testes]
+; Configurações de teste
+test.core=true
+test.parsesql=true
+test.dbc=true
+test.component=true
+test.bugreport=true
+test.performance=falso
+[documentação]
+fop.home=C:/Desenvolvimento/fop-0.20.5
+hhc.home=C:/Arquivos do Programa/HTML Oficina de Ajuda
+cygwin.home=C:/Cygwin
+==========================================
+    \fim{verbatim}
+  \item Agora você está pronto para executar scripts BTE.
+\fim{enumerar}
+
+\seção{Tarefas Comuns}
+
+Como foi dito antes, as tarefas BTE comuns são implementadas usando scripts ANT.
+Todos esses scripts estão localizados no diretório /build para cada projeto.
+Depois de mudar para maven não deve mudar para ideias gerais e uso de tarefas comuns.
+
+Esta é uma lista completa de tarefas BTE disponíveis:
+\começar{enumerar}
+  \atualizações de itenscvs
+	\item limpo
+	\compilação de itens
+	\teste de item
+	\item lançado
+	\liberação de itens
+\fim{enumerar}
+
+Mais algumas palavras sobre registro:
+Quando você executa tarefas, você pode definir um sinalizador para imprimir todas as informações na tela.
+Mas, às vezes, e especialmente para compilações noturnas automatizadas, é necessário escrever o resultado da execução da tarefa em um arquivo de registro de texto.
+Para tornar possível, projetamos recursos simples de registro em todas as tarefas de forma semelhante.
+Há um diretório /build/log onde todos os logs são armazenados.
+Quando você executa uma nova tarefa, ele cria um novo arquivo no diretório nomeado como \textless task\textgreater-\textless date\textgreater.log.
+Por exemplo:
+arquivo de registro para compilação tarefa pode ser nomeado como compile-20040811.log.
+Tais convenções de nomeação foram selecionadas principalmente para apoiar construções noturnas, mas podem ser alteradas no futuro.
+
+\subseção{Atualização do CVS}
+Para atualizar o projeto do repositório CVS, você pode executar o comando 'cvs update –d –P' do diretório raiz do projeto.
+Mas para suportar compilações automatizadas criamos uma tarefa especial que faz o mesmo:
+
+\começar{verbatim}
+...\build\> updatecvs
+\fim{verbatim}
+
+Essa tarefa garante que o projeto antes da compilação tenha a versão mais recente.
+
+\subseção{Limpeza}
+
+Durante o compilador de processos de compilação cria um monte de arquivos como:
+.hpp, .obj, .dcu, .exe, .lib e outros.
+Quando você recompilar, o compilador pode usar arquivos existentes e não gerá-los novamente.
+Isso pode esconder alguns problemas.
+Para executar uma compilação do zero, você pode querer remover todos os arquivos gerados anteriormente.
+Tarefa limpa ajuda você a fazer isso:
+
+\começar{verbatim}
+...\build\> limpo
+\fim{verbatim}
+
+Na implementação atual, as tarefas limpas remove \_todos os arquivos gerados \_ para \_todos os compiladores\_, mesmo que você os desabilite explicitamente no arquivo build.properties.
+
+\subseção{Compilação}
+
+Para compilar binários, você precisa definir caminhos e bandeiras ativas em build.properties.
+O resultado da compilação você pode ver em /build/log/compile-\textless date\textgreater.log.
+
+\começar{verbatim}
+...\build\> compilar
+\fim{verbatim}
+
+\subseção{Teste}
+
+Os testes no projeto ZeosLib dependem do Quadro de Teste ZeosLib.
+Não importa se você executar testes no IDE ou usando o script BTE de teste, você deve criar bancos de dados de teste e definir o arquivo test.properties.
+Neste documento não abordamos o tópico de configuração do teste.
+Para saber mais sobre isso, você precisa ler o documento "ZeosLib Test Framework".
+Para executar testes no BTE selecione testes e compiladores no arquivo build.properties e execute:
+
+\começar{verbatim}
+...\build\> teste
+\fim{verbatim}
+
+Este script executará testes para \_todos os compiladores selecionados e \_todos os testes especificados sequencialmente.
+O resultado do processo de teste que você pode encontrar em /build/logs/test-\textless date\textgreater.log file.
+
+\subseção{Geração de documentos}
+
+O seguinte script BTE pode ser usado para gravações de documentos.
+Ele permite a geração de todos os documentos do projeto em formato especificado e embalagem em seguida, em arquivo .zip.
+Para gerar a documentação do projeto executado:
+
+\começar{verbatim}
+.. \build\> releasedoc [ todos | html | chunk | hh | pdf | xhtml | texto ]
+\fim{verbatim}
+
+\começar{descrição}
+\item [todos] gera documentação em todos os formatos suportados
+\item [html] HTML único arquivo por documento
+\item [chunk] HTML vários arquivos por documento (um arquivo por capítulo)
+\item [xhtml] Arquivo único XHTML por documento
+\item [hh] Formato Microsoft HtmlHelp
+\item [pdf] Formato ADOBE PDF
+\item [texto] formato de texto simples (primeiro gera HTML, em seguida, convertê-lo em texto usando lynx navegador web de texto)
+\end{descrição}
+
+\subseção{Preparação de lançamento}
+Para preparar uma distribuição de lançamento Existe o script de lançamento.
+Antes de gerar uma versão, verifique a versão de lançamento em build.properties.
+Em seguida, execute o comando:
+
+\começar{verbatim}
+...\build\> lançamento
+\fim{verbatim}
+
+O script de lançamento gerará notas de lançamento, documentação do usuário e empacotá-lo juntamente com o código de produção, exemplo, pacotes e bibliotecas.
+O arquivo de distribuição de versão será criado em /releases/ diretório.
+O arquivo de registro de preparação de liberação pode ser encontrado em /build/logs/release-\textless date\textgreater.log
+
+No momento, apenas liberações de origem podem ser geradas.
+No futuro, gostaríamos de adicionar geração de lançamentos binários e criar pacotes de auto-instalação.
+
+\part{vários outros itens de documentação encontrados na árvore de documentação Zeos}
+
+\capítulo{RDB\$DB\_KEY.txt - Usando o RDB interno\$DB\_KEY}
+
+Isso obviamente é algo sobre Firebird. Foi encontrado na estrutura da pasta de documentação zeos.
+
+\seção{Sobre RDB\$DB\_KEY}
+A primeira lição a aprender é que RDB\$DB\_KEY é uma posição *raw** relacionada ao banco de dados
+em si e não para um endereço físico no disco. A segunda é que os números não
+progresso em uma sequência previsível. Não considere realizar cálculos envolvendo
+suas posições relativas! A terceira lição é que eles são voláteis - eles mudam depois de um
+backup e restauração subsequente e, às vezes, depois que a transação é comprometida. Itis
+essencial para desapor a transitoriedade da tecla db\_e para não fazer suposições sobre a sua
+existência uma vez que uma operação que se refere a ela é comprometida ou revertida.
+
+\seção{Tamanho de RBD\$DB\_KEY}
+Para tabelas RDB\$DB\_KEY usa 8 bytes. Para visualizar, ele usa tantos múltiplos de 8 bytes como
+há tabelas subjacentes. Por exemplo, se uma exibição se juntar a três tabelas, seu RDB\$DB\_KEY usa
+24 bytes. Isso é importante se você está trabalhando com procedimentos armazenados e quer armazenar
+RDB\$DB\_KEY em uma variável. Você deve usar um tipo de dados CHAR(n) do comprimento correto.
+
+Por padrão, as teclas db\_são devolvidas como valores hexais - 2 dígitos hexais representam cada byte, causando
+16 hex para ser devolvido para 8 bytes. Experimente em uma de suas tabelas de amostra em isql:
+
+\começar{verbatim}
+SQL> SELECIONE RDB$DB_KEY DA MYTABLE;
+RDB$DB_KEY
+================
+000000B600000002
+000000B600000004
+000000B600000006
+000000B600000008
+000000B60000000
+\fim{verbatim}
+
+\seção{Benefícios}
+Como uma CHAVE RDB\$DB\_marca a posição bruta de uma linha, é mais rápido para pesquisa do que mesmo
+uma chave primária. Se por alguma razão especial uma tabela não tem chave primária ou ativa única
+índice, ou é preparado em um índice único que é permitido conter nulos, é possível
+para que as linhas duplicadas exatas existam. Nessas condições, uma CHAVE RDB\$DB\_é a única maneira
+para identificar cada linha inequivocamente. ...
+
+\seção{Duração da validade}
+Por padrão, o escopo de uma tecla db\_é a transação atual. Você pode contar com ele para permanecer 
+válido para a duração da transação atual. Um compromisso ou reversão causará a CHAVE RDB\$DB\_
+valores que você tinha que se tornar imprevisível. Se você estiver usando o CommitRetaining, o contexto da transação 
+é retido, bloqueando a coleta de lixo e, assim, impedindo que a antiga tecla db\_seja "reciclada".
+Nessas condições, os valores de CHAVE RDB\$DB\_de quaisquer linhas afetadas pela sua transação permanecem 
+válido até que ocorra um compromisso "duro" ou reversão.
+
+Após o compromisso ou reversão, outra transação pode excluir uma linha que foi isolada 
+dentro do contexto da sua transação e, portanto, foi considerado "existente" pelo seu aplicativo. Qualquer
+RDB\$DB\_O valor DA CHAVE pode agora apontar para uma linha inexistente. Se houver um longo intervalo entre o 
+momento em que sua transação começou e quando seu trabalho completa, você deve verificar que a linha 
+não foi alterado ou bloqueado por outra transação nesse meio tempo.
+
+Algumas interfaces de aplicativos, por exemplo, objetos IB, são super inteligentes sobre inserções e podem 
+preparar um "slot" para uma linha recém-inserida no buffer do cliente para curto-circuito na atualização 
+seguindo o compromisso. Tais recursos são importantes para o desempenho em toda a rede. No entanto 
+"espertinhos" como este são baseados em chaves exatas e reais. Uma vez que a tecla db\_é apenas uma chave proxy para 
+um conjunto que foi derivado de dados previamente comprometidos, não tem significado para uma nova linha - 
+não é avalilável para atualizações spot dos buffers do cliente.
+
+\seção{Alterando o escopo de duração}
+A duração padrão dos valores de CHAVE RDB\$DB\_pode ser alterada no momento da conexão, usando o 
+Parâmetro de API isc\_dpb\_dbkey\_escopo. Algum desenvolvimento - por exemplo, os componentes IB Objects 
+em Ferramentas ambientais Borland Object Pascal - superá-lo em uma classe de conectividade. No entanto, é 
+não recomendado para estender o escopo de teclas db\_em um ambiente altamente interativo, uma vez que 
+desativará a coleta de lixo, com o efeito colateral indesejado de causar seu arquivo de banco de dados 
+para crescer a uma taxa alarmante e diminuindo o desempenho até que o sistema trava ou trava. 
+Não poça a conexão de barbear o escopo de tecla db\_não padrão.
+
+\seção{RDB\$DB\_KEY com conjuntos de várias mesas}
+Todas as tabelas mantêm suas próprias colunas RDB\$DB\$ DB\_ Visualizações e alistações geram 
+teclas db\_de tempo de execução concatenando as das linhas nas tabelas de origem. Se você usar RDB\$DB\_KEY 
+em conjuntos multi-tabela, tenha muito cuidado para qualificar cada um com precisão.
+
+RDB\$DB\_A CHAVE não pode ser usada entre as tabelas. Não há possibilidade de estabelecer uma dependência 
+relação entre o RDB\$DB\_KEY de uma tabela e outra, exceto em re-entrante (self-
+referenciando) junta-se.
+
+\end{documento}

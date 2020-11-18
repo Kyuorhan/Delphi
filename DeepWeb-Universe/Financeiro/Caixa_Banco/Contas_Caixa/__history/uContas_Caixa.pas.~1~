@@ -1,0 +1,48 @@
+unit uContas_Caixa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.ActnList, JvExExtCtrls, JvExtComponent, JvPanel;
+
+type
+  TfrmContas_Caixa = class(TForm)
+    JvPanel1: TJvPanel;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    actSalvar: TAction;
+    actCancelar: TAction;
+    ActionList2: TActionList;
+    actGerarBoleto: TAction;
+    Timer1: TTimer;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    StatusBar1: TStatusBar;
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmContas_Caixa: TfrmContas_Caixa;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmContas_Caixa.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

@@ -1,0 +1,24 @@
+unit uVetor_Matriz;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TfrmVator_Matriz = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmVator_Matriz: TfrmVator_Matriz;
+
+implementation
+
+{$R *.dfm}
+
+end.

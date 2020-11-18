@@ -1,0 +1,128 @@
+object frmConsulta_Grupos: TfrmConsulta_Grupos
+  Left = 0
+  Top = 0
+  Caption = 'Estoque - Grupo'
+  ClientHeight = 548
+  ClientWidth = 341
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 19
+    Top = 136
+    Width = 72
+    Height = 16
+    Caption = 'LOCALIZAR'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 173
+    Width = 341
+    Height = 306
+    Align = alBottom
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object JvPanel1: TJvPanel
+    Left = 0
+    Top = 0
+    Width = 341
+    Height = 121
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 13095379
+    ParentBackground = False
+    TabOrder = 1
+    ExplicitLeft = -443
+    ExplicitWidth = 726
+  end
+  object edtLocalizar: TEdit
+    Left = 22
+    Top = 158
+    Width = 246
+    Height = 21
+    TabOrder = 2
+  end
+  object JvPanel2: TJvPanel
+    Left = 0
+    Top = 479
+    Width = 341
+    Height = 50
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = cl3DLight
+    ParentBackground = False
+    TabOrder = 3
+    ExplicitLeft = 22
+    ExplicitTop = 536
+    ExplicitWidth = 609
+    object btnSalvar: TSpeedButton
+      Left = 10
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'SALVAR'
+      Action = actSalvar1
+      Flat = True
+    end
+    object btnCancelar: TSpeedButton
+      Left = 78
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'CANCELAR'
+      Action = actCancelar
+      Flat = True
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 529
+    Width = 341
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitLeft = -385
+    ExplicitWidth = 726
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 299
+    Top = 16
+  end
+  object ActionList2: TActionList
+    Images = frmPrincipal.ImageList48
+    Left = 232
+    Top = 16
+    object actSalvar1: TAction
+      ImageIndex = 0
+    end
+    object actCancelar: TAction
+      ImageIndex = 1
+    end
+  end
+  object BalloonHint1: TBalloonHint
+    Style = bhsStandard
+    Left = 290
+    Top = 72
+  end
+end

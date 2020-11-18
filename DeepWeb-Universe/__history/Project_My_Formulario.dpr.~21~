@@ -1,0 +1,33 @@
+program Project_My_Formulario;
+
+uses
+  Vcl.Forms,
+  Vcl.Themes,
+  Vcl.Styles,
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  My_Layout in 'Cliente\My_Layout.pas' {frmCliente},
+  uConsulta in 'Cliente\uConsulta.pas' {frmConsulta},
+  uFuncoes in 'uFuncoes.pas',
+  uFinanceiro in 'Financeiro\uFinanceiro.pas' {frmFinanceiro},
+  uContas_Receber in 'Financeiro\Contas_Receber\uContas_Receber.pas' {frmContas_Receber},
+  uContas_Pagar in 'Financeiro\Contas_Pagar\uContas_Pagar.pas' {frmContas_Pagar},
+  uCaixa_Banco in 'Financeiro\Caixa_Banco\uCaixa_Banco.pas' {frmCaixa_Banco},
+  uOpenCloses_Caixa in 'Financeiro\Caixa_Banco\OpenClose_Caixa\uOpenCloses_Caixa.pas' {frmOpenCloses_Caixa},
+  uCadastro_OpenCloses in 'Financeiro\Caixa_Banco\OpenClose_Caixa\uCadastro_OpenCloses.pas' {frmCadastro_OpenCloses},
+  uContas_Banco in 'Financeiro\Caixa_Banco\Contas_Banco\uContas_Banco.pas' {frmContas_Banco},
+  uContas_Caixa in 'Financeiro\Caixa_Banco\Contas_Caixa\uContas_Caixa.pas' {frmContas_Caixa},
+  uCadastro_Receber in 'Financeiro\Contas_Receber\uCadastro_Receber.pas' {frmCadastro_Receber},
+  uLista_Cidades in 'Cliente\uLista_Cidades.pas' {frmLista_Cidades},
+  uConsulta_Cidades in 'Cidades\uConsulta_Cidades.pas' {frmConsulta_Cidades};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmLista_Cidades, frmLista_Cidades);
+  Application.CreateForm(TfrmConsulta_Cidades, frmConsulta_Cidades);
+  Application.Run;
+
+end.

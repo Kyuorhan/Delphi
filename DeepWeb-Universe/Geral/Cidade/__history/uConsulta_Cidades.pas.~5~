@@ -1,0 +1,91 @@
+unit uConsulta_Cidades;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, JvExDBGrids,
+  JvDBGrid, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ActnList, Data.DB,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, JvExExtCtrls, JvExtComponent,
+  JvPanel, JvExComCtrls, JvComCtrls;
+
+type
+  TfrmConsulta_Cidades = class(TForm)
+    tbPesquisar: TJvPageControl;
+    tbsPesquisar: TTabSheet;
+    JvPanel1: TJvPanel;
+    dsCidades: TDataSource;
+    sqlCidades: TZQuery;
+    sqlCidadesid: TIntegerField;
+    sqlCidadescidade: TWideStringField;
+    sqlCidadesuf: TWideStringField;
+    sqlCidadescod_ibge: TWideStringField;
+    ActionList1: TActionList;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    actExcluir1: TAction;
+    Timer1: TTimer;
+    StatusBar1: TStatusBar;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    JvDBGrid2: TJvDBGrid;
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+  private
+    procedure Timer1Timer(Sender: TObject);
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Cidades: TfrmConsulta_Cidades;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadastro_Cidades;
+
+procedure TfrmConsulta_Cidades.btnEditarClick(Sender: TObject);
+begin
+
+  frmCadastro_Cidades.edtCidade.Text    := sqlCidadesCidade.AsString;
+  frmCadastro_Cidades.edtUF.Text        := sqlCidadesUF.AsString;
+  frmCadastro_Cidades.edtCod_IBGE.Text  := sqlCidadesCod_IBGE.AsString;
+
+  if frmCadastro_Cidades.ShowModal = mrOk then
+  begin
+    sqlCidades.Edit;
+    sqlCidadesCidade.AsString     := frmCadastro_Cidades.edtCidade.Text;
+    sqlCidadesUF.AsString         := frmCadastro_Cidades.edtUF.Text;
+    sqlCidadesCod_IBGE.AsString   := frmCadastro_Cidades.edtCod_IBGE.Text;
+    sqlCidades.ApplyUpdates;
+  end;
+end;
+
+procedure TfrmConsulta_Cidades.btnNovoClick(Sender: TObject);
+begin
+
+  frmCadastro_Cidades := TfrmCadastro_Cidades.Create(Self);
+  if frmCadastro_Cidades.ShowModal = mrOk then
+  begin
+    sqlCidades.Close;
+    sqlCidades.Open;
+
+    sqlCidades.Append;
+    sqlCidadesCidade.AsString      := frmCadastro_Cidades.edtCidade.Text;
+    sqlCidadesUF.AsString          := frmCadastro_Cidades.edtUF.Text;
+    sqlCidadesCod_IBGE.AsString    := frmCadastro_Cidades.edtCod_IBGE.Text;
+    sqlCidades.ApplyUpdates;
+  end;
+end;
+
+procedure TfrmConsulta_Cidades.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

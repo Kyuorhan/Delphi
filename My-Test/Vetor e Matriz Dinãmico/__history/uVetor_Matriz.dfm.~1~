@@ -1,0 +1,16 @@
+object frmVator_Matriz: TfrmVator_Matriz
+  Left = 0
+  Top = 0
+  Caption = 'Vetor e Matriz Din'#227'micos'
+  ClientHeight = 299
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+end

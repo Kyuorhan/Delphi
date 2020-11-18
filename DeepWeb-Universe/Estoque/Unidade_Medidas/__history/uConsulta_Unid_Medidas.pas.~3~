@@ -1,0 +1,40 @@
+unit uConsulta_Unid_Medidas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, JvExExtCtrls, JvExtComponent, JvPanel,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ActnList, Vcl.ComCtrls, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmConsulta_Unid_Medidas = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    StatusBar1: TStatusBar;
+    edtLocalizar: TEdit;
+    ActionList1: TActionList;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    eactExcluir1: TAction;
+    Timer1: TTimer;
+    Label1: TLabel;
+    JvPanel1: TJvPanel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Unid_Medidas: TfrmConsulta_Unid_Medidas;
+
+implementation
+
+{$R *.dfm}
+
+end.

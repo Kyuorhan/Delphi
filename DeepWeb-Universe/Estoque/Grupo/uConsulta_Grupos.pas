@@ -1,0 +1,154 @@
+unit uConsulta_Grupos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Buttons, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.ExtCtrls, JvExExtCtrls, JvExtComponent, JvPanel, Vcl.Grids,
+  Vcl.DBGrids, Data.DB, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+
+type
+  TfrmConsulta_Grupos = class(TForm)
+    JvPanel1: TJvPanel;
+    Timer1: TTimer;
+    Label1: TLabel;
+    edtLocalizar: TEdit;
+    StatusBar1: TStatusBar;
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    ActionList1: TActionList;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    eactExcluir1: TAction;
+    sqlGrupos: TZQuery;
+    dsGrupos: TDataSource;
+    sqlGruposid: TIntegerField;
+    sqlGruposprodutos_grupo: TWideStringField;
+    procedure Timer1Timer(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure actNovo1Execute(Sender: TObject);
+    procedure actEditar1Execute(Sender: TObject);
+    procedure actExcluir1Execute(Sender: TObject);
+    procedure edtLocalizarChange(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+  private
+    procedure Localizar;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Grupos: TfrmConsulta_Grupos;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout, uCadastro_Grupos, uFuncoes;
+
+procedure TfrmConsulta_Grupos.actEditar1Execute(Sender: TObject);
+begin
+  frmCadastro_Grupos := TfrmCadastro_Grupos.Create(Self);
+
+  frmCadastro_Grupos.edtDescricao.Text := sqlGruposProdutos_Grupo.AsString;
+
+  if frmCadastro_Grupos.ShowModal = mrOk then
+  begin
+    sqlGrupos.Edit;
+    sqlGruposProdutos_Grupo.AsString := frmCadastro_Grupos.edtDescricao.Text;
+    sqlGrupos.ApplyUpdates;
+
+  end;
+
+end;
+
+procedure TfrmConsulta_Grupos.actNovo1Execute(Sender: TObject);
+begin
+  frmCadastro_Grupos := TfrmCadastro_Grupos.Create(Self);
+  if frmCadastro_Grupos.ShowModal = mrOk then
+  begin
+    sqlGrupos.Close;
+    sqlGrupos.Open;
+
+    sqlGrupos.Append;
+    sqlGruposProdutos_Grupo.AsString := frmCadastro_Grupos.edtDescricao.Text;
+    sqlGrupos.ApplyUpdates;
+
+  end;
+
+end;
+
+procedure TfrmConsulta_Grupos.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Grupos.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Grupos.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Grupos.edtLocalizarChange(Sender: TObject);
+begin
+  Localizar;
+end;
+
+procedure TfrmConsulta_Grupos.FormCreate(Sender: TObject);
+begin
+  KeyPreview := True;
+end;
+
+procedure TfrmConsulta_Grupos.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = VK_ESCAPE) then
+  Close;
+end;
+
+procedure TfrmConsulta_Grupos.Localizar;
+var
+  Texto: String;
+begin
+  Texto := 'SELECT * from produtos_grupo WHERE id > 0';
+  if edtLocalizar.Text <> '' then
+    Texto := Texto + ' AND produtos_grupo LIKE ' + Quotedstr(edtLocalizar.Text + '%');
+  sqlGrupos.SQL.Text := Texto;
+  sqlGrupos.Open;
+end;
+
+procedure TfrmConsulta_Grupos.actExcluir1Execute(Sender: TObject);
+begin
+  if Application.MessageBox('Deseja realmente "Excluir" o registro?',
+    'Abertura/Fechamento do Caixa', MB_YESNO) = mrYes then
+  begin
+    try
+      sqlGrupos.Delete;
+      sqlGrupos.ApplyUpdates;
+      MostraMensagem('Registro excluido com "Sucesso!"');
+
+    except
+      on E: Exception do
+        raise Exception.Create('Error ao "Excluir" o registro!' + E.Message);
+    end;
+  end;
+end;
+
+procedure TfrmConsulta_Grupos.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

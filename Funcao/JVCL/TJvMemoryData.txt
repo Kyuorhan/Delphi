@@ -1,0 +1,43 @@
+function CopiarDataSet(zTableOriginal TDataset) TJvMemoryData;
+var
+    iinteger;
+begin
+    Abrindo o dataset original
+    zTableOriginal.Open;
+
+    Criando o clone e copiando a estrutura do original
+    Result = TJvMemoryData.Create(Application);
+    Result.CopyStructure(zTableOriginal);
+
+    Abrindo o clone
+    Result.Open;
+
+    Movendo o cursor para o primeiro registro do dataset original
+    zTableOriginal.First;
+
+    Iteração para copiar os dados do original para o clone
+    while not(zTableOriginal.Eof) do begin
+
+        Preparando o clone para receber os dados
+        Result.Insert;
+
+        Iteração sobre os campos da tabela
+        for i = 0 to zTableOriginal.FieldCount - 1 do begin
+                Copiando os dados
+                Result.FieldByName(zTableOriginal.Fields[i].FieldName).Value = zTableOriginal.Fields[i].Value;
+
+                Copiando os labels das colunas
+                Result.FieldByName(zTableOriginal.Fields[i].FieldName).DisplayLabel = zTableOriginal.Fields[i].DisplayLabel;
+        end;
+
+        Efetivando a inserção
+        Result.Post;
+
+        Indo para o próximo registro do dataset original
+        zTableOriginal.Next;
+    end;
+
+    Fechando o dataset original
+    zTableOriginal.Close;
+
+end;

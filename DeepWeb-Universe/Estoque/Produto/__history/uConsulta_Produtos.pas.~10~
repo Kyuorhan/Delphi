@@ -1,0 +1,135 @@
+unit uConsulta_Produtos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls,
+  JvExExtCtrls, JvExtComponent, JvPanel, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, JvExComCtrls, JvComCtrls, Vcl.Grids, Vcl.DBGrids, JvExDBGrids,
+  JvDBGrid;
+
+type
+  TfrmConsulta_Produto = class(TForm)
+    JvPanel1: TJvPanel;
+    BalloonHint1: TBalloonHint;
+    Timer1: TTimer;
+    StatusBar1: TStatusBar;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    actSalvar: TAction;
+    actCancelar: TAction;
+    actLanca_Movimentacao: TAction;
+    actMovimentacao: TAction;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    btnEstornar: TSpeedButton;
+    JvDBGrid2: TJvDBGrid;
+    edtNome: TEdit;
+    Label1: TLabel;
+    tbPesquisar: TJvPageControl;
+    tbsPesquisar: TTabSheet;
+    btnQuitar: TSpeedButton;
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnQuitarClick(Sender: TObject);
+    procedure btnEstornarClick(Sender: TObject);
+    procedure actNovoExecute(Sender: TObject);
+    procedure actEditarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure actLanca_MovimentacaoExecute(Sender: TObject);
+    procedure actMovimentacaoExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Produto: TfrmConsulta_Produto;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadastro_Produtos;
+
+procedure TfrmConsulta_Produto.actEditarExecute(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.actMovimentacaoExecute(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.actExcluirExecute(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.actNovoExecute(Sender: TObject);
+begin
+  frmCadastro_Produto := TfrmCadastro_Produto.Create(Self);
+  frmCadastro_Produto.ShowModal;
+  FreeAndNil(frmCadastro_Produto);
+end;
+
+procedure TfrmConsulta_Produto.actLanca_MovimentacaoExecute(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnEstornarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnQuitarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.FormCreate(Sender: TObject);
+begin
+  KeyPreview := True;
+end;
+
+procedure TfrmConsulta_Produto.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = Vk_ESCAPE) then
+    Close;
+end;
+
+procedure TfrmConsulta_Produto.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

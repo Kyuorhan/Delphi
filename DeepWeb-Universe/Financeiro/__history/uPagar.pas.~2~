@@ -1,0 +1,57 @@
+unit uPagar;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls,
+  JvExControls, JvEmbeddedForms, Vcl.StdCtrls, JvBaseEdits, Vcl.Mask, JvExMask,
+  JvToolEdit;
+
+type
+  TfrmPagar = class(TForm)
+    StatusBar1: TStatusBar;
+    Timer1: TTimer;
+    btnSalvar: TButton;
+    lbNumero: TLabel;
+    btnCancel: TButton;
+    Edit1: TEdit;
+    JvDateData: TJvDateEdit;
+    JvDateVencimento: TJvDateEdit;
+    lbData: TLabel;
+    lbVencimento: TLabel;
+    lbValor: TLabel;
+    edtFornecedor: TEdit;
+    lbFornecedor: TLabel;
+    lbDocumento: TLabel;
+    edtDocumento: TEdit;
+    JvCalValor: TJvCalcEdit;
+    edtHistorico: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    edtPlanoContas: TEdit;
+    edtCidade: TComboBox;
+    Label3: TLabel;
+    edtCentroCusto: TComboBox;
+    Label4: TLabel;
+    JvEmbeddedFormPanel1: TJvEmbeddedFormPanel;
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPagar: TfrmPagar;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPagar.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/08/12 13:59:16.000.630,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 15:02:58.000.153,C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\My_Layout.pas</Transaction>
+    <Transaction>2020/08/12 15:02:58.000.153,C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\My_Layout.dfm</Transaction>
+    <Transaction>2020/08/12 15:03:44.000.489,C:\Users\Programação\Documents\RAD Studio\Projects\Project8.dproj=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Project_My_Layout.dproj</Transaction>
+    <Transaction>2020/08/19 07:39:25.000.426,=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Unit1.pas</Transaction>
+    <Transaction>2020/08/19 07:41:11.000.762,C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Unit1.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uPrincipal.dfm</Transaction>
+    <Transaction>2020/08/19 07:41:11.000.762,C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Unit1.pas=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uPrincipal.pas</Transaction>
+    <Transaction>2020/08/19 07:44:20.000.104,=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Unit1.pas</Transaction>
+    <Transaction>2020/08/19 07:53:30.000.491,C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Unit1.pas=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uReceber.pas</Transaction>
+    <Transaction>2020/08/19 07:53:30.000.491,C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Unit1.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uReceber.dfm</Transaction>
+    <Transaction>2020/08/19 17:29:13.000.230,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Project_My_Formulario.dproj=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\Project_My_Layout.dproj</Transaction>
+    <Transaction>2020/08/28 15:12:37.000.753,=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.pas</Transaction>
+    <Transaction>2020/08/28 15:15:51.000.619,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\Finaceiro.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.pas</Transaction>
+    <Transaction>2020/08/28 15:15:51.000.619,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\Finaceiro.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.dfm</Transaction>
+    <Transaction>2020/08/28 15:41:23.000.435,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinaceiro.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\Finaceiro.pas</Transaction>
+    <Transaction>2020/08/28 15:41:23.000.435,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinaceiro.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\Finaceiro.dfm</Transaction>
+    <Transaction>2020/08/28 15:43:00.000.737,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinanceiro.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinaceiro.pas</Transaction>
+    <Transaction>2020/08/28 15:43:00.000.737,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinanceiro.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinaceiro.dfm</Transaction>
+    <Transaction>2020/08/28 15:52:02.000.377,=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.pas</Transaction>
+    <Transaction>2020/08/28 15:52:26.000.702,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uPagar.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.dfm</Transaction>
+    <Transaction>2020/08/28 15:52:26.000.702,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uPagar.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.pas</Transaction>
+    <Transaction>2020/09/01 07:36:40.000.973,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Project_My_Formulario.dproj=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Project_My_Formulario.dproj</Transaction>
+    <Transaction>2020/09/01 07:38:10.000.146,C:\My-Projects\Delphi\Delphi\TopSapp\uPrincipal.pas=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uPrincipal.pas</Transaction>
+    <Transaction>2020/09/01 07:38:10.000.146,C:\My-Projects\Delphi\Delphi\TopSapp\uPrincipal.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uPrincipal.dfm</Transaction>
+    <Transaction>2020/09/01 07:38:39.000.830,C:\My-Projects\Delphi\Delphi\uPrincipal.dfm=C:\My-Projects\Delphi\Delphi\TopSapp\uPrincipal.dfm</Transaction>
+    <Transaction>2020/09/01 07:38:39.000.830,C:\My-Projects\Delphi\Delphi\uPrincipal.pas=C:\My-Projects\Delphi\Delphi\TopSapp\uPrincipal.pas</Transaction>
+    <Transaction>2020/09/01 07:39:11.000.871,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\uPrincipal.pas=C:\My-Projects\Delphi\Delphi\uPrincipal.pas</Transaction>
+    <Transaction>2020/09/01 07:39:11.000.871,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\uPrincipal.dfm=C:\My-Projects\Delphi\Delphi\uPrincipal.dfm</Transaction>
+    <Transaction>2020/09/01 07:40:31.000.677,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Cliente\My_Layout.pas=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\My_Layout.pas</Transaction>
+    <Transaction>2020/09/01 07:40:31.000.677,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Cliente\My_Layout.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\My_Layout.dfm</Transaction>
+    <Transaction>2020/09/01 07:41:27.000.539,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uReceber.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uReceber.dfm</Transaction>
+    <Transaction>2020/09/01 07:41:27.000.539,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uReceber.pas=C:\Users\Programação\Documents\RAD Studio\Projects\My Projects\uReceber.pas</Transaction>
+    <Transaction>2020/09/01 08:07:29.000.844,=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.pas</Transaction>
+    <Transaction>2020/09/01 08:11:56.000.296,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.dfm</Transaction>
+    <Transaction>2020/09/01 08:11:56.000.296,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Unit1.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.pas</Transaction>
+    <Transaction>2020/09/01 08:17:30.000.031,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uSuporte.pas</Transaction>
+    <Transaction>2020/09/01 08:17:30.000.031,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uSuporte.dfm</Transaction>
+    <Transaction>2020/09/01 14:58:47.000.998,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uSuporte.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.pas</Transaction>
+    <Transaction>2020/09/01 14:58:47.000.998,C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uSuporte.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.dfm</Transaction>
+    <Transaction>2020/09/03 11:01:06.000.421,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.pas</Transaction>
+    <Transaction>2020/09/03 11:01:06.000.421,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uConsulta.dfm</Transaction>
+    <Transaction>2020/09/03 11:02:07.000.306,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uPagar.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uPagar.pas</Transaction>
+    <Transaction>2020/09/03 11:02:07.000.306,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uPagar.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uPagar.dfm</Transaction>
+    <Transaction>2020/09/03 11:03:47.000.961,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uFinanceiro.dfm=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinanceiro.dfm</Transaction>
+    <Transaction>2020/09/03 11:03:47.000.961,C:\My-Projects\Delphi\Delphi\TopSapp\My_Formulario\Financeiro\uFinanceiro.pas=C:\My-Projects\repparaestudos\Delphi\TopSapp\My_Formulario\Financeiro\uFinanceiro.pas</Transaction>
+  </Transactions>
+</BorlandProject>

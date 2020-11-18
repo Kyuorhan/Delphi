@@ -1,0 +1,114 @@
+unit uReceber;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Mask, Vcl.StdCtrls, DateUtils, JvExMask, JvToolEdit,
+  JvBaseEdits, JvExControls, JvEmbeddedForms, Vcl.ComCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmReceber = class(TForm)
+    lbCliente: TLabel;
+    edtCliente: TEdit;
+    lbValor: TLabel;
+    lbPagamento: TLabel;
+    lbVencimento: TLabel;
+    lbJuros: TLabel;
+    edtJuros: TEdit;
+    Label1: TLabel;
+    edtTotal: TEdit;
+    btnProcessar: TButton;
+    edtDiasAtraso: TEdit;
+    Label2: TLabel;
+    JvDateVencimento: TJvDateEdit;
+    JvDatePagamento: TJvDateEdit;
+    JvCalTotal: TJvCalcEdit;
+    StatusBar1: TStatusBar;
+    Timer1: TTimer;
+    JvEmbeddedFormPanel1: TJvEmbeddedFormPanel;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnProcessarClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var frmReceber : TfrmReceber;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmReceber.btnProcessarClick(Sender: TObject);
+var
+    Valor, Juros, JurosAM, Total : Real;
+    Dias: Integer;
+    Vencimento : TDate;
+    Pagamento : TDate;
+
+    Inicio : TDateTime;
+    Fim : TDateTime;
+
+begin
+
+  Vencimento := JvDateVencimento.Date;
+  Pagamento := JvDatePagamento.Date;
+  Vencimento := StrToDate(JvDateVencimento.Text);
+  Pagamento := StrToDate(JvDatePagamento.Text);
+  Valor := JvCalTotal.Value;
+  Juros := 0;
+  Dias := 0;
+
+  if (Pagamento > Vencimento) then
+  begin
+    Dias := DaysBetween(Vencimento, Pagamento);
+    Juros := (Valor * 0.00333 * Dias);
+
+  end;
+  Total := Valor + Juros;
+  edtDiasAtraso.Text := IntToStr(Dias);
+  edtJuros.Text := FormatFloat('0.00', Juros);
+  edtTotal.Text := FormatFloat('0.00', Total);
+
+
+
+end;
+
+{
+procedure TfrmReceber.edtPagamentoExit(Sender: TObject);
+var  PagamentoDate : TDateTime;
+begin
+  PagamentoDate := Date;
+  edtPagamento.Text := DateTimeToStr(PagamentoDate);
+end;
+
+procedure TfrmReceber.edtVencimentoExit(Sender: TObject);
+var  VencimentoDate : TDateTime;
+begin
+  VencimentoDate := Date;
+  edtPagamento.Text := DateTimeToStr(VencimentoDate);
+end:
+}
+
+procedure TfrmReceber.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+procedure TfrmReceber.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

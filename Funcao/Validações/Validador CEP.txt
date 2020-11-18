@@ -1,0 +1,152 @@
+procedure TfrmCliente.btmSearch1Click(Sender: TObject);
+begin
+
+  if (edtCEP.Text) <> '' then
+  begin
+    ACBrValidador.Documento := edtCEP.Text;
+    ACBrValidador.TipoDocto := docCEP;
+    begin
+    if ACBrValidador.Validar then
+      Application.MessageBox('ATENÇÃO!: CEP DIGITADO - VÁLIDO','"Preenchimento do Formulário', + MB_OK )
+    else
+    begin
+      Application.MessageBox('ATENÇÃO!: CEP DIGITADO - INVÁLIDO','"ERRO" Preenchimento do Formulário', + MB_OK );
+      edtUF.SetFocus;
+    end;
+    end;
+  end;
+end;
+
+------------------------------------------------------
+
+procedure TfrmCliente.edtCEPExit(Sender: TObject);
+begin
+  Result := False;
+
+  if (edtCEP.Text) <> '' then
+  begin
+    frmPrincipal.ACBrValidador.Documento := edtCEP.Text;
+    frmPrincipal.ACBrValidador.TipoDocto := docEmail;
+    Result := frmPrincipal.ACBrValidador.Validar;
+  end;
+ if not Result then
+    Application.MessageBox('ATENÇÃO! EMAIL DIGITADO - INVÁLIDO');
+end;
+end.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+{
+Primeiro — Retirar a Mask do CEP
+-Vamos começar do primeiro, no meu evento onExit eu vou retirar a mask do CEP.
+-Eu crio uma variável do tipo string CEP e recebo o texto que está na MaskEdit , depois tiro os pontos e traços do CEP e substituo por valores nulos, ou seja ‘’. 
+-Nesse casso então um CEP digitado 00.000–000 se transformaria em apenas números: 00000000.
+OBSERVAÇÃO: Eu faço isso pois para fazer a busca na API eu preciso do CEP formatado em apenas números, sem pontos e sem traços.
+
+Segundo — Checar a validade do CEP
+Agora eu quero checar se o CEP digitado é válido ou não. Para isso precisamos entender o comportamento da mask. Estamos usando a mask do CEP que é a seguinte __.___-___ , 
+ao digitar um CEP completo e retirar a Mask com o código de cima o comportamento será o seguinte:
+
+Caso 1. O CEP ‘01.001.001’ se transformará em uma string que pode ser convertida em um número inteiro ‘01001001’.
+Caso 2. O CEP ‘01.001.___’ se transformará em uma string que não pode ser convertida em um número inteiro ‘01001___’.
+
+Caso todos os espaços da mask foram preenchidos com números e por isso o resultado pode ser convertido em um número inteiro. Já no segundo os três últimos espaços não foram preenchidos e a mask ficará 
+com 3 espaços vazios, isso fará com que essa string seja impossível de ser convertida em um número inteiro, pois ela não é feita apenas de números. Ela tem espaços vazios!!.
+Por isso já podemos afirmar que, ao tentar converter o CEP sem Mask em um número inteiro, se a operação falhar significa que o usuário não digitou todos os números do CEP e portanto ele não é valido.
+
+}
+
+procedure TfrmCliente.edtCEPExit(Sender: TObject);
+var
+  CEP: string;						//Criamos uma variável String que recebe CEP 
+begin
+  CEP := edtCEP.Text;					// Onde chama o componente edtCEP.Text pra verificar o texto digitado
+  CEP := StringReplace(CEP, '.', '', [rfReplaceAll]);	// Aki vai verificar e aplicar um [ . ]"Ponto", no edtCEP; 
+  CEP := StringReplace(CEP, '-', '', [rfReplaceAll]);	// Aki vai verificar e aplicar um [ - ]"Traço", no edtCEP; 
+
+{
+
+Então eu suponho primeiro que o CEP é valido settando a variável CEPValido para True . Depois tento fazer a conversão do CEP string para 
+int , caso a conversão falhe settamos a variável CEPValido para False indicando então que o CEP digitado não é valido. Segue Abaixo.
+
+}
+
+  try
+    NovoCEP := StrToInt(CEP);
+  except
+    on Exception do
+      CEPValido := False;
+  end;
+end;
+
+}
+
+Terceiro — Checar se o CEP foi mudado
+
+Então nada melhor do que checar se o CEP foi mudado ou não, ao digita um CEP X, nós faremos a busca dele apenas uma vez, 
+depois não importa quantas vezes você passar por ali, nós apenas o buscaremos novamente se você digitar um CEP diferente.
+
+Para isso nós criaremos uma variável inteira global privada FCEPAtual que será responsável por armazenar o CEP atual que está no nosso TMaskEdit . Ao trocar o CEP, essa variável global também será atualizada. 
+Nós compararemos essa variável com o CEP que o usuário acabou de digitar o Campo, se for igual significa que ele não foi mudado e nada será realizado.
+
+{
+
+procedure TfrmCadPessoas.medtCepExit(Sender: TObject);
+var
+  CEP: string;
+  Endereco: TStringList;
+  CEPValido, CEPFoiMudado: Boolean;   // Criamos mais uma variável Boolean, CEPFoiMudado;
+  NovoCEP: Integer;
+begin
+  CEPValido := True;
+  CEPFoiMudado := False;	// Que esta variavel recebe False;
+  CEP := medtCep.Text;
+  CEP := StringReplace(CEP, '.', '', [rfReplaceAll]);
+  CEP := StringReplace(CEP, '-', '', [rfReplaceAll]);
+  try
+    NovoCEP := StrToInt(CEP);				// Transforma variavel CEP para Integer;
+    if FCEPAtual <> NovoCEP then			// Aki onde if vai ser validação do CEP se foi mudado;
+    begin
+      FCEPAtual := NovoCEP;
+      CEPFoiMudado := True;
+    end;
+  except
+    on Exception do
+      CEPValido := False;
+  end;
+end;
+
+}
+
+Depois da conversão do CEP sem Mask para inteiro, nós verificamos se o CEP digitado é diferente da variável FCEPAtual , caso for difirente significa que o CEP foi mudado, então atualizamos o valor da variável FCEPAtual 
+para o NovoCEP e settamos CEPFoiMudado para True .
+
+
+Fazer a Busca ou Não?
+
+Depois de todo esse tratamento da variável, agora nós vamos decidir se vamos fazer a busca ou não.
+Nós sabemos que vamos fazer a busca apenas se:
+	1-O CEP é válido
+	2-O CEP foi mudado
+	3-Os campos de endereço estão vazios
+
+Então acrescentaremos o seguinte código
+
+if (not CEPFoiMudado) and ((not CEPValido) or (edtBairro.Text <> '') or (edtEndereco.Text <> '')) then
+    inherited
+  else
+  begin
+    Endereco := BuscarCEP(CEP);
+  end;
+
+No primeiro caso inherited nós NÃO vamos fazer a busca do CEP, isso acontecerá quando:
+1- O CEP não foi mudado
+E - AND
+2- O CEP não é válido OU - OR os campos do endereço estão vazios
+
+
+
+
+
+
+

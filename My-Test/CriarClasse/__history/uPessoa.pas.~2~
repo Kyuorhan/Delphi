@@ -1,0 +1,19 @@
+unit uPessoa;
+
+interface
+
+type TPessoa =  class
+
+  private
+
+  protected
+
+  Public
+    constructor Create;
+    destructor Destroy; override;
+
+end;
+
+implementation
+
+end.

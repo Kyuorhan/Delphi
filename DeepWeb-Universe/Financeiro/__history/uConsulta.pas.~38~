@@ -1,0 +1,223 @@
+unit uConsulta;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, JvExControls,
+  JvEmbeddedForms, Vcl.ComCtrls, Vcl.StdCtrls, JvgPage, Vcl.ToolWin,
+  Vcl.ActnMan, Vcl.ActnCtrls, JvExExtCtrls, JvExtComponent, JvPanel,
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnList, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, JvExDBGrids, JvDBGrid, JvExComCtrls, JvComCtrls, uPrincipal,
+  Vcl.ImgList, Datasnap.DBClient, ZAbstractRODataset, ZAbstractDataset, ZDataset,
+  Vcl.Buttons;
+
+type
+  TfrmConsulta = class(TForm)
+    Timer1: TTimer;
+    StatusBar1: TStatusBar;
+    tbPesquisar: TJvPageControl;
+    tbsPesquisar: TTabSheet;
+    edtPesquisar: TEdit;
+    dsClientes: TDataSource;
+    sqlClientes: TZQuery;
+    sqlClientesid: TIntegerField;
+    sqlClientesnome: TWideStringField;
+    sqlClientestipo: TWideStringField;
+    sqlClientessexo: TWideStringField;
+    sqlClientescpf: TWideStringField;
+    sqlClientesrg: TWideStringField;
+    sqlClientescep: TWideStringField;
+    sqlClientesinsc_estadual: TWideStringField;
+    sqlClientesendereco: TWideStringField;
+    sqlClientesnum_end: TWideStringField;
+    sqlClientesbairro: TWideMemoField;
+    sqlClientescidade: TWideStringField;
+    sqlClientesuf: TWideStringField;
+    sqlClientestelefone: TWideStringField;
+    sqlClientesemail: TWideStringField;
+    sqlClientesdata_nascimento: TDateField;
+    sqlClientesdata_cadastro: TDateField;
+    Panel1: TPanel;
+    ActionList1: TActionList;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    eactExcluir1: TAction;
+    JvDBGrid2: TJvDBGrid;
+    JvPanel1: TJvPanel;
+    procedure Timer1Timer(Sender: TObject);
+    procedure edtPesquisarChange(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure actNovo1Execute(Sender: TObject);
+    procedure actEditar1Execute(Sender: TObject);
+    procedure actExcluir1Execute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta: TfrmConsulta;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout, uFuncoes, uFinanceiro;
+
+
+procedure TfrmConsulta.actEditar1Execute(Sender: TObject);
+begin
+  frmCliente := TfrmCliente.Create(Self);
+  frmCliente.edtNome.Text           := sqlClientesNome.Asstring;
+
+  frmCliente.edtNome.Text           := sqlClientesNome.Asstring;
+
+  frmCliente.edtTipo.ItemIndex      := frmCliente.edtTipo.Items.IndexOf(sqlClientesTipo.AsString);
+  frmCliente.edtTipoChange(frmCliente.edtTipo);
+  frmCliente.edtCPF.Text            := sqlClientesCPF.Value;
+
+  frmCliente.edtSexo.Text           := sqlClientesSexo.Value;
+  frmCliente.edtRG.Text             := sqlClientesRG.Value;
+  frmCliente.edtCEP.Text            := sqlClientesCep.Value;
+  frmCliente.edtInsc_Estadual.Text  := sqlClientesinsc_estadual.Value;
+  frmCliente.edtEnd.Text            := sqlClientesEndereco.Value;
+  frmCliente.edtNumEnd.Text         := sqlClientesNum_end.Value;
+  frmCliente.edtBairro.Text         := sqlClientesBairro.AsString;
+  frmCliente.edtCidade.Text         := sqlClientesCidade.AsString;
+  frmCliente.edtUF.Text             := sqlClientesUF.AsString;
+  //sqlClientesTelefone.Value       := frmCliente.edtTelefone2.Text;
+  frmCliente.edtTelefone1.Text      := sqlClientesTelefone.Value;
+  frmCliente.edtEmail.Text          := sqlClientesEmail.Value;
+  frmCliente.JvDateNascimento.Date  := sqlClientesData_nascimento.Value;
+  frmCliente.JvDateCadastro.Date    := sqlClientesData_cadastro.Value; // edtData.Date
+
+
+  if frmCliente.ShowModal = mrOK then
+  begin
+    sqlClientes.Edit;
+    sqlClientesNome.Asstring          := frmCliente.edtNome.Text;
+    sqlClientesTipo.AsString          := frmCliente.edtTipo.Text;
+    sqlClientesSexo.Value             := frmCliente.edtSexo.Text;
+    sqlClientesCPF.Value              := frmCliente.edtCPF.Text;
+    sqlClientesRG.Value               := frmCliente.edtRG.Text;
+    sqlClientesCep.Value              := frmCliente.edtCEP.Text;
+    sqlClientesinsc_estadual.Value    := frmCliente.edtInsc_Estadual.Text;
+    sqlClientesEndereco.Value         := frmCliente.edtEnd.Text;
+    sqlClientesNum_end.Value          := frmCliente.edtNumEnd.Text;
+    sqlClientesBairro.AsString        := frmCliente.edtBairro.Text;
+    sqlClientesCidade.AsString        := frmCliente.edtCidade.Text;
+    sqlClientesUF.AsString            := frmCliente.edtUF.Text;
+    //sqlClientesTelefone.Value       := frmCliente.edtTelefone2.Text;
+    sqlClientesTelefone.Value         := frmCliente.edtTelefone1.Text;
+    sqlClientesEmail.Value            := frmCliente.edtEmail.Text;
+    sqlClientesData_nascimento.Value  := frmCliente.JvDateNascimento.Date;
+    sqlClientesData_cadastro.Value    := frmCliente.JvDateCadastro.Date; // edtData.Date
+    //sqlClientesSalario.Value        := edtSalario.Value;
+    sqlClientes.Post;
+    sqlClientes.ApplyUpdates;
+  end;
+end;
+
+procedure TfrmConsulta.actNovo1Execute(Sender: TObject);
+begin
+  frmCliente := TfrmCliente.Create(Self);
+  if frmCliente.ShowModal = mrOK then
+  begin
+    sqlClientes.Append;
+    sqlClientesNome.Asstring          := frmCliente.edtNome.Text;
+    sqlClientesTipo.AsString          := frmCliente.edtTipo.Text;
+    sqlClientesSexo.Value             := frmCliente.edtSexo.Text;
+    sqlClientesCPF.Value              := frmCliente.edtCPF.Text;
+    sqlClientesRG.Value               := frmCliente.edtRG.Text;
+    sqlClientesCep.Value              := frmCliente.edtCEP.Text;
+    sqlClientesinsc_estadual.Value    := frmCliente.edtInsc_Estadual.Text;
+    sqlClientesinsc_estadual.Value    := frmCliente.edtInsc_Municipal.Text;
+    sqlClientesEndereco.Value         := frmCliente.edtEnd.Text;
+    sqlClientesNum_end.Value          := frmCliente.edtNumEnd.Text;
+    sqlClientesBairro.AsString        := frmCliente.edtBairro.Text;
+    sqlClientesCidade.AsString        := frmCliente.edtCidade.Text;
+    sqlClientesUF.AsString            := frmCliente.edtUF.Text;
+    //sqlClientesTelefone.Value       := frmCliente.edtTelefone2.Text;
+    sqlClientesTelefone.Value         := frmCliente.edtTelefone1.Text;
+    sqlClientesEmail.Value            := frmCliente.edtEmail.Text;
+    sqlClientesData_nascimento.Value  := frmCliente.JvDateNascimento.Date;
+    sqlClientesData_cadastro.Value    := frmCliente.JvDateCadastro.Date; // edtData.Date
+    //sqlClientesSalario.Value        := edtSalario.Value;
+    sqlClientes.Post;
+    sqlClientes.ApplyUpdates;
+  end;
+end;
+
+
+procedure TfrmConsulta.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta.actExcluir1Execute(Sender: TObject);
+begin
+  if Application.MessageBox('Deseja realmente "Excluir" o registro?','Cadastro de Cliente', MB_YESNO) =
+  mrYes then
+  begin
+    try
+{
+      TClientDataSet(dsClientes.DataSet).Delete;
+      TClientDataSet(dsClientes.DataSet).ApplyUpdates(0);
+      Application.MessageBox('Registro excluido com "Sucesso!"','Cadastro de Cliente', MB_OK)
+}
+      sqlClientes.Delete;
+      sqlClientes.ApplyUpdates;
+      MostraMensagem('Registro excluido com "Sucesso!"');
+
+    except on E : Exception do
+      raise Exception.Create('Error ao "Excluir" o registro!' + E.Message);
+    end;
+  end;
+end;
+
+
+procedure TfrmConsulta.edtPesquisarChange(Sender: TObject);
+begin
+    sqlClientes.SQL.Text := 'SELECT * from clientes ' +
+      'WHERE nome LIKE "'  +edtPesquisar.Text + '%" ORDER BY nome';
+    sqlClientes.Open;
+end;
+
+procedure TfrmConsulta.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+procedure TfrmConsulta.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

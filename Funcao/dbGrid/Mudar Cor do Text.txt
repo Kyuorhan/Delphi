@@ -1,0 +1,12 @@
+procedure Tfrm.dbgReceberDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if sqlContas_ReceberPago.AsString = 'S'then
+     dbgReceber.Canvas.Font.Color := $00FF5BA5
+   else
+   begin
+     if sqlContas_ReceberData_Vencimento.Value < Date then
+       dbgReceber.Canvas.Font.Color := $00809BA2;
+   end;
+   dbgReceber.DefaultDrawDataCell(Rect, dbgReceber.columns[datacol].field, State);
+end;

@@ -1,0 +1,24 @@
+unit uCadastro_Grupo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TfrmCadastro_Grupo = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastro_Grupo: TfrmCadastro_Grupo;
+
+implementation
+
+{$R *.dfm}
+
+end.

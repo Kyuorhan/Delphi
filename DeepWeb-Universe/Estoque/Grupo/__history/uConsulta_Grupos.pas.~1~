@@ -1,0 +1,58 @@
+unit uConsulta_Grupo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Buttons, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.ExtCtrls, JvExExtCtrls, JvExtComponent, JvPanel, Vcl.Grids,
+  Vcl.DBGrids, Data.DB, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+
+type
+  TfrmConsulta_Grupos = class(TForm)
+    JvPanel1: TJvPanel;
+    Timer1: TTimer;
+    Label1: TLabel;
+    edtLocalizar: TEdit;
+    StatusBar1: TStatusBar;
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    ActionList1: TActionList;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    eactExcluir1: TAction;
+    sqlGrupos: TZQuery;
+    dsGrupos: TDataSource;
+    sqlGruposid: TIntegerField;
+    sqlGruposprodutos_grupo: TWideStringField;
+    procedure Timer1Timer(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Grupos: TfrmConsulta_Grupos;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout;
+
+procedure TfrmConsulta_Grupos.btnNovoClick(Sender: TObject);
+begin
+  frm
+end;
+
+procedure TfrmConsulta_Grupos.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

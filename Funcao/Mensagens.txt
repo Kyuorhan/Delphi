@@ -1,0 +1,28 @@
+interface
+
+uses
+
+procedure MostraMensagem(ATexto: String);
+procedure MostraAviso(ATexto: String);
+procedure MostraErro(ATexto: String);
+
+implementation
+
+procedure MostraMensagem(ATexto: String);
+begin
+  Application.MessageBox(PChar(ATexto), PChar(Application.Title),
+    MB_OK + MB_ICONINFORMATION);
+end;
+
+procedure MostraAviso(ATexto: String);
+begin
+  Application.MessageBox(PChar(ATexto), PChar(Application.Title),
+    MB_OK + MB_ICONWARNING);
+end;
+
+procedure MostraErro(ATexto: String);
+begin
+  Application.MessageBox(PChar(ATexto), PChar(Application.Title),
+    MB_OK + MB_ICONERROR);
+end;
+
