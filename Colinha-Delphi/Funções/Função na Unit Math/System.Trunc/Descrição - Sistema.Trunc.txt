@@ -1,0 +1,23 @@
+Sistema.Trunc
+
+
+Delphi
+function Trunc(X: Real): Int64;
+
+Propriedades:
+
+Tipo	 |  Visibilidade	|  Fonte	|  Unidade Pai
+Função	 |  Público		|  System.pas	|  Sistema Sistema
+
+
+
+Descrição
+
+Trunca[] um número real para um inteiro.
+
+No código Delphi, a função Trunc trunca um valor real para um valor do tipo inteiro. X é uma expressão real. Trunc retorna um valor Int64 que é o valor de X arredondado para zero.
+
+Se o valor truncado de X não estiver dentro da faixa Int64, uma exceção EInvalidOp será levantada.
+
+Nota: Por favor, considere verificar o tópico Rotinas de Arredondamento de Ponto Flutuante para obter mais informações sobre rotinas de arredondamento.
+

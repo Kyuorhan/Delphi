@@ -1,0 +1,39 @@
+SystemTruncate (Delfos)
+
+
+Código
+{
+This example shows how to truncate a file 
+after the position set by the last read statement.
+procedure TForm1.Button1Click(Sender TObject);
+var
+   f file of Integer;
+   i,j Integer;
+ begin
+   AssignFile(f,'TEST.INT');
+   Rewrite(f);
+   for i = 1 to 6 do
+     Write(f,i);
+   Writeln('File before truncation');
+   Reset(f);
+   while not Eof(f) do
+   begin
+     Read(f,i);
+     Writeln(i);
+   end;
+   Reset(f);
+   for i = 1 to 3 do
+     Read(f,j); { Read ahead three records. }
+
+   Truncate(f); { Cut file off here. }
+   Writeln;
+   Writeln('File after truncation');
+   Reset(f);
+   while not Eof(f) do
+   begin
+     Read(f,i);
+     Writeln(i);
+   end;
+   CloseFile(f);
+   Erase(f);
+ end;

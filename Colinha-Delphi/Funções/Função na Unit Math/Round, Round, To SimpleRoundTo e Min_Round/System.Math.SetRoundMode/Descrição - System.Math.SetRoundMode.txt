@@ -1,0 +1,38 @@
+System.Math.SetRoundMode
+
+
+
+Propriedades
+
+Tipo		|  Visibilidade		|  Fonte	 	|  Unidade 		|  Pai
+Função		|  Público		|  Sistema.Math.pas	|  Sistema.Matemática	|  Sistema.Matemática
+		|  			|  Sistema.Math.hpp 	|			|
+
+
+
+Descrição
+
+
+Define o modo de arredondamento para cálculos de pontos flutuantes.
+
+Ligue para o SetRoundMode para especificar como os problemas de arredondamento de números são tratados. O valor do modo de arredondamento determina certas regras que podem afetar o resultado. Com o modo de arredondamento padrão (), se X estiver exatamente na metade entre dois números inteiros, o resultado é sempre o número igual. rmNearest
+
+O modo de arredondamento pode ser qualquer um dos seguintes valores.
+
+
+----------------|-------------------------------------------------------|
+Valor		|  Significado						|
+		|							|
+----------------|-------------------------------------------------------|
+rmNearest	|  Rodadas para o valor inteiro mais próximo.		|
+----------------|-------------------------------------------------------|
+rmDown		|  Rodadas em direção ao infinito negativo.	 	|
+----------------|-------------------------------------------------------|
+rmUp		|  Rodadas em direção ao infinito positivo.	  	|
+----------------|-------------------------------------------------------|
+rmTruncate	|  Trunca o valor, arredondando números positivos	| 
+		|  para baixo e números negativos para cima.		|
+----------------|-------------------------------------------------------|
+
+
+

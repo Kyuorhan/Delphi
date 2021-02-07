@@ -1,0 +1,343 @@
+unit uConsulta_Clientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, JvExControls,
+  JvEmbeddedForms, Vcl.ComCtrls, Vcl.StdCtrls, JvgPage, Vcl.ToolWin,
+  Vcl.ActnMan, Vcl.ActnCtrls, JvExExtCtrls, JvExtComponent, JvPanel,
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnList, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, JvExDBGrids, JvDBGrid, JvExComCtrls, JvComCtrls, My_Layout,
+  Vcl.ImgList, Datasnap.DBClient, ZAbstractRODataset, ZAbstractDataset,
+  ZDataset,
+  Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls, JvExMask, JvToolEdit, ZSqlUpdate,
+  ACBrBase, ACBrSocket, ACBrCEP, frameLocalizar_Cliente;
+
+type
+  TfrmConsulta = class(TForm)
+    Timer1: TTimer;
+    StatusBar1: TStatusBar;
+    tbPesquisar: TJvPageControl;
+    tbsPesquisar: TTabSheet;
+    Panel1: TPanel;
+    ActionList1: TActionList;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    eactExcluir1: TAction;
+    JvPanel1: TJvPanel;
+    edtCidade: TEdit;
+    lbCidade: TLabel;
+    sqlClientes: TZQuery;
+    dsClientes: TDataSource;
+    dsCidades: TDataSource;
+    sqlCidades: TZQuery;
+    updCliente: TZUpdateSQL;
+    sqlCidadesid: TIntegerField;
+    sqlCidadescidade: TWideStringField;
+    sqlCidadesuf: TWideStringField;
+    sqlCidadescod_ibge: TWideStringField;
+    sqlClientesid: TIntegerField;
+    sqlClientesid_cidade: TIntegerField;
+    sqlClientesnome: TWideStringField;
+    sqlClientestipo: TWideStringField;
+    sqlClientessexo: TWideStringField;
+    sqlClientescpf: TWideStringField;
+    sqlClientesrg: TWideStringField;
+    sqlClientescep: TWideStringField;
+    sqlClientesinsc_estadual: TWideStringField;
+    sqlClientesendereco: TWideStringField;
+    sqlClientesnum_end: TWideStringField;
+    sqlClientescomplemento: TWideStringField;
+    sqlClientesbairro: TWideStringField;
+    sqlClientescelular: TWideStringField;
+    sqlClientestelefone: TWideStringField;
+    sqlClientesemail: TWideStringField;
+    sqlClientesdata_nascimento: TDateField;
+    sqlClientesdata_cadastro: TDateField;
+    sqlClientescidade: TWideStringField;
+    sqlClientesuf: TWideStringField;
+    JvDBGrid2: TJvDBGrid;
+    frameLocalizaCliente1: TframeLocalizaCliente;
+    procedure Timer1Timer(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure actNovo1Execute(Sender: TObject);
+    procedure actEditar1Execute(Sender: TObject);
+    procedure actExcluir1Execute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edtClientesChange(Sender: TObject);
+    procedure ListarClientes;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+    Texto_Cliente : String;
+    procedure SalvaCidade(ACodIbge: String);
+  public
+    { Public declarations }
+    procedure SalvarCEP(ACodIbge: String);
+  end;
+
+var
+  frmConsulta: TfrmConsulta;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadastro_Clientes, uFuncoes;
+
+
+procedure TfrmConsulta.actEditar1Execute(Sender: TObject);
+var
+  Consult: Integer;
+begin
+  frmCadastro_Cliente := TfrmCadastro_Cliente.Create(Self);
+  frmCadastro_Cliente.edtNome.Text := sqlClientesnome.AsString;
+  frmCadastro_Cliente.edtTipo.ItemIndex := frmCadastro_Cliente.edtTipo.Items.IndexOf
+    (sqlClientestipo.AsString);
+  frmCadastro_Cliente.edtTipoChange(frmCadastro_Cliente.edtTipo);
+
+  frmCadastro_Cliente.edtCPF.Text             := sqlClientescpf.Value;
+  frmCadastro_Cliente.edtSexo.Text            := sqlClientessexo.Value;
+  frmCadastro_Cliente.edtRG.Text              := sqlClientesrg.Value;
+  frmCadastro_Cliente.edtCEP.Text             := sqlClientescep.Value;
+  frmCadastro_Cliente.edtInsc_Estadual.Text   := sqlClientesinsc_estadual.Value;
+  frmCadastro_Cliente.edtInsc_Municipal.Text  := sqlClientesinsc_estadual.Value;
+  frmCadastro_Cliente.edtEnd.Text             := sqlClientesendereco.Asstring;
+  frmCadastro_Cliente.edtNumEnd.Text          := sqlClientesnum_end.Value;
+  frmCadastro_Cliente.edtBairro.Text          := sqlClientesbairro.Asstring;
+  frmCadastro_Cliente.edtTelefone.Text        := sqlClientestelefone.Value;
+  frmCadastro_Cliente.edtCelular.Text         := sqlClientescelular.Value;
+  frmCadastro_Cliente.edtEmail.Text           := sqlClientesemail.Value;
+  frmCadastro_Cliente.JvDateNascimento.Date   := sqlClientesdata_nascimento.Value;
+  frmCadastro_Cliente.JvDateCadastro.Date     := sqlClientesdata_cadastro.Value;
+
+  if frmCadastro_Cliente.ShowModal = mrOK then
+  begin
+
+    sqlClientes.Edit;
+    sqlClientesNome.Asstring            := frmCadastro_Cliente.edtNome.Text;
+    sqlClientesTipo.Asstring            := frmCadastro_Cliente.edtTipo.Text;
+    sqlClientesSexo.Value               := frmCadastro_Cliente.edtSexo.Text;
+    sqlClientesCPF.Value                := frmCadastro_Cliente.edtCPF.Text;
+    sqlClientesRG.Value                 := frmCadastro_Cliente.edtRG.Text;
+    sqlClientesCEP.Value                := frmCadastro_Cliente.edtCEP.Text;
+    sqlClientesInsc_Estadual.Value      := frmCadastro_Cliente.edtInsc_Estadual.Text;
+    //qlClientesInsc_Estadual.Value      := frmCliente.edtInsc_Municipal.Text;
+    sqlClientesEndereco.Value           := frmCadastro_Cliente.edtEnd.Text;
+    sqlClientesNum_End.Value            := frmCadastro_Cliente.edtNumEnd.Text;
+    sqlClientesBairro.Asstring          := frmCadastro_Cliente.edtBairro.Text;
+    sqlClientesCelular.Value            := frmCadastro_Cliente.edtCelular.Text;
+    sqlClientesTelefone.Value           := frmCadastro_Cliente.edtTelefone.Text;
+    sqlClientesEmail.Value              := frmCadastro_Cliente.edtEmail.Text;
+    sqlClientesData_Nascimento.Value    := frmCadastro_Cliente.JvDateNascimento.Date;
+    sqlClientesData_Cadastro.Value      := Date; // edtData.Date
+    // sqlClientesSalario.Value          := edtSalario.Value;
+    sqlClientes.Post;
+    sqlClientes.ApplyUpdates;
+
+
+    if Trim(frmCadastro_Cliente.edtCEP.Text) <> EmptyStr then
+    begin
+      for Consult := 0 to frmCadastro_Cliente.ACBrCEP.Enderecos.Count - 1 do
+      begin
+        sqlCidades.Edit;
+        sqlCidadescidade.Asstring
+          := frmCadastro_Cliente.ACBrCEP.Enderecos[Consult].Municipio;
+        sqlCidadesuf.Asstring
+          := frmCadastro_Cliente.ACBrCEP.Enderecos[Consult].UF;
+        sqlCidadescod_ibge.AsInteger
+          :=StrToInt(frmCadastro_Cliente.ACBrCEP.Enderecos[Consult].IBGE_Municipio);
+        sqlCidades.Post;
+        sqlCidades.ApplyUpdates;
+      end;
+    end;
+
+
+  end;
+end;
+
+procedure TfrmConsulta.actNovo1Execute(Sender: TObject);
+var
+  Consult: Integer;
+begin
+  frmCadastro_Cliente := TfrmCadastro_Cliente.Create(Self);
+  if frmCadastro_Cliente.ShowModal = mrOK then
+  begin
+    sqlClientes.Close;
+    sqlClientes.Open;
+
+    sqlClientes.Append;
+    sqlClientesnome.Asstring          := frmCadastro_Cliente.edtNome.Text;
+    sqlClientestipo.Asstring          := frmCadastro_Cliente.edtTipo.Text;
+    sqlClientessexo.Value             := frmCadastro_Cliente.edtSexo.Text;
+    sqlClientescpf.Value              := frmCadastro_Cliente.edtCPF.Text;
+    sqlClientesrg.Value               := frmCadastro_Cliente.edtRG.Text;
+    sqlClientescep.Value              := frmCadastro_Cliente.edtCEP.Text;
+    sqlClientesinsc_estadual.Value    := frmCadastro_Cliente.edtInsc_Estadual.Text;
+    sqlClientesinsc_estadual.Value    := frmCadastro_Cliente.edtInsc_Municipal.Text;
+    sqlClientesendereco.Value         := frmCadastro_Cliente.edtEnd.Text;
+    sqlClientesnum_end.Value          := frmCadastro_Cliente.edtNumEnd.Text;
+    sqlClientesbairro.Asstring        := frmCadastro_Cliente.edtBairro.Text;
+    sqlClientescelular.Value          := frmCadastro_Cliente.edtCelular.Text;
+    sqlClientestelefone.Value         := frmCadastro_Cliente.edtTelefone.Text;
+    sqlClientesemail.Value            := frmCadastro_Cliente.edtEmail.Text;
+    sqlClientesdata_nascimento.Value  := frmCadastro_Cliente.JvDateNascimento.Date;
+    sqlClientesdata_cadastro.Value    := Date; // edtData.Date
+    // sqlClientesSalario.Value          := edtSalario.Value;
+    sqlClientes.Post;
+    sqlClientes.ApplyUpdates;
+
+  end;
+  SalvarCep(frmConsulta.sqlCidadesCod_IBGE.AsString);
+  sqlCidades.ApplyUpdates;
+
+end;
+
+
+procedure TfrmConsulta.SalvarCEP(ACodIbge: String);
+var
+  Consult : Integer;
+begin
+  if Trim(frmCadastro_Cliente.edtCEP.Text) <> EmptyStr then
+  begin
+    for Consult := 0 to frmCadastro_Cliente.ACBrCEP.Enderecos.Count - 1 do
+    begin
+      sqlCidades.Append;
+      sqlCidadesCidade.AsString     := frmCadastro_Cliente.ACBrCEP.Enderecos
+      [Consult].Municipio;
+      sqlCidadesUF.AsString         := frmCadastro_Cliente.ACBrCEP.Enderecos
+      [Consult].UF;
+      sqlCidadesCod_IBGE.AsInteger  := StrToInt(frmCadastro_Cliente.ACBrCEP.Enderecos
+      [Consult].IBGE_Municipio);
+
+      sqlCidades.Post;
+      sqlCidades.ApplyUpdates;
+    end;
+  end;
+end;
+
+procedure TfrmConsulta.SalvaCidade(ACodIbge: String);
+var
+  Consult: Integer;
+begin
+  if Trim(frmCadastro_Cliente.edtCEP.Text) <> EmptyStr then
+  begin
+    if not sqlCidades.Locate('cod_ibge', ACodIbge, []) then
+    begin
+      sqlCidades.Append;
+      sqlCidadesID.AssTring         := frmCadastro_Cliente.edtID_Cidade.Text;
+      sqlCidadesCidade.Asstring     := frmCadastro_Cliente.edtCidade.Text;
+      sqlCidadesUF.Asstring         := frmCadastro_Cliente.edtUF.Text;
+      sqlCidadesCod_IBGE.AsString   := frmCadastro_Cliente.edtIBGE_Municipio.Text;
+      sqlCidades.ApplyUpdates;
+    end;
+  end;
+end;
+
+procedure TfrmConsulta.btnEditarClick(Sender: TObject);
+begin
+  //
+end;
+
+procedure TfrmConsulta.btnExcluirClick(Sender: TObject);
+begin
+  //
+end;
+
+procedure TfrmConsulta.btnNovoClick(Sender: TObject);
+begin
+  //
+end;
+
+procedure TfrmConsulta.edtClientesChange(Sender: TObject);
+begin
+  ListarClientes;
+end;
+
+procedure TfrmConsulta.actExcluir1Execute(Sender: TObject);
+var
+  Qry: TZQuery;
+begin
+  Qry := TZQuery.Create(Self);
+  Qry.Connection := frmPrincipal.ZConnection1;
+  Qry.SQL.Text := 'SELECT COUNT(*) AS qtde FROM contas_receber ' +
+    'WHERE id_cliente = ' + sqlClientesid.AsString;
+  Qry.Open;
+
+  if StrToIntDef(Qry.Fields[0].Asstring, 0) = 0 then
+  begin
+    if Application.MessageBox('Deseja realmente "Excluir" o registro?',
+      'Geral - Cliente', MB_YESNO) = mrYes then
+    begin
+      try
+        sqlClientes.Delete;
+        sqlClientes.ApplyUpdates;
+        MostraMensagem('Registro excluido com "Sucesso!"');
+
+      except
+        on E: Exception do
+          raise Exception.Create('Error ao "Excluir" o registro!' + E.Message);
+      end;
+    end
+  end
+  else
+    MostraAviso
+      ('Este cliente possui registros no contas a Receber e não pode ser excluído.');
+  Qry.Free
+end;
+
+procedure TfrmConsulta.FormCreate(Sender: TObject);
+begin
+  Texto_Cliente := sqlClientes.SQL.Text;
+end;
+
+procedure TfrmConsulta.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+procedure TfrmConsulta.FormShow(Sender: TObject);
+begin
+  JvDBGrid2.SetFocus;
+  ListarClientes;
+end;
+
+procedure TfrmConsulta.ListarClientes;
+var
+  Texto : String;
+begin
+
+  Texto := Texto_Cliente + 'WHERE c.id > 0';
+  //Texto := 'SELECT * from clientes c INNER JOIN cidades cid ON cid.id = c.id  WHERE c.id > 0';
+  if edtClientes.Text <> '' then
+    Texto := Texto + ' AND c.nome LIKE ' + Quotedstr(edtClientes.Text + '%');
+    //Texto := Texto_Cliente + ' ORDER BY nome';
+  if edtCidade.Text <> '' then
+    Texto := Texto + ' AND cid.cidade LIKE ' + Quotedstr(edtCidade.Text + '%');
+  sqlClientes.SQL.Text := Texto;
+  sqlClientes.Open;
+end;
+
+procedure TfrmConsulta.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

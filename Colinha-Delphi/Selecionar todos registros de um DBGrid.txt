@@ -1,0 +1,24 @@
+Para Selecionar todos os registros de um DBGrid antes de tudo deve-se setar
+a opção Multiselect do DBGrid como "true" .
+
+procedure TForm1.btMarcaTodosClick(Sender: TObject);
+var
+vlLinha: Integer;
+begin
+with DBGrid.DataSource.DataSet do
+begin
+First;
+for vlLinha := 0 to RecordCount - 1 do
+begin
+DBGrid.SelectedRows.CurrentRowSelected := True;
+Next;
+end;
+end;
+DBGrid.SelectedRows.Refresh;
+end;
+
+Para Desmarcar todos os registros troque:
+DBGrid.SelectedRows.CurrentRowSelected := True;
+por
+DBGrid.SelectedRows.CurrentRowSelected := False;
+ 

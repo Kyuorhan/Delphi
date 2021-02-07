@@ -1,0 +1,32 @@
+System.Reset
+
+
+Delphi
+procedure Reset(var F: File; [ RecSize: Integer]); overload;
+procedure Reset(var F: File; [ RecSize: Integer]); overload;
+
+
+
+Descrição
+Abre um arquivo existente.
+
+No código Delphi, o Reset abre o arquivo externo existente com o nome atribuído a F usando o modo especificado pela variável Global FileMode. Um erro resulta se nenhum 
+arquivo externo existente do nome indicado existir ou se o arquivo não puder ser aberto com o modo de arquivo atual. Se F já está aberto, é primeiro fechado e depois 
+reaberto. A posição atual do arquivo está definida para o início do arquivo.
+
+Aviso: O valor padrão do FileMode é 2 (acesso leitura/gravação). Se isso não for alterado para um modo de arquivo somente leitura antes de chamar de Reset,as tentativas 
+de abrir arquivos somente leitura falharão.
+
+F é uma variável de qualquer tipo de arquivo associado a um arquivo externo usando AssignFile. RecSize é uma expressão opcional que só pode ser especificada se F for 
+um arquivo não digitado. Se F for um arquivo não digitado, o RecSize especifica o tamanho do registro a ser usado em transferências de dados. Se o RecSize for omitido, 
+um tamanho de registro padrão de 128 bytes é assumido. Se for igual ou inferior a 0, causa um erro de 106 I/O. RecSize
+
+Se F for atribuído um nome vazio, como AssignFile(F, ''), após a chamada para Reset,F refere-se ao arquivo de entrada padrão.
+
+Se F for um arquivo de texto, F se torna somente leitura.
+
+Após uma chamada para redefinir,Eof(F) é True se o arquivo estiver vazio; caso contrário, Eof(F) é Falso.
+
+Se algum erro de I/O acontecer, o Reset fechará o arquivo. Você não precisa ligar para o CloseFile.
+
+Nota: {$I+} lida com erros de tempo de execução usando exceções. Ao usar {$I-}, use IOResult para verificar se há erros de I/O.

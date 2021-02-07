@@ -1,0 +1,50 @@
+unit uSys_Controll;
+
+interface
+
+uses uConexao;
+
+type
+  TSys_Controll = Class
+  private
+    FConexao : TModelConexaoZeos;
+
+    Class var FInstance : TSys_Controll;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    class function GetInstace : TSys_Controll;
+
+    property Conexao : TModelConexaoZeos read FConexao  write FConexao;
+  end;
+
+implementation
+
+uses
+  System.SysUtils;
+
+{ TSys_Controll }
+
+constructor TSys_Controll.Create;
+begin
+  FConexao := TModelConexaoZeos.Create;
+end;
+
+destructor TSys_Controll.Destroy;
+begin
+  FreeAndNil(FConexao);
+  inherited;
+end;
+
+class function TSys_Controll.GetInstace: TSys_Controll;
+begin
+  if not Assigned(Self.FInstance) then
+  begin
+    Self.FInstance := TSys_Controll.Create();
+  end;
+
+end;
+
+end.

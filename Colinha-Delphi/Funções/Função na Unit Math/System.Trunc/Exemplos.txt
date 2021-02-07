@@ -1,0 +1,28 @@
+Este exemplo demonstra como a função Trunc opera em vários números reais.
+
+Código: 
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+   S, T: string;
+begin
+   Str(1.4:2:1, T);
+   S := T + ' Truncs to ' + IntToStr(Trunc(1.4)) + #13#10;
+   Str(1.5:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(1.5)) + #13#10;
+   Str(1.6:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(1.6)) + #13#10;
+   Str(-1.4:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(-1.4)) + #13#10;
+   Str(-1.5:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(-1.5)) + #13#10;
+   Str(-1.6:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(-1.6)) + #13#10;
+   Str(2.5:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(2.5)) + #13#10;
+   Str(-2.5:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(-2.5)) + #13#10;
+   Str(-2.6:2:1, T);
+   S := S + T + ' Truncs to ' + IntToStr(Trunc(-2.6));
+   MessageDlg(S, mtInformation, [mbOk], 0, mbOk);
+end;

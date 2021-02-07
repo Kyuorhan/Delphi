@@ -1,0 +1,24 @@
+Função para formatar strings
+
+
+{ Função muito útil para a geração de arquivos de texto para diversos layouts. Para utilizar a função é necessário criar um tipo enumerado.
+  TLocal = (lcLeft, lcRight, lcCenter); Como usar a função:
+O primeiro parametro é a String a ser formatada, o segundo é o caracter que irá preencher a string, o terceiro indica o tamanho
+da string a ser retornada, e o quarto indica a posição do preenchimento.   }
+function StrFormat(AText, Caracter: String; Size: Word; Local: TLocal): String;
+var
+  X: Integer;
+begin
+  Result := Copy(AText, 1, Size);
+  for X := Length( AText ) to Size - 1 do
+  begin
+    case Local of
+      lcLeft: Result := Caracter + Result;
+      lcRight: Result := Result + Caracter;
+      lcCenter: if (X mod 2) = 0 then
+                  Result := Result + Caracter
+                else
+                  Result := Caracter + Result;
+    end;
+  end;
+end;

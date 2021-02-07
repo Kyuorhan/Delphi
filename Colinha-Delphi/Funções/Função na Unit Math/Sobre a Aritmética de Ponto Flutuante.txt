@@ -1,0 +1,129 @@
+Sobre a Aritmética de Ponto Flutuante
+
+Vá para o uso de rotinas de ponto flutuante
+
+Trabalhar com números de pontos flutuantes requer a compreensão da representação interna dos dados. Os programadores devem estar cientes das questões finitas de precisão:
+
+	-Para valores integrais (tipos inteiros), você deve considerar a possibilidade de estouro.
+	-Para valores de ponto flutuante (precisão única, dupla ou estendida), você deve considerar a possibilidade de perda de precisão.
+
+
+
+Implicações de precisão finita
+
+
+A perda de precisão de ponto flutuante pode ser o resultado de múltiplas causas:
+
+	-Se você atribuir um ponto flutuante literal (por exemplo: 0.1) a uma variável de ponto flutuante, a variável ponto flutuante pode não ter bits suficientes para 
+	segurar o valor desejado sem introduzir algum erro. O ponto flutuante literal pode exigir um número muito grande ou até mesmo um número infinito de bits para 
+	representação de precisão infinita.
+
+
+	uses
+	  System.SysUtils;
+	var
+	  X: Single;
+	  Y: Double;
+	begin
+  	  X := 0.1;
+	  Y := 0.1;
+	  Writeln('X =', X);
+	  Writeln('Y =', Y);
+	  Writeln(Format('Exponent X: %x', [X.Exp]));
+	  Writeln(Format('Mantissa Y: %x', [Y.Mantissa]));
+	  ReadLn;
+	end.
+
+Saída do console:
+
+	X = 1.00000001490116E-0001
+	Y = 1.00000000000000E-0001
+
+	Exponent Y: 3FB
+
+	Mantissa Y: 1999999999999A
+
+A partir do código acima, você pode ver o erro no nono dígito da representação de precisão única. A representação de dupla precisão também tem o erro. Para demonstrar 
+esse erro, vamos usar o Expoente bruto e Mantissa do número de dupla precisão. O Expoente Hexadecimal tem a representação decimal. Uma vez que a representação 
+interna dos números duplos tem o viés igual a 1023, então . A Hexadecimal Mantissa tem a representação binária. Portanto, a representação binária de Y é ou . 
+Observe que este número é a aproximação de dupla precisão. O número exato é representado como a fração recorrente infinita.
+
+$3FB1019Exponent = 1019 - 1023 = -4$1999999999999A110011001100110011001100110011001100110011001100110101.1001100110011001100110011001100110011001100110011010*2-40.00011001100110011001100110011001100110011001100110011010*2-40.10.0(0011)
+
+Vale ressaltar, no entanto, que o erro máximo que pode ser produzido dessa forma é de 0,5 ulps.
+
+	-Se você executar operações de ponto flutuante, cada etapa (operação) pode introduzir seu erro específico. Isso acontece porque, no caso de algumas operações, 
+	o resultado computado não pode ser armazenado com total precisão. Por exemplo, se você multiplicar dois números, bits S1 com bits S2 (isso é verdade para tipos 
+	integrais e para tipos de pontos flutuantes), então o resultado requer bits S1 + S2 para precisão completa.
+
+	A "quantidade" de erro introduzida por uma operação depende do modelo do processador e do tipo de operação. As operações aditivas introduzem um erro 
+	relativamente baixo. A multiplicação introduz um erro relativamente alto.
+
+
+É importante entender que a perda de precisão de ponto flutuante (erro) é propagada através de cálculos e é papel do programador projetar um algoritmo que, no entanto, 
+está correto.
+
+Uma variável de ponto flutuante pode ser considerada como uma variável inteiro com um poder de duas escalas. Se você "forçar" a variável ponto flutuante a um valor 
+extremo, a escala será automaticamente ajustada. É por isso que você pode ter a impressão de que uma variável de ponto flutuante não pode transbordar. E é de fato 
+verdade, mas, por outro lado, há outras ameaças: uma variável de ponto flutuante pode acumular um erro significativo e/ou se tornar desnormalizada.	
+
+
+
+
+Usando tipos de dados maiores
+
+A maneira mais fácil de resolver o problema do transbordamento inteiro ou da queda de precisão de ponto flutuante (efeitos de precisão finito, em geral) é usar 
+tipos de dados da mesma classe (ponto integral ou flutuante), mas com maior capacidade. Ou seja, se um ShortInt transbordar, então você pode facilmente mudar 
+para um LongInt, FixedInt ou Int64. Da mesma forma, se um único flutuador de precisão não fornecer precisão suficiente, então você pode mudar para um 
+flutuador de dupla precisão. Mas há duas coisas a considerar:
+
+-O tipo de dados com mais capacidade de armazenamento ainda pode ser insuficiente.
+-O tipo de dados com mais capacidade de armazenamento requer mais memória e, possivelmente, mais ciclos de CPU em operações.
+
+
+Configurações de controle
+
+Na plataforma de 32 bits, a palavra de controle x87 FPU (CW) tem dois bits alocados para especificar o modo de arredondamento. Consulte o Campo manual do desenvolvedor 
+de software Intel® 64 e IA-32. Para programas de 64 bits, o registro de controle SSE, MSXCSR, especifica o modo de arredondamento. Você pode alterá-los com a ajuda 
+de System.Math.SetRoundMode.
+
+Algumas funções RTL que operam com variáveis de ponto flutuante podem ser afetadas pelo modo de arredondamentoda FPU . A natureza exata das mudanças nos resultados 
+das rotinas de RTL baseadas na palavra de controle fpu depende dos algoritmos que estão sendo implementados. O arredondamento terá efeitos em todas as operações que 
+precisam de arredondamento para encaixar o resultado no tipo de destino, por exemplo, a multiplicação de pontos flutuantes quase sempre envolverá arredondamento. 
+Se uma função consiste em muita multiplicação de ponto flutuante, ela será fortemente afetada pelo modo de arredondamento.
+
+O modo de arredondamento às vezes é usado para implementar aritmética de intervalo: aproximadamente falando, fazendo o mesmo algoritmo com um modo redondo de up, 
+em seguida, repetindo-o com um modo redondo de baixo, e, em seguida, vendo a diferença entre os dois resultados. Isso dá uma ideia do erro potencial introduzido 
+pelo arredondamento e imprecisão.
+
+
+Casos de uso
+
+Cálculos Financeiros
+
+O ponto flutuante do IEEE pode ser inapropriado para cálculos financeiros. Isso porque os requisitos de precisão geralmente são muito rigorosos. Você deve considerar o uso de tipos integrais (inteiros primitivos ou moeda) ou tipos BCD.
+
+A unidade Data.FmtBcd fornece suporte para operações bcd. O formato BCD tem o seguinte recurso importante: cada dígito decimal (radix 10 dígitos) é codificado com 4 bits de memória (um mordisco).
+
+O código a seguir mostra como usar um valor TBcd como uma variante, por conveniência:
+
+Delphi:
+
+var
+  X: Variant;
+
+begin
+  X := VarFMTBcdCreate('0.1', 16 { Precision }, 2 { Scale });
+  Writeln(VarToStr(X));
+
+  // ...
+
+Saída do console:
+
+1.00000000000000E-0001
+0.00000000000000E+0000
+Você pode ver a implementação C++ da Moeda em . $BDS\include\rtl\syscurr.h
+
+O intervalo de moeda é [-922337203685477.5807; 922337203685477.5807].
+
+

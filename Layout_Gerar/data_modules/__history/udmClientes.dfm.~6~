@@ -1,0 +1,40 @@
+object dmCliente: TdmCliente
+  OldCreateOrder = False
+  Height = 326
+  Width = 404
+  object sqlCliente: TZQuery
+    Connection = dmPrincipal.DBase
+    Active = True
+    SQL.Strings = (
+      'SELECT * FROM clientes')
+    Params = <>
+    Left = 48
+    Top = 32
+    object sqlClienteid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlClientenome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlClientesexo: TWideStringField
+      FieldName = 'sexo'
+    end
+    object sqlClienteendereco: TWideStringField
+      FieldName = 'endereco'
+      Size = 50
+    end
+    object sqlClientenum_end: TWideStringField
+      FieldName = 'num_end'
+    end
+    object sqlClientedata_nascimento: TDateField
+      FieldName = 'data_nascimento'
+    end
+  end
+  object dsClientes: TDataSource
+    DataSet = sqlCliente
+    Left = 48
+    Top = 88
+  end
+end

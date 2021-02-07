@@ -1,0 +1,155 @@
+unit uCaixas_Movimentos_Cadastro;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.DBCtrls, JvToolEdit,
+  Vcl.ExtCtrls, Vcl.Mask, JvExMask, JvBaseEdits, JvDBControls, Vcl.ComCtrls;
+
+type
+  TOperacaoCaixa = (ocAbertura, ocFechamento);
+
+  TfCaixas_Movimentos_Cadastro = class(TForm)
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    lbData: TLabel;
+    lbHistorico: TLabel;
+    btnVoltar: TButton;
+    btnSalvar: TButton;
+    edtHistorico: TEdit;
+    lbValor: TLabel;
+    lbPlano_Contas: TLabel;
+    lbConta_Caixa: TLabel;
+    edtPlano_Contas: TDBEdit;
+    edtCaixa_Abert: TDBLookupComboBox;
+    edtValor: TJvDBCalcEdit;
+    edtData: TJvDBDateEdit;
+    procedure edtPlanos_ContasKeyPress(Sender: TObject; var Key: Char);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edtCaixa_AbertClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    OperacaoCaixa: TOperacaoCaixa;
+  end;
+
+var
+  fCaixas_Movimentos_Cadastro: TfCaixas_Movimentos_Cadastro;
+
+implementation
+
+{$R *.dfm}
+
+uses uFuncoes_Gerais, udmCaixa, uPlano_Contas_Pesquisa, ZDataSet, udmPrincipal;
+
+procedure TfCaixas_Movimentos_Cadastro.btnSalvarClick(Sender: TObject);
+begin
+  if OperacaoCaixa = ocFechamento then
+  begin
+    Exit;
+  end;
+
+  dmPrincipal.qTemp.SQL.Text := 'SELECT * FROM caixas_aberturas' + ' WHERE id = '
+    + IntToStr(edtCaixa_Abert.KeyValue) + ' AND situacao = "F" ';
+  dmPrincipal.qTemp.Open;
+
+  // - Não permitir fazer movimentos em caixa que não esteja aberto
+  if  (dmPrincipal.qTemp.FieldByName('situacao').AsAnsiString = 'F') then
+  begin
+    MostraMensagem('Ja existe um caixa fechado no dia: '
+      + dmCaixa.sqlCaixas_Aberturas.FieldByName('data_hora_fecham').AsString);
+    edtCaixa_Abert.SetFocus;
+    Exit;
+  end;
+
+  if (dmCaixa.sqlCaixas_Movimentos.FieldByName('situacao').AsString = 'I') then
+  begin
+
+    MostraMensagem('Este caixa já está Inativo!');
+    Exit;
+  end;
+
+  if (edtValor.Value <= 0.00) or (edtValor.Value <= 0) then
+  begin
+    MostraAviso('O valor deve ser Inserido!');
+    edtValor.SetFocus;
+    Exit;
+  end;
+
+  if StrToDateDef(edtData.Text, 0) = 0 then
+  begin
+    MostraAviso('A Data do Lançamento deve ser Inserido!');
+    edtData.SetFocus;
+    Exit;
+  end;
+
+  if (edtHistorico.Text = '') then
+  begin
+    MostraAviso('O historico deve ser Preenchido!');
+    edtHistorico.SetFocus;
+    Exit;
+  end;
+
+  if (edtCaixa_Abert.Text = '') then
+  begin
+    MostraAviso('O caixa deve ser Selecionado!');
+    edtCaixa_Abert.SetFocus;
+    Exit;
+  end;
+
+  dmCaixa.sqlCaixas_MovimentosCaixa.AsString := edtCaixa_Abert.Text;
+  ModalResult := mrOk;
+end;
+
+procedure TfCaixas_Movimentos_Cadastro.btnVoltarClick(Sender: TObject);
+begin
+  Close
+end;
+
+procedure TfCaixas_Movimentos_Cadastro.edtCaixa_AbertClick(Sender: TObject);
+begin
+  dmCaixa.sqlCaixas_MovimentosEntrada.Value       := dmCaixa.sqlCaixas_AberturasEntradas.Value;
+  dmCaixa.sqlCaixas_MovimentosSaida.Value         := dmCaixa.sqlCaixas_AberturasSaidas.Value;
+
+end;
+
+procedure TfCaixas_Movimentos_Cadastro.edtPlanos_ContasKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = '+' then
+  begin
+    Key := #0;
+    fPlanos_Contas_Pesquisa := TfPlanos_Contas_Pesquisa.Create(nil);
+    fPlanos_Contas_Pesquisa.ShowModal;
+    dmCaixa.sqlCaixas_MovimentosPlano_Contas_ID.AsString := dmCaixa.sqlPlano_contasID.AsString;
+    edtPlano_Contas.Text := dmCaixa.sqlPlano_contasPlano_Contas.AsString;
+    FreeAndNil(fPlanos_Contas_Pesquisa);
+  end;
+end;
+
+procedure TfCaixas_Movimentos_Cadastro.FormKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+procedure TfCaixas_Movimentos_Cadastro.FormShow(Sender: TObject);
+begin
+  PageControl1.ActivePageIndex := 0;  // Dxar em branco campo
+end;
+
+end.

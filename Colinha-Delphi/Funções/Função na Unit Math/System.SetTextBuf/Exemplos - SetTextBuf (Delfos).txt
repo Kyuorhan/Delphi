@@ -1,0 +1,31 @@
+SetTextBuf (Delfos)
+
+
+Descrição
+
+Este exemplo lê um arquivo em um buffer e, em seguida, despeja o buffer em um novo arquivo, WOOF. Cão.
+
+Código
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  F, FTwo: System.TextFile;
+  Ch: Char;
+  Buf: array[1..4096] of Char;  { 4K buffer }
+begin
+  if OpenDialog1.Execute then
+  begin
+    AssignFile(F, OpenDialog1.FileName);
+    { Larger buffer for a faster reading }
+    System.SetTextBuf(F, Buf);
+    Reset(F);
+    { Dump text file into another file. }
+    AssignFile(FTwo, 'WOOF.DOG');
+    Rewrite(FTwo);
+    while not Eof(f) do
+    begin
+      Read(F, Ch);
+      Write(FTwo, Ch);
+    end;
+    System.CloseFile(F);
+    System.CloseFile(FTwo);
+  end;

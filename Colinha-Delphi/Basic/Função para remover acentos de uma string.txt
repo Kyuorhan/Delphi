@@ -1,0 +1,30 @@
+
+Função para remover acentos de uma string
+
+
+
+
+
+// RemoveAcento( Texto )
+
+function RemoveAcento(aText : string) : string;
+const
+  ComAcento = 'àâêôûãõáéíóúçüñýÀÂÊÔÛÃÕÁÉÍÓÚÇÜÑÝ';
+  SemAcento = 'aaeouaoaeioucunyAAEOUAOAEIOUCUNY';
+var
+  x: Cardinal;
+begin;
+  for x := 1 to Length(aText) do
+  try
+    if (Pos(aText[x], ComAcento) <> 0) then
+      aText[x] := SemAcento[ Pos(aText[x], ComAcento) ];
+  except on E: Exception do
+    raise Exception.Create('Erro no processo.');
+  end;
+
+  Result := aText;
+end;
+
+
+{ Exemplo de uso }
+ShowMessage(  RemoveAcento('Árvore')  );

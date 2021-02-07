@@ -1,0 +1,55 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Menus,
+  uPlano_Contas_Pesquisa, Vcl.ImgList;
+
+type
+  TfPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    Caiuxa1: TMenuItem;
+    MovimentodeCaixa1: TMenuItem;
+    PlanodeContas1: TMenuItem;
+    CadastrodeCaixas1: TMenuItem;
+    AberturaFechamentodeCaixa1: TMenuItem;
+    Panel1: TPanel;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    Relatrios1: TMenuItem;
+    MovimentodoCaixa1: TMenuItem;
+    procedure CadastrodeCaixas1Click(Sender: TObject);
+    procedure PlanodeContas1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fPrincipal: TfPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses uCaixas_Pesquisa;
+
+procedure TfPrincipal.CadastrodeCaixas1Click(Sender: TObject);
+begin
+  fCaixas_Pesquisa := TfCaixas_Pesquisa.Create(Self);
+  fCaixas_Pesquisa.ShowModal;
+  FreeAndNil(fCaixas_Pesquisa);
+end;
+
+procedure TfPrincipal.PlanodeContas1Click(Sender: TObject);
+begin
+  fPlanos_Contas_Pesquisa := TfPlanos_Contas_Pesquisa.Create(Self);
+  fPlanos_Contas_Pesquisa.ShowModal;
+  FreeAndNil(fPlanos_Contas_Pesquisa);
+end;
+
+end.

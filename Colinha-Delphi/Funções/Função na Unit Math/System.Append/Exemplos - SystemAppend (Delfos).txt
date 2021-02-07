@@ -1,0 +1,22 @@
+Descrição
+
+Clique no botão e selecione um arquivo para anexar uma sequência na parte inferior do arquivo.
+
+
+Código
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  f: TextFile;
+begin
+  if OpenDialog1.Execute then
+  begin                    { open a text file }
+    AssignFile(f, OpenDialog1.FileName);
+    Append(f);
+    Writeln(f, 'I am appending some stuff to the end of the file.'); 
+    { Insert code here that would require a Flush before closing the file. }
+    Flush(f);  { Ensures that the text was actually written to file. }
+    CloseFile(f);
+    MessageDlg(OpenDialog1.FileName + ' has been altered, please validate.', mtInformation, [mbOK], 0)
+  end;
+end;

@@ -1,0 +1,23 @@
+System.Seek
+
+
+
+
+Delphi
+procedure Seek(var F: File; N: Integer);
+
+
+Descrição
+
+
+Move a posição atual de um arquivo para um componente especificado.
+
+Use o código Seek in Delphi para mover-se para uma posição especificada em arquivos digitados ou não digitados. A posição atual do arquivo F se move para o número 
+do componente N, onde o número do primeiro componente de um arquivo é 0.
+
+Na sintaxe acima, é uma variável de arquivo digitado ou não digitado. O arquivo especificado por F deve estar aberto. é uma expressão do tipo Cardeal. FN
+
+Para expandir um arquivo, procure um componente além do último componente; ou seja, a instrução Seek(F, FileSize(F)) move a posição atual do arquivo para o final 
+do arquivo.
+
+Nota: {$I+} lida com erros de tempo de execução usando exceções. Ao usar {$I-}, use IOResult para verificar se há erros de I/O.

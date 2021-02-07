@@ -1,0 +1,26 @@
+System.Rewrite
+
+
+Delphi
+procedure Rewrite(var F: File; [ RecSize: Integer]); overload;
+procedure Rewrite(var F: File; [ RecSize: Integer]); overload;
+
+
+Descrição
+Cria um novo arquivo e o abre.
+
+No código Delphi, Rewrite cria um novo arquivo externo com o nome atribuído a F.
+
+F é uma variável de qualquer tipo de arquivo associado a um arquivo externo usando AssignFile. RecSize é uma expressão opcional que só pode ser especificada se F for um arquivo não digitado. Se F for um arquivo não digitado, o RecSize especifica o tamanho do registro a ser usado em transferências de dados. Se o RecSize for omitido, um tamanho de registro padrão de 128 bytes é assumido. Se for igual ou inferior a 0, causa um erro de 106 I/O. RecSize
+
+Se um arquivo externo com o mesmo nome já existir, ele será excluído e um novo arquivo vazio será criado em seu lugar.
+
+Se F já está aberto, ele é primeiro fechado e depois recriado. A posição atual do arquivo está definida para o início do arquivo vazio.
+
+Se F foi atribuído um nome vazio, como AssignFile(F, ''), depois da chamada para Reescrever,F refere-se ao arquivo de saída padrão.
+
+Depois de chamar Rewrite, Eof(F) é sempre Verdade.
+
+Se algum erro de I/O acontecer, Rewrite fecha o arquivo. Você não precisa ligar para o CloseFile.
+
+Nota: {$I+} lida com erros de tempo de execução usando exceções. Ao usar {$I-}, use iOResult para verificar se há erros de I/O.

@@ -1,0 +1,130 @@
+unit uVenda_Pedidos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, JvToolEdit, Vcl.Grids,
+  Vcl.DBGrids, JvExDBGrids, JvDBGrid, Vcl.Mask, JvExMask, JvBaseEdits,
+  Vcl.ExtCtrls, Vcl.ActnList, Vcl.ComCtrls, Vcl.Buttons, JvExExtCtrls,
+  JvExtComponent, JvPanel;
+
+type
+  TfrmVendas_Pedidos = class(TForm)
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    StatusBar1: TStatusBar;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    Timer1: TTimer;
+    BalloonHint1: TBalloonHint;
+    JvPanel1: TJvPanel;
+    edtTotal_Produto: TJvCalcEdit;
+    Label4: TLabel;
+    edtDescont: TJvCalcEdit;
+    Label3: TLabel;
+    edtDescont_Valor: TJvCalcEdit;
+    lbDesconto_Valor: TLabel;
+    edtTotal_Pagar: TJvCalcEdit;
+    Label1: TLabel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    JvDBGrid2: TJvDBGrid;
+    edtData: TJvDateEdit;
+    Label2: TLabel;
+    edtID_Vendedor: TEdit;
+    edtVendedor: TEdit;
+    Label6: TLabel;
+    Label5: TLabel;
+    edtClientes: TEdit;
+    lbect1: TLabel;
+    Label7: TLabel;
+    edtID_Cliente: TEdit;
+    procedure edtTotal_ProdutoChange(Sender: TObject);
+    procedure edtDescontExit(Sender: TObject);
+    procedure edtDescont_ValorExit(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmVendas_Pedidos: TfrmVendas_Pedidos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmVendas_Pedidos.edtDescontExit(Sender: TObject);
+var
+  Total_Produto, Desc : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  Desc := edtDescont.Value;
+
+  if not (Desc <= 0.00) then
+  begin
+    edtDescont_Valor.Value := ((Desc * Total_Produto)/ 100);
+    edtTotal_Pagar.Value := (Total_Produto - edtDescont_Valor.Value);
+  end;
+
+  if (edtTotal_Pagar.Value < 0.00) then
+  begin
+    edtTotal_Pagar.Value    := 0.00;
+    Exit;
+  end;
+end;
+
+procedure TfrmVendas_Pedidos.edtDescont_ValorExit(Sender: TObject);
+var
+  Total_Produto, Desc_Valor : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  Desc_Valor    := edtDescont_Valor.Value;
+
+  if not (Desc_Valor <= 0.00) then
+  begin
+    edtDescont.Value      := ((Desc_Valor / Total_Produto)* 100);
+    edtTotal_Pagar.Value  := (Total_Produto - Desc_Valor);
+  end;
+
+  if (edtTotal_Pagar.Value < 0.00) then
+  begin
+    edtTotal_Pagar.Value := 0.00;
+    Exit
+  end;
+
+end;
+
+procedure TfrmVendas_Pedidos.edtTotal_ProdutoChange(Sender: TObject);
+var
+  Total_Produto : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  if (edtDescont.Value <= 0.00) then
+  begin
+    edtTotal_Pagar.Value := edtTotal_Produto.Value;
+    if (edtDescont_Valor.Value <= 0.00) then
+    begin
+      edtTotal_Pagar.Value := edtTotal_Produto.Value;
+      Exit;
+    end;
+    Exit;
+  end;
+
+  if (edtDescont.Value <> 0.00) or (edtDescont_Valor.Value <> 0.00) then
+  begin
+    edtDescont.Value        := 0.00;
+    edtDescont_Valor.Value  := 0.00;
+  end;
+end;
+
+end.

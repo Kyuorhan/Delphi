@@ -1,0 +1,20 @@
+function CLRDIG(Texto :String):String;
+var
+I: integer;
+S: string;
+Virgula : Boolean;//Pra verificar se ja Possui virgula
+begin
+S := '';
+Virgula:=False;
+
+for I := 1 To Length(Texto) Do
+begin
+if (Texto[I] in ['0'..'9']) or ((Texto[I] in [',']) and (Virgula<>True)) then
+begin
+if (Texto[I] in [',']) then Virgula:=True;
+S := S + Copy(Texto, I, 1);
+end;
+end;
+
+result := S;
+end;

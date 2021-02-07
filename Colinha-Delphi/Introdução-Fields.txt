@@ -1,0 +1,133 @@
+A Função FieldByName( )
+
+FieldByName( ) aceita um parâmetro de string que retorna o valor de algum campo no registro atual do DataSet. Estou fazendo referência a Classe TDataSet em um contexto geral, ou seja, TDBEDataSet é descendente de TDataSet, portanto 
+qualquer componente descendente do mesmo, como o TTable, para fins de explicação deste, trato como simplesmente DataSet.
+
+Um exemplo para a sintaxe básica para a chamada do método FieldByName seria:
+
+Table1.FieldByName('NomeCampo').AsX
+
+Considerando que, Table1 é um componente descendente de TDataSet. ...('NomeCampo') é o nome do campo ao qual você quer se referir e AsX é uma propriedade para acessar campos de um componente TField, retornando um valor de determinado tipo. 
+As propriedades AsX e seus respectivos valores de retorno seguem abaixo:
+
+ Propriedade	Tipo de Retorno
+ AsBoolean	 Boolean 
+ AsString	 String
+ AsInteger	 LongInt
+ AsFloat	 Double
+ AsDateTime	 TDateTime
+ AsValue	 Variant
+ 
+Exemplo 1 - Uso de FieldByName( )
+procedure TForm1.Button1Click(Sender: TObject);
+Var
+ S: String;
+ I: Integer;
+begin
+ S := Table1.FieldByName('Nome').AsString;
+ I := Table1.FieldByName('Codigo').AsInteger;
+ ShowMessage(S);
+ ShowMessage(IntToStr(I));
+End;
+
+Para o uso de FieldByName é necessário que se saiba o tipo de campo que se está acessando, para tal, procure a propriedade DataType de TField que indica o tipo de dados com relação à Tabela do Banco de Dados. A propriedade DataType é de 
+TFieldType que é definido da seguinte forma:
+
+type
+TFieldType = (ftUnknown, ftString, ftSmallint, ftInteger, ftWord,ftBoolean, ftFloat, ftCurrency, ftBCD, ftDate, ftTime, ftDateTime, ftBytes, ftVarBytes, ftAutoInc, ftBlob, ftMemo, ftGraphic, ftFmtMemo, ftParadoxOle, ftDBaseOle, ftTypedBinary, 
+ftCursor, ftFixedChar, ftWideString,ftLargeint, ftADT, ftArray, ftReference, ftDataSet, ftOraBlob, ftOraClob, ftVariant, ftInterface, ftIDispatch, ftGuid, ftTimeStamp, ftFMTBcd);
+
+A Propriedade Fields[ ]
+
+A Propriedade de Array Fields[ ] é baseado em zero com Objetos TField, sendo que Fields[1] retorna um TField representando o segundo campo lógico do DataSet. Pra quem tem curiosidade de saber como TField é implementado procure-o na unidade DB.
+
+Dica: Declare uma variável qualquer do tipo TField, segure Ctrl e clique na palavra TField que o Delphi buscará a unidade correspondente, depois é só usar o Exploring e mergulhar no que a nossa tão querida e amada Borland nos produziu.
+
+A mesma regra de TFieldType para FieldByName( ) deve ser aplicado para Fields[ ]. Um exemplo de Fields[ ] no lugar de FieldByName é mostrado a seguir:
+
+Exemplo 2 - Uso de Fields[ ]
+
+procedure TForm1.Button1Click(Sender: TObject);
+Var
+ S: String;
+ I: Integer;
+begin
+ S := Table1.Fields[1].AsString; //Campo Nome
+ I := Table1.Fields[0].AsInteger; //Campo Codigo
+ ShowMessage(S);
+ ShowMessage(IntToStr(I));
+End;
+
+Para acessar o nome de um campo de um DataSet use a propriedade FieldName de TField.
+
+Exemplo 3 - Uso de FieldName
+
+procedure TForm1.Button1Click(Sender: TObject);
+Var
+ S: String;
+begin
+ S := Table1.Fields[0].FieldName;
+end;
+
+Se tiver apenas o nome do campo e quiser saber o valor lógico do campo, use a propriedade FieldNo. Proceda:
+
+Exemplo 4 - Uso de FieldNo
+
+procedure TForm1.Button1Click(Sender: TObject);
+Var
+ I: Integer;
+begin
+ I := Table1.FieldByName('Nome').FieldNo;
+end;
+
+A Propriedade FieldValues[ ]
+
+A Propriedade de Array Padrão FieldValues[ ] de TDataSet retorna o valor de um campo como um Tipo de Dado Variant. Sendo FieldValues um propriedade padrão, não é necessário que seja referenciada o nome da propriedade.
+
+Os leitores perceberão que o uso de FieldValues substitui significativamente a digitação de mais código e é menos passível de erros devido o poder do tipo de dado Variant. Em um outro artigo pretendo demonstrar a forma 
+de se utilizar um tipo de dados Variant e descrever um pouco sobre OleVariant.
+
+Indo diretamente ao que interessa:
+
+Exemplo 5 - Uso de FieldValues
+
+procedure TForm1.Button1Click(Sender: TObject);
+Var
+S: String;
+I: Integer;
+begin
+S := Table1.FieldValues['Nome'];
+I := Table1.FieldValues['Codigo'];
+ShowMessage(S)
+ShowMessage(IntToStr(I));
+end;
+
+O código acima pode ser simplificado para:
+
+Exemplo 6 - Simplificação FieldValues
+
+procedure TForm1.Button1Click(Sender: TObject);
+Var
+ S: String;
+ I: Integer;
+begin
+ S := Table1['Nome'];
+ I := Table1['Codigo'];
+ ShowMessage(S);
+ ShowMessage(IntToStr(I));
+end;
+
+Torna-se possível esta simplificação devido FieldValues ser a propriedade padrão.
+
+Notem que as propriedades de TField (AsString e AsInteger) são excluídas. Isso acontece porque o tipo Variant é compatível com tipos nativos do Delphi e outros derivados.
+
+Concluindo
+
+Tanto a Função FieldByName quanto a Propriedade Fields continuam no Delphi apenas para manter compatibilidade entre as versões. São técnicas do Delphi 1 de 16 bits, de modo que, o uso de FieldValues torna o código menos 
+passível de erros e mais cômodo e rápido. Economiza muita digitação desnecessária. Uma capacidade poderosa de FieldValues é a de armazenar os valores de vários campos em um Array do Tipo de Dados Variant 
+(ArrayVariant := Table1['Codigo; Nome; Endereço; Fone; CPF'];). As únicas desvantagens são que o índice do Array Variant precisa ser baseado em zero e o conteúdo precisa ser varVariant.
+
+Espero, sinceramente que tenham apreciado este artigo e que ele valha de alguma coisa em seus Projetos Delphi. Usei o Livro Delphi 5 - Guia do Desenvolvedor, dos Autores Steve Teixeira e Xavier Pacheco, como fonte de 
+consulta para resgatar alguns métodos esquecidos. Qualquer dúvida ou comentário podem entrar em contato ou usar a seção de comentários.
+
+Gostaria de agradecer a usuária deste site Patrícia que me ajudou no processo de desenvolvimento deste artigo, conversando e trocando idéias. Ela não sabe mas, isso muito me ajudou. Obrigado!

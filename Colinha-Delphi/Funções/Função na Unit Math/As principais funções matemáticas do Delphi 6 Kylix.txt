@@ -1,0 +1,505 @@
+ As principais funções matemáticas do Delphi 6 Kylix
+
+ 
+
+O artigo irá mostrar as principais funções matemáticas utilizadas tanto pelo Delphi quanto no Kylix. Para quem é amante da matemática e utiliza o recurso da informática (na programação) para calcular, não pode deixar de ler este artigo que contém várias funções para cálculo, tais como cáculo de ângulos, médias e muito mais.
+
+Mas, porque deste artigo, se as mesmas podem ser encontradas no Help do Delphi Ai é que está! As definições do help estão em inglês e para uma pessoa que não entenda este idioma ficaria difícil descobrir para que servem determinadas funções. Por isso este artigo, que irá facilitar a vida de milhares de programadores que têm dificuldade com o inglês.
+
+ 
+
+Agora deixamos de muita convera e vamos ao que interessa. Confira as principais funções com suas respectivas definições e como declará-las. 
+
+ 
+
+Função ArcCos
+
+    Definição Esta função retorna o valor do ângulo (entre 0 e p radianos) cujo valor do cosseno (entre -1 e +1) é passado como parâmetro. 
+
+ 
+
+Declaração
+
+    Function ArcCos(x Extended) Extended;
+
+ 
+
+Função ArcCosh
+
+    Definição Esta função retorna o valor real cujo cosseno hiperbólico (maior ou igual a +1) é passado como parâmetro.
+
+ 
+
+Declaração
+
+    Function ArcCosh(x Extended) Extended;
+
+ 
+
+Função ArcSin
+
+    Definição Esta função retorna o valor do ângulo (entre -p2 e p2 radianos) cujo valor do seno (entre -1 e +1) é passado como parâmetro.
+
+Declaração
+
+    Function ArcSin(x Extended) Extended;
+
+ 
+
+Função ArcSinh
+
+    Definição Esta função retorna o valor real cujo seno hiperbólico é passado como parâmetro.
+
+Declaração
+
+    Function ArcSinh(x Extended) Extended;
+
+ 
+
+Função ArcTanh
+
+    Definição Esta função retorna o valor real cuja tanjente hiperbólica (entre -1 e +1) é passado como parâmetro.
+
+Declaração
+
+    Function ArcTanh(x Extended) Extended;
+
+ 
+
+Função ArcTan2
+
+    Definição Esta função retorna o ângulo cuja tangente (ArcTan(YX)) e quadrante são passados como parâmetros.
+
+Declaração
+
+    Function ArcTan2(y, x Extended) Extended;
+
+ 
+
+Função Ceil
+
+    Definição Esta função retorna o menor inteiro maior ou igual ao valor passado como parâmetro.
+
+Declaração
+
+    Function Ceil(x Extended) Extended;
+
+ 
+
+Função Cosh
+
+    Definição Esta função retorna o cosseno hiperbólico do ângulo cujo valor é passado como parâmetro.
+
+Declaração
+
+    Function Cosh(x Extended) Extended;
+
+ 
+
+Função Cotan
+
+    Definição Esta função retorna a cotangente do ângulo cujo valor é passado como parâmetro.
+
+Declaração
+
+    Function Cotan(x Extended) Extended;
+
+ 
+
+Função CycleToRad
+
+    Definição Esta função converte em radianos o ângulo cujo valor em graus é passado como parâmetro.
+
+Declaração
+
+    Function CycleToRad(cycles Extended) Extended;
+
+ 
+
+Função DegToRad
+
+    Definição Esta função converte em radianos o ângulo cujo valor em graus é passado como parâmetro.
+
+Declaração
+
+    Function DegToRad(cycles Extended) Extended;
+
+ 
+
+Função Floor
+
+    Definição Esta função retorna o maior inteiro menor ou igual ao valor passado como parâmetro.
+
+Declaração
+
+    Function Floor(x Extended) Extended;
+
+ 
+
+Função Frexp
+
+    Definição Este procedimento retorna a mantissa (base) e o expoente de um valor real passado como parâmetro.
+
+Declaração
+
+    Procedure Frexp(x Extended; Var mantissa Extended; Var expoent Integer) Extended;
+
+ 
+
+Função GradToRad
+
+    Definição Esta função converte em radianos o ângulo cujo valor em grados é passado como parâmetro.
+
+Declaração
+
+    Function GradToRad(cycles Extended) Extended;
+
+ 
+
+Função Hypot
+
+    Definição Esta função retorna o valor da hipotenusa de um triângulo, cujo valores dos catetos são passados como parâmetros.
+
+Declaração
+
+    Function Hypot(x, y Extended) Extended;
+
+ 
+
+Função IntPower
+
+    Definição Esta função retorna uma potência inteira (passada como segundo parâmetro) de um valor base (passado como primeiro parâmetro).
+
+Declaração
+
+    Function IntPower(base Extended; expoentInteger) Extended;
+
+ 
+
+Função Log2
+
+    Definição Esta função retorna o logaritmo na base 2 de um valor real passado como parâmetro.
+
+Declaração
+
+    Function Log2(x Extended) Extended;
+
+ 
+
+Função Log10
+
+    Definição Esta função retorna o logaritmo na base 10 de um valor real passado como parâmetro.
+
+Declaração
+
+    Function Log10(x Extended) Extended;
+
+ 
+
+Função LogN
+
+    Definição Esta função retorna o logaritmo numa base (cujo valor é passado como primeiro parâmetro) de um número real (cujo valor é passado como parâmetro).
+
+Declaração
+
+    Function LogN(n, x Extended) Extended;
+
+ 
+
+Função Max
+
+    Definição Esta função retorna o maior de dois valores passado como parâmetro.
+
+Declaração essa função é sobrecarregada, veja abaixo
+
+    Function Max(a, b Integer) Integer; Overload;
+
+    Function Max(a, b Int64) Int64; Overload;
+
+    Function Max(a, b Ingle) Single; Overload;
+
+    Function Max(a, b Double) Double; Overload;
+
+    Function Max(a, b Extended) Extended; Overload;
+
+ 
+
+Função MaxIntValue
+
+    Definição Esta função retorna o maior valor dentre os armazenados em um Array de valores inteiros.
+
+ 
+
+Declaração
+
+    Function MaxIntValue(Const data Array Of Integer) Integer;
+
+ 
+
+Função MaxValue
+
+    Definição Esta função retorna o maior valor dentre os armazenados em um Array de valores reais.
+
+Declaração
+
+    Function MaxValue(Const data Drray Of Double) Double;
+
+ 
+
+Função Mean
+
+    Definição Esta função retorna a média aritmética dos valores armazenados em um Array de valores reais.
+
+Declaração
+
+    Function Mean(Const data Array Of Double) Double;
+
+ 
+
+Função MeanAndStdDev
+
+    Definição Esta função retorna a média aritmética e o desvio-padrão dos valores armazenados em um Array de valores reais.
+
+Declaração
+
+    Procedure MeanAndStdDev(Const data Array Of Double; Var mean, stddev Extended);
+
+ 
+
+Função Min
+
+    Definição Esta função retorna o menor de dois valores passados como parâmetro.
+
+Declaração
+
+essa função é sobrecarregada, veja abaixo     Function Min(a, b  Integer) Integer; Overload;
+
+    Function Min(a, b  Int64) Int64; Overload;
+
+    Function Min(a, b  Single) Single; Overload;
+
+    Function Min(a, b  Double) Double; Overload;
+
+    Function Min(a, b  Extended) Extended; Overload;
+
+ 
+
+Função MinIntValue
+
+    Definição Esta função retorna o menor valor dentre os armazenados em um Array de valores inteiros.
+
+ 
+
+Declaração
+
+    Function MinIntValue(Const data Array Of Integer) Integer;
+
+ 
+
+Função MinValue
+
+    Definição Esta função retorna o menor valor dentre os armazenados em um Array de valores reais.
+
+Declaração
+
+    Function MinValue(Const data Array Of Double) Double;
+
+ 
+
+Função Norm
+
+    Definição Esta função retorna a norma euclidiana L-2 dentre os valores armazenados em um Array de valores reais.
+
+Declaração
+
+    Function Norm(Const data Array Of Double) Extended;
+
+ 
+
+Função Poly
+
+    Definição Esta função calcula valor de um polinômio uniforme para o valor passado como primeiro parâmetro, sendo os coeficientes passados como segundo parâmetro na forma de um Array de valores reais.
+
+Declaração
+
+    Function Poly(x Extended; Const data Array Of Double) Extended;
+
+ 
+
+Função PopnStdDev
+
+    Definição Esta função calcula o valor do desvio-padrão de um conjunto de valore passados como parâmetro na forma de um Array de valores reais.
+
+Declaração
+
+    Function PopnStdDev(Const data Array Of Double) Double;
+
+ 
+
+Função PopnVariance
+
+    Definição Esta função calcula o valor da Variância de um conjunto de valores passados como parâmetro na forma de um Array de valores reais.
+
+Declaração
+
+    Function PopVariance(Const data Array Of Double) Extended;
+
+ 
+
+Função Power
+
+    Definição Esta função retorna uma potência real (passada como segundo parâmetro) de um valor base(passado como primeiro parâmetro).
+
+Declaração
+
+    Function Power(base, exponent Extended)Extended;
+
+ 
+
+Função RadToCycle
+
+    Definição Esta função converte em ciclos o ângulo cujo valor em radianos é passado como parâmetro.
+
+Declaração
+
+    Function RadToCycle(radians Extended) Extended;
+
+ 
+
+Função RadToDeg
+
+    Definição Esta função converte em graus o ângulo cujo o valor em radianos é passado como parâmetro.
+
+Declaração
+
+    Function RadToDeg(radians Extended) Extended;
+
+ 
+
+Função RadToGrad
+
+    Definição Esta função converte em grados o ângulo cujo o valor em radianos é passado como parâmetro.
+
+Declaração
+
+    Function RadToGrad(radians Extended) Extended;
+
+ 
+
+Função RandG
+
+    Definição Esta função gera números aleatórios com distribuição gaussiana, sendo os valores da média e do desvio-padrão passado como parâmetro.
+
+Declaração
+
+    Function RandG(mean, stddev Extended) Extended;
+
+ 
+
+Função Sin
+
+    Definição Esta função calcula o seno de um ângulo, passado como parâmetro em radianos.
+
+Declaração
+
+    Function Sin(x Extended) Extended;
+
+ 
+
+Função SinCos
+
+    Definição Este procedimento calcula o seno e o cosseno de um ângulo (passado em radianos, como primeiro parâmetro), sendo estes valores armazenados no segundo e terceiro parâmetros.
+
+Declaração
+
+    Procedure SinCos(theta Extended; Var sin, cos Extended); Register;
+
+ 
+
+Função Sinh
+
+    Definição Esta função retorna o seno hiperbólico do ângulo cujo valor é passado como parâmetro.
+
+Declaração
+
+    Function Sinh(x Extended) Extended;
+
+ 
+
+Função StdDev
+
+    Definição Esta função retorna o desvio-padrão dos valores armazenados em um Array de valores reais, passado como parâmetro.
+
+Declaração
+
+    Function StdDev(Const data Array Of Double) Extended;
+
+ 
+
+Função Sum
+
+    Definição Esta função retorna a soma dos quadrados dos valores em um Array de valores reais, passado como parâmetro. Para funcionamento desta função declare na seção Uses a seguinte unit Math.
+
+Declaração
+
+    Function Sum(Const data Array Of Double) Extended;
+
+ 
+
+Função SumInt
+
+    Definição Esta função retorna a soma dos valores armazenados em um Array de valores inteiros, passado como parâmetro.
+
+Declaração
+
+    Function SumInt(Const data Array Of Integer) Extended;
+
+ 
+
+Função SumOfSquares
+
+    Definição Esta função retorna a soma dos quadrados dos valores armazenados em um Array de valores reais, passado como parâmetro.
+
+Declaração
+
+    Function SumOfSquares(Const data Array Of Double) Extended;
+
+ 
+
+Função SumsAndSquares
+
+    Definição Este procedimento retorna a soma e dos quadrados dos valores armazenados em um Array de valores reais, passado como parâmetro. Para funcionamento deste procedimeto declare na seção Uses a seguinte unit Math.
+
+Declaração
+
+    Procedure SumsAndSquares(Const data Array Of Double; Var sum, sumOfsquares Extended) Register;
+
+ 
+
+Função Tan
+
+    Definição Esta função calcula a tangente de um ângulo em radianos.
+
+Declaração
+
+    Function Tan(x Extended) Extended;
+
+ 
+
+Função TanH
+
+    Definição Esta função calcula a tangente de um ângulo passado como parâmetro (em radianos).
+
+Declaração
+
+    Function TanH(x Extended) Extended;
+
+ 
+
+Função Variance
+
+    Definição Esta função retorna a Variância dos valores armazenados em um Array de valores reais, passado como parâmetro.
+
+Declaração
+
+    Function Variance(Const data Array Of Double) Extended;

@@ -1,0 +1,239 @@
+unit uConsulta_Produtos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls,
+  JvExExtCtrls, JvExtComponent, JvPanel, Vcl.ActnList, Vcl.Buttons,
+  Vcl.StdCtrls, JvExComCtrls, JvComCtrls, Vcl.Grids, Vcl.DBGrids, JvExDBGrids,
+  JvDBGrid, Data.DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.DBCtrls;
+
+type
+  TfrmConsulta_Produto = class(TForm)
+    JvPanel1: TJvPanel;
+    BalloonHint1: TBalloonHint;
+    Timer1: TTimer;
+    StatusBar1: TStatusBar;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    actSalvar: TAction;
+    actCancelar: TAction;
+    actLanca_Movimentacao: TAction;
+    actMovimentacao: TAction;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    JvDBGrid2: TJvDBGrid;
+    edtLocalizar: TEdit;
+    tbPesquisar: TJvPageControl;
+    tbsPesquisar: TTabSheet;
+    sqlProdutos: TZQuery;
+    dsProdutos: TDataSource;
+    sqlProdutosid: TIntegerField;
+    sqlProdutosid_produto_grupo: TIntegerField;
+    sqlProdutosid_unid_medidas: TIntegerField;
+    sqlProdutosproduto: TWideStringField;
+    sqlProdutoscod_barras: TWideStringField;
+    sqlProdutoscod_referencias: TWideStringField;
+    sqlProdutospreco_compra: TFloatField;
+    sqlProdutospreco_venda: TFloatField;
+    sqlProdutosmargem_lucro: TFloatField;
+    Label1: TLabel;
+    sqlUnid_Medidas: TZQuery;
+    sqlUnid_Medidasid: TIntegerField;
+    sqlUnid_Medidasunid_medida: TWideStringField;
+    sqlUnid_Medidasabrev: TWideStringField;
+    dsUnid_Medidas: TDataSource;
+    sqlGrupos: TZQuery;
+    sqlGruposid: TIntegerField;
+    sqlGruposprodutos_grupo: TWideStringField;
+    dsGrupos: TDataSource;
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnQuitarClick(Sender: TObject);
+    procedure btnEstornarClick(Sender: TObject);
+    procedure actNovoExecute(Sender: TObject);
+    procedure actEditarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure actLanca_MovimentacaoExecute(Sender: TObject);
+    procedure actMovimentacaoExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure edtLocalizarChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+  private
+    procedure Localizar_Produtos;
+    { Private declarations }
+  public
+    { Public declarations }
+    Texto_Produtos : String;
+  end;
+
+var
+  frmConsulta_Produto: TfrmConsulta_Produto;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadastro_Produtos, My_Layout, uFuncoes, uCadastro_Unid_Medidas;
+
+procedure TfrmConsulta_Produto.actEditarExecute(Sender: TObject);
+begin
+  frmCadastro_Produto := TfrmCadastro_Produto.Create(Self);
+  frmCadastro_Produto.edtDescricao.Text       := sqlProdutosProduto.AsString;
+
+  frmCadastro_Produto.edtCod_Barra.Text       := sqlProdutosCod_Barras.Value;
+  frmCadastro_Produto.edtCod_Referencia.Text  := sqlProdutosCod_Referencias.Value;
+  frmCadastro_Produto.edtP_Compra.Value       := sqlProdutosPreco_Compra.Value;
+  frmCadastro_Produto.edtP_Venda.Value        := sqlProdutosPreco_Venda.Value;
+  frmCadastro_Produto.edtM_Lucro.Value        := sqlProdutosMargem_Lucro.Value;
+
+  frmCadastro_Produto.edtUnid_Medidas.KeyValue    := sqlProdutosID_Unid_Medidas.Value;
+  frmCadastro_Produto.edtProdutos_Grupo.KeyValue  := sqlProdutosID_Produto_Grupo.Value;
+  if frmCadastro_Produto.ShowModal = mrOK then
+  begin
+
+    sqlProdutos.Edit;
+    sqlProdutosProduto.AsString           := frmCadastro_Produto.edtDescricao.Text;
+    sqlProdutosCod_Barras.Value           := frmCadastro_Produto.edtCod_Barra.Text;
+    sqlProdutosCod_Referencias.Value      := frmCadastro_Produto.edtCod_Referencia.Text;
+    sqlProdutosPreco_Compra.Value         := frmCadastro_Produto.edtP_Compra.Value;
+    sqlProdutosPreco_Venda.Value          := frmCadastro_Produto.edtP_Venda.Value;
+    sqlProdutosMargem_Lucro.Value         := frmCadastro_Produto.edtM_Lucro.Value;
+    sqlProdutos.Post;
+    sqlProdutos.ApplyUpdates;
+
+  end;
+end;
+
+procedure TfrmConsulta_Produto.actMovimentacaoExecute(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.actExcluirExecute(Sender: TObject);
+begin
+  if Application.MessageBox('Deseja realmente "Excluir" o registro?',
+    'Estoque - Produto', MB_YESNO) = mrYes then
+  begin
+    try
+      sqlProdutos.Delete;
+      sqlProdutos.ApplyUpdates;
+      MostraMensagem('Registro excluido com "Sucesso!"');
+
+    except
+      on E: Exception do
+        raise Exception.Create('Error ao "Excluir" o registro!' + E.Message);
+    end;
+  end;
+end;
+
+
+procedure TfrmConsulta_Produto.actNovoExecute(Sender: TObject);
+begin
+  frmCadastro_Produto := TfrmCadastro_Produto.Create(Self);
+  if frmCadastro_Produto.ShowModal = mrOK then
+  begin
+
+    sqlProdutos.Append;
+    sqlProdutosID_Unid_Medidas.AsString     := frmCadastro_Produto.edtUnid_Medidas.KeyValue;
+    sqlProdutosID_Produto_Grupo.AsString    := frmCadastro_Produto.edtProdutos_Grupo.KeyValue;
+    sqlProdutosProduto.AsString             := frmCadastro_Produto.edtDescricao.Text;
+    sqlProdutosCod_Barras.AsString          := frmCadastro_Produto.edtCod_Barra.Text;
+    sqlProdutosCod_Referencias.Value        := frmCadastro_Produto.edtCod_Referencia.Text;
+    sqlProdutosPreco_Compra.Value           := frmCadastro_Produto.edtP_Compra.Value;
+    sqlProdutosPreco_Venda.Value            := frmCadastro_Produto.edtP_Venda.Value;
+    sqlProdutosMargem_Lucro.Value           := frmCadastro_Produto.edtM_Lucro.Value;
+    sqlProdutos.Post;
+    sqlProdutos.ApplyUpdates;
+
+  end;
+end;
+
+
+procedure TfrmConsulta_Produto.actLanca_MovimentacaoExecute(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnEstornarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.btnQuitarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Produto.edtLocalizarChange(Sender: TObject);
+begin
+  Localizar_Produtos;
+end;
+
+procedure TfrmConsulta_Produto.Localizar_Produtos;
+var
+  Texto: String;
+begin
+  Texto := Texto_Produtos + ' WHERE id > 0';
+  if edtLocalizar.Text <> '' then
+    Texto := Texto + ' AND produto LIKE ' + Quotedstr(edtLocalizar.Text + '%');
+  sqlProdutos.SQL.Text := Texto;
+  sqlProdutos.Open;
+end;
+
+procedure TfrmConsulta_Produto.FormCreate(Sender: TObject);
+begin
+  Texto_Produtos := sqlProdutos.SQL.Text;
+end;
+
+procedure TfrmConsulta_Produto.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+
+end;
+
+procedure TfrmConsulta_Produto.FormShow(Sender: TObject);
+begin
+
+  Localizar_Produtos;
+end;
+
+procedure TfrmConsulta_Produto.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

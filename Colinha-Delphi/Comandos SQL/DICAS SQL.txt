@@ -1,0 +1,27 @@
+-- Usando Aliases --
+
+-Você pode altera tipo nome de um campo ou tabela, simplesmente abrevia na utlização dos codigos para facilitar no uso.
+
+	Alterando tabelas		|		Alterandos campos
+					|
+SELECT tabela1.Campo, tabela2.Campo 	|	SELECT tabela1.CampoA, tabela2.CampoB
+* FROM tabela1			   	|	* FROM tabela1			   
+INNER JOIN tabela2			|	INNER JOIN tabela2
+ON tabela1.ID = tabela2.ID		|	ON tabela1.ID = tabela2.ID
+					|
+--Usando Aliases--			|	--Usando Aliases--
+					|
+SELECT T1.Campo, T2.Campo * 		|	SELECT T1.CampoA AS CA, T2.CampoB AS CB * 
+FROM Tabela1 AS T1			|	FROM Tabela1 AS T1
+INNER JOIN tabela2 AS T2		|	INNER JOIN tabela2 AS T2
+ON T1.ID = T2.ID			|	ON T1.ID = T2.ID
+					|
+					|
+
+-Você tbem pode criar campos
+
+
+SELECT T1.Campo, T2.Campo *, T2.CampoA, T2.CampoB // quiser altera nome dos campos q vc crio coloca --> T2.CampoA AS CmpA, T2.CampoB AS CmpB <-- 
+FROM Tabela1 AS T1
+INNER JOIN tabela2 AS T2
+ON T1.ID = T2.ID

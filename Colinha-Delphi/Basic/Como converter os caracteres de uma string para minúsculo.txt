@@ -1,0 +1,8 @@
+Como converter os caracteres de uma string para minúsculo
+
+
+
+// Função: LowerCase(texto);
+
+{ Exemplo de uso }
+ShowMessage(LowerCase('TESTE'));

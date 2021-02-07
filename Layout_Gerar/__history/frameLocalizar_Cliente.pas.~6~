@@ -1,0 +1,47 @@
+unit frameLocalizar_Cliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TframeLocalizaCliente = class(TFrame)
+    lbCliente: TLabel;
+    edtCliente: TEdit;
+    btnVoltar: TButton;
+    procedure edtClienteKeyPress(Sender: TObject; var Key: Char);
+    procedure btnVoltarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses uClientes_Pesquisa, udmClientes;
+
+
+procedure TframeLocalizaCliente.btnVoltarClick(Sender: TObject);
+begin
+  Exit;
+end;
+
+procedure TframeLocalizaCliente.edtClienteKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = '+' then
+  begin
+    Key := #0;
+    fClientes_Pesquisa := TfClientes_Pesquisa.Create(Self);
+    fClientes_Pesquisa.ShowModal;
+    dmCliente.sqlCliente.FieldByName('nome').AsString;
+  end;
+
+end;
+
+end.

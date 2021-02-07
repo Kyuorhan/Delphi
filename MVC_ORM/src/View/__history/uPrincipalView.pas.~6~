@@ -1,0 +1,52 @@
+unit uPrincipalView;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ZAbstractConnection, ZConnection,
+  Vcl.Buttons, uConexao, uSys_Controll;
+
+type
+  TfPrincipal = class(TForm)
+    SpeedButton1: TSpeedButton;
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fPrincipal: TfPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TfPrincipal.FormCreate(Sender: TObject);
+begin
+  TSys_Controll.GetInstace().Conexao;
+end;
+
+procedure TfPrincipal.SpeedButton1Click(Sender: TObject);
+var
+  VConexao : TConexaoZeos;
+begin
+  VConexao := TConexaoZeos.Create;
+  VConexao.GetConexao.Connected := True;
+  try
+    if VConexao.GetConexao.Connected then
+      ShowMessage('Conectado');
+  finally
+    FreeAndNil(VConexao);
+
+  end;
+end;
+
+initialization
+  ReportMemoryLeaksOnShutdown := True;
+
+end.

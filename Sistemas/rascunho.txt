@@ -1,0 +1,3 @@
+  Qry1.SQL.Text := ' SELECT ca.*, c.caixa, c.id AS id_caixa ' + ' FROM caixas_aberturas ca '
+    + ' LEFT JOIN caixas c ON c.id = ca.id ' + ' WHERE c.id = '
+    + IntToStr(edtCaixa.KeyValue) + ' AND situacao = "A" ';

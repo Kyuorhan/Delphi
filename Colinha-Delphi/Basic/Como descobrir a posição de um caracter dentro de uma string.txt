@@ -1,0 +1,9 @@
+Como descobrir a posição de um caracter dentro de uma string
+
+
+
+
+// Função: Pos(Caracter a ser localizado, texto);
+
+{ Exemplo de uso }
+ShowMessage(IntToStr(Pos('x', 'texto')));

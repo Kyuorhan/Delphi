@@ -1,0 +1,265 @@
+object fCliente_Cadastro: TfCliente_Cadastro
+  Left = 0
+  Top = 0
+  Caption = 'fCliente_Cadastro'
+  ClientHeight = 475
+  ClientWidth = 1062
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object btnSalvar: TButton
+    Left = 730
+    Top = 438
+    Width = 79
+    Height = 29
+    Caption = 'Salvar'
+    ImageIndex = 1
+    TabOrder = 0
+  end
+  object btnVoltar: TButton
+    Left = 815
+    Top = 438
+    Width = 79
+    Height = 29
+    Caption = 'Voltar'
+    TabOrder = 1
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 1062
+    Height = 424
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    ActivePage = TabSheet1
+    Align = alTop
+    TabOrder = 2
+    object TabSheet1: TTabSheet
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Caption = 'Geral'
+      object NOME: TLabel
+        Left = 572
+        Top = 29
+        Width = 29
+        Height = 13
+        Caption = 'NOME'
+      end
+      object Label3: TLabel
+        Left = 803
+        Top = 29
+        Width = 86
+        Height = 13
+        Caption = 'DOCUMENTO(RG)'
+      end
+      object lbSexo: TLabel
+        Left = 573
+        Top = 75
+        Width = 26
+        Height = 13
+        Caption = 'SEXO'
+      end
+      object lbInsc_Est: TLabel
+        Left = 771
+        Top = 75
+        Width = 82
+        Height = 13
+        Caption = 'INSC. ESTADUAL'
+      end
+      object lbInsc_Municp: TLabel
+        Left = 803
+        Top = 75
+        Width = 86
+        Height = 13
+        Caption = 'INSC. MUNICIPAL'
+      end
+      object Label11: TLabel
+        Left = 572
+        Top = 122
+        Width = 50
+        Height = 13
+        Caption = 'FANTASIA'
+      end
+      object lbTipo_Empresa: TLabel
+        Left = 799
+        Top = 122
+        Width = 89
+        Height = 13
+        Caption = 'TIPO DE EMPRESA'
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 545
+        Height = 192
+        BevelOuter = bvNone
+        Color = cl3DLight
+        Ctl3D = True
+        ParentBackground = False
+        ParentCtl3D = False
+        TabOrder = 0
+        object lbCPF: TLabel
+          Left = 422
+          Top = 64
+          Width = 19
+          Height = 13
+          Caption = 'CPF'
+        end
+        object lbCaptcha: TLabel
+          Left = 362
+          Top = 128
+          Width = 95
+          Height = 13
+          Caption = 'DIGITE O CAPTCHA'
+        end
+        object btnSearch1: TSpeedButton
+          Left = 441
+          Top = 144
+          Width = 91
+          Height = 32
+          Cursor = crHandPoint
+          Caption = 'CONSULTA'
+          Flat = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbCPF1: TLabel
+          Left = 366
+          Top = 64
+          Width = 45
+          Height = 13
+          Caption = 'DIGITE O'
+        end
+        object lbPessoa: TLabel
+          Left = 366
+          Top = 10
+          Width = 39
+          Height = 13
+          Caption = 'PESSOA'
+        end
+        object edtCPF: TMaskEdit
+          Left = 366
+          Top = 83
+          Width = 158
+          Height = 27
+          EditMask = '999.999.999-99;1;_'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          MaxLength = 14
+          ParentFont = False
+          TabOrder = 0
+          Text = '   .   .   -  '
+        end
+        object edtCaptcha: TEdit
+          Left = 362
+          Top = 147
+          Width = 73
+          Height = 27
+          CharCase = ecUpperCase
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+        end
+        object Panel2: TPanel
+          Left = 10
+          Top = 9
+          Width = 340
+          Height = 123
+          BevelOuter = bvNone
+          Color = clWindow
+          ParentBackground = False
+          TabOrder = 2
+          object lbAtualizarCaptcha: TLabel
+            Left = 0
+            Top = 104
+            Width = 340
+            Height = 19
+            Cursor = crHandPoint
+            Align = alBottom
+            Alignment = taCenter
+            AutoSize = False
+            Caption = 'Atualizar Captcha'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clTeal
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold, fsUnderline]
+            ParentFont = False
+            ParentShowHint = False
+            ShowHint = False
+            ExplicitLeft = 2
+            ExplicitTop = 124
+            ExplicitWidth = 249
+          end
+          object imgCaptcha: TImage
+            Left = 0
+            Top = 0
+            Width = 340
+            Height = 104
+            Align = alClient
+            Center = True
+            Proportional = True
+            Stretch = True
+            ExplicitLeft = -1
+            ExplicitWidth = 293
+            ExplicitHeight = 101
+          end
+        end
+        object ckRmvEspcDuplos: TCheckBox
+          Left = 20
+          Top = 153
+          Width = 326
+          Height = 17
+          Caption = 'REMOVER ESPA'#199'OS DOS DADOS  RETORNANDOS;'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 3
+        end
+        object edtTipo: TComboBox
+          Left = 366
+          Top = 29
+          Width = 158
+          Height = 24
+          Style = csDropDownList
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ItemIndex = 0
+          ParentFont = False
+          TabOrder = 4
+          Text = 'F'#205'SICA'
+          Items.Strings = (
+            'F'#205'SICA'
+            'JUR'#205'DICA')
+        end
+      end
+    end
+  end
+end

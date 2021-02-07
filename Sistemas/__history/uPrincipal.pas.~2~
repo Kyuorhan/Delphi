@@ -1,0 +1,36 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Menus;
+
+type
+  TfPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    Caiuxa1: TMenuItem;
+    MovimentodeCaixa1: TMenuItem;
+    PlanodeContas1: TMenuItem;
+    CadastrodeCaixas1: TMenuItem;
+    AberturaFechamentodeCaixa1: TMenuItem;
+    Panel1: TPanel;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    Relatrios1: TMenuItem;
+    MovimentodoCaixa1: TMenuItem;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fPrincipal: TfPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+end.

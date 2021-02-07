@@ -1,0 +1,13 @@
+unit uModel_Receber;
+
+interface
+
+type
+
+  public
+    property Codigo : Integer;
+    property
+
+implementation
+
+end.

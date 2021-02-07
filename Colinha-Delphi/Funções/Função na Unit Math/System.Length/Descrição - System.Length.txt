@@ -1,0 +1,24 @@
+System.Length
+
+
+Delphi
+function Length(S: <string or dynamic array>): Integer;
+
+
+Descrição
+
+Retorna o número de caracteres em uma sequência ou de elementos em uma matriz.
+
+No código Delfos, Length retorna o número de caracteres realmente usados na sequência ou o número de elementos na matriz. No código C++, use o método de mesmo 
+nome na classe AnsiString ou DynamicArray.
+
+S é uma expressão valorizada por strings ou de arrays.
+
+
+Para sequências de bytes e multibytes, Length retorna o número de bytes usados pela string. Exemplo para UTF-8:
+
+
+	Writeln(Length(Utf8String('1¢'))); // displays 3
+
+
+Para as strings Unicode (WideString), o Length retorna o número de bytes divididos por dois.

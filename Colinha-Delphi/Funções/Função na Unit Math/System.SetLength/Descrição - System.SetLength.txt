@@ -1,0 +1,24 @@
+System.SetLength
+
+
+Delphi
+procedure SetLength(var S: <string or dynamic array>; NewLength: Integer);
+
+Descrição
+Define o comprimento de uma variável de string ou matriz dinâmica.
+
+S é uma variável de string ou matriz dinâmica de Delfos.
+
+NewLength é o novo número de caracteres ou elementos em . S
+
+Para uma variável de sequência curta, SetLength simplesmente define o caractere indicador de comprimento (o caractere em S[0]) ao valor dado. Neste caso, deve ser um 
+valor de 0 a 255. NewLength
+
+Para uma variável de cadeia longa, SetLength realoca a sequência referenciada pelo comprimento dado. Os caracteres existentes na sequência são preservados, mas o 
+conteúdo do espaço recém-alocado é indefinido. S
+
+Para uma variável de matriz dinâmica, o SetLength realoca a matriz referenciada pelo comprimento dado. Os elementos existentes na matriz são preservados e o espaço 
+recém-alocado é definido como 0 ou zero. Para matrizes dinâmicas multidimensionais, o SetLength pode levar mais de um parâmetro de comprimento (até o número de dimensões de matriz). Cada parâmetro especifica o número de elementos ao longo de uma determinada dimensão. S
+
+Após uma chamada para SetLength,é garantido para referenciar uma sequência ou matriz única - ou seja, uma string ou matriz com uma contagem de referência de um. 
+Se não houver memória suficiente disponível para realocar a variável, o SetLength aumentará uma exceção EOutOfMemory. S

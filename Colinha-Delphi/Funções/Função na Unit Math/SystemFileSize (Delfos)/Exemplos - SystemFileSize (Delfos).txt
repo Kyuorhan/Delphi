@@ -1,0 +1,40 @@
+SystemFileSize (Delfos)
+
+
+Descrição
+
+Este exemplo exibe uma caixa de diálogo aberta quando você clica em um botão. Quando você seleciona o arquivo, ele relata o tamanho do arquivo, procura a metade 
+do arquivo e relata a posição do arquivo nesse ponto. Nota: Este exemplo assume a bandeira do compilador $IOCHECKS ON ($I+). Ou seja, espera que erros gerem 
+exceções em vez de verificar o IOResult para ter certeza de que as rotinas de I/O foram bem sucedidas.
+
+
+Código
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+   f: file of Byte;
+   size: Longint;
+   S: string;
+   y: Integer;
+begin
+  if OpenDialog1.Execute then
+  begin
+    AssignFile(f, OpenDialog1.FileName);
+    Reset(f);
+    try
+      size := FileSize(f);
+      S := 'File size in bytes: ' + IntToStr(size);
+      y := 10;
+      Canvas.TextOut(5, y, S);
+      y := y + Canvas.TextHeight(S) + 5;
+      S := 'Seeking halfway into file...';
+      Canvas.TextOut(5, y, S);
+      y := y + Canvas.TextHeight(S) + 5;
+      Seek(f, size div 2);
+      S := 'Position is now ' + IntToStr(FilePos(f));
+      Canvas.TextOut(5, y, S);
+    finally
+      CloseFile(f);
+    end;
+  end;
+end;

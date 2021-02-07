@@ -1,0 +1,19 @@
+System.Math.Ceil
+
+
+Tipo		|  Visibilidade	  |  Fonte		|  Unidade		|  Pai
+Função		|  Público	  |  Sistema.Math.pas	|  Sistema.Matemática	|  Sistema.Matemática	
+		|		  |  Sistema.Math.hpp	|  			|
+
+Descrição
+
+
+Rodadas variáveis até o infinito positivo.
+
+Chame Ceil (como no teto) para obter o menor inteiro maior ou igual a X. O valor absoluto de X deve ser menor que MaxInt. Por exemplo:
+
+Ceil(-2,8) = -2
+
+Ceil(2,8) = 3
+s
+Ceil(-1,0) = -1

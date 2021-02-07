@@ -1,0 +1,92 @@
+unit uCadastro_Unid_Medidas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, Vcl.ExtCtrls,
+  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons, JvExExtCtrls, JvExtComponent, JvPanel;
+
+type
+  TfrmCadastro_Unid_Medidas = class(TForm)
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    StatusBar1: TStatusBar;
+    edtDescricao: TEdit;
+    lbDescricao: TLabel;
+    JvPanel1: TJvPanel;
+    BalloonHint1: TBalloonHint;
+    Timer1: TTimer;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    Label1: TLabel;
+    edtAbrevia: TEdit;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure actCancelarExecute(Sender: TObject);
+    procedure actSalvar1Execute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastro_Unid_Medidas: TfrmCadastro_Unid_Medidas;
+
+implementation
+
+{$R *.dfm}
+
+uses uFuncoes;
+
+procedure TfrmCadastro_Unid_Medidas.actCancelarExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmCadastro_Unid_Medidas.actSalvar1Execute(Sender: TObject);
+begin
+  if edtDescricao.Text = '' then
+  begin
+    MostraAviso('informe a Descrição!');
+    edtDescricao.SetFocus;
+    Exit;
+  end;
+
+  if edtAbrevia.Text = '' then
+  begin
+    MostraAviso('Informe a Abreviação!');
+    edtAbrevia.SetFocus;
+    Exit;
+  end;
+
+  ModalResult := mrOk;
+end;
+
+procedure TfrmCadastro_Unid_Medidas.btnCancelarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmCadastro_Unid_Medidas.FormKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0)
+  end
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+
+
+end;
+
+end.
+

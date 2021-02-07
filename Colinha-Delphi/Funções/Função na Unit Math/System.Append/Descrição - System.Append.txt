@@ -1,0 +1,22 @@
+System.Append
+
+
+Delphi
+function Append(var F: Text): Integer;
+
+
+Description
+
+Prepares an existing file for adding text to its end.
+
+Call Append to ensure that a file is opened with write-only access, with the file pointer positioned at the end of the file. F is a text file variable and must be 
+associated with an external file, using AssignFile. If no external file of the given name exists, an error occurs. If F is already open, it is closed, then reopened. 
+The current file position is set at the end of the file.
+
+System.Append is a standard procedure that returns either 0 or the appropriate I/O error code, which is one of the following:
+
+A run-time error (or an exception if SysUtils is in the uses clause) if I/O checking is enabled ({$I+})
+An I/O error (as for the System.IOResult function) if I/O checking is disabled ({$I-})
+Note: If a (ASCII 26) is present in the last 128-byte block of the file, the current file position is set so that the next character added to the file overwrites the first in the block. In this way, text can be appended to a file that terminates with a . Ctrl+ZCtrl+ZCtrl+Z
+
+If F was not assigned a name, after the call to Append, F refers to the standard output file.

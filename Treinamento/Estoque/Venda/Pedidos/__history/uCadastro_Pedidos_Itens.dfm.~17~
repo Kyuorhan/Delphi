@@ -1,0 +1,215 @@
+object frmCadastro_Pedidos_itens: TfrmCadastro_Pedidos_itens
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Cadastro/Pedidos de Itens'
+  ClientHeight = 331
+  ClientWidth = 414
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnKeyPress = FormKeyPress
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label5: TLabel
+    Left = 40
+    Top = 200
+    Width = 44
+    Height = 16
+    Caption = 'VALOR'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 262
+    Top = 200
+    Width = 40
+    Height = 16
+    Caption = 'TOTAL'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label8: TLabel
+    Left = 151
+    Top = 200
+    Width = 32
+    Height = 16
+    Caption = 'QTDE'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label1: TLabel
+    Left = 40
+    Top = 151
+    Width = 73
+    Height = 16
+    Caption = 'DESCRI'#199#195'O'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object JvPanel2: TJvPanel
+    Left = 0
+    Top = 262
+    Width = 414
+    Height = 50
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = cl3DLight
+    ParentBackground = False
+    TabOrder = 5
+    ExplicitTop = 322
+    ExplicitWidth = 390
+    object btnSalvar: TSpeedButton
+      Left = 10
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'SALVAR'
+      CustomHint = BalloonHint1
+      Action = actSalvar1
+      Flat = True
+    end
+    object btnCancelar: TSpeedButton
+      Left = 78
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'CANCELAR'
+      CustomHint = BalloonHint1
+      Action = actCancelar
+      Flat = True
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 312
+    Width = 414
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitTop = 372
+    ExplicitWidth = 390
+  end
+  object JvPanel1: TJvPanel
+    Left = 0
+    Top = 0
+    Width = 414
+    Height = 121
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 13095379
+    ParentBackground = False
+    TabOrder = 7
+    ExplicitWidth = 390
+  end
+  object edtValor: TJvCalcEdit
+    Left = 40
+    Top = 222
+    Width = 105
+    Height = 19
+    TabStop = False
+    Flat = True
+    ParentFlat = False
+    ButtonFlat = True
+    Color = clSilver
+    DisplayFormat = ',0.00;,0.00-'
+    ImageKind = ikCustom
+    ReadOnly = True
+    ShowButton = False
+    TabOrder = 2
+    DecimalPlacesAlwaysShown = False
+  end
+  object edtTotal: TJvCalcEdit
+    Left = 262
+    Top = 222
+    Width = 105
+    Height = 19
+    TabStop = False
+    Flat = True
+    ParentFlat = False
+    ButtonFlat = True
+    Color = clSilver
+    DisplayFormat = ',0.00;,0.00-'
+    ImageKind = ikCustom
+    ReadOnly = True
+    ShowButton = False
+    TabOrder = 4
+    DecimalPlacesAlwaysShown = False
+  end
+  object edtID_Produto: TEdit
+    Left = 319
+    Top = 173
+    Width = 49
+    Height = 21
+    TabStop = False
+    Color = clSilver
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object edtQTDE: TJvCalcEdit
+    Left = 151
+    Top = 222
+    Width = 105
+    Height = 19
+    Flat = True
+    ParentFlat = False
+    ButtonFlat = True
+    DisplayFormat = ',0.00;,0.00-'
+    ImageKind = ikCustom
+    ShowButton = False
+    TabOrder = 3
+    DecimalPlacesAlwaysShown = False
+    OnExit = edtQtdeExit
+  end
+  object edtDescricao: TEdit
+    Left = 40
+    Top = 173
+    Width = 273
+    Height = 21
+    ReadOnly = True
+    TabOrder = 0
+    OnKeyPress = edtDescricaoKeyPress
+  end
+  object BalloonHint1: TBalloonHint
+    Style = bhsStandard
+    Left = 358
+    Top = 64
+  end
+  object ActionList2: TActionList
+    Images = frmPrincipal.ImageList48
+    Left = 364
+    Top = 8
+    object actSalvar1: TAction
+      ImageIndex = 0
+      OnExecute = actSalvar1Execute
+    end
+    object actCancelar: TAction
+      ImageIndex = 1
+      OnExecute = actCancelarExecute
+    end
+  end
+end

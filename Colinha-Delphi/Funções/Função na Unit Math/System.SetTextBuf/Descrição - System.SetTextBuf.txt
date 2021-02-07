@@ -1,0 +1,28 @@
+System.SetTextBuf
+
+Delphi
+procedure SetTextBuf(var F: Text; var Buf; [ Size: Integer]); overload;
+procedure SetTextBuf(var F: Text; var Buf; [ Size: Integer]); overload;
+
+
+
+Descrição
+
+
+Atribui um buffer de I/O a um arquivo de texto.
+
+No código Delphi, o SetTextBuf altera o arquivo de texto F para usar o buffer especificado pelo Buf em vez do buffer interno de F. F é uma variável de arquivo de texto, 
+Buf é qualquer variável, e tamanho é uma expressão opcional.
+
+Cada variável de arquivo texto tem um buffer interno de 128 byte que buffers Operações de Leitura e Gravação. Este buffer é adequado para a maioria das operações. 
+No entanto, programas fortemente vinculados à I/O se beneficiam de um buffer maior para reduzir o movimento da cabeça do disco e a sobrecarga do sistema de arquivos.
+
+O tamanho especifica o tamanho do buffer, em bytes. Se o tamanho for omitido, o SizeOf(Buf) será assumido. O novo buffer permanece em vigor até que F seja passado 
+para AssignFile.
+
+O SetTextBuf pode ser chamado imediatamente após redefinir, reescrever e anexar, mas nunca aplicá-lo a um arquivo aberto.
+
+Quando o SetTextBuf é chamado em um arquivo aberto uma vez que as operações de I/O tenham ocorrido, os dados podem ser perdidos por causa da alteração do buffer.
+
+A biblioteca de tempo de execução Delphi não garante que o buffer exista durante toda a duração das operações de I/O no arquivo. Um erro comum é instalar uma 
+svariável local como buffer e, em seguida, usar o arquivo fora do procedimento que declarou o buffer.

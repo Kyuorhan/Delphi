@@ -1,0 +1,56 @@
+unit uReceberConexao;
+
+interface
+
+uses
+  uReceberModel, System.SysUtils, Data.DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ZConnection,
+  uSys_Controll;
+
+type
+  TReceberConexao = class
+
+    procedure carregar (AReceberModel: TReceberModel);
+  end;
+
+implementation
+
+
+{ TReceberConexao }
+
+
+
+{ TReceberConexao }
+
+procedure TReceberConexao.carregar(AReceberModel: TReceberModel);
+var
+  VQry : TZQuery;
+begin
+  VQry := TSys_Controll.GetInstance().Conexao.CriarQry;
+  try
+    VQry.SQL.Text :=  'SELECT id, clientes_id, documentos_id, pedidos_id, descricao FROM receber';
+  //  VQry.Open;
+    try
+      AReceberModel.id                := VQry.FieldByName('id').AsInteger;
+      AReceberModel.clientes_id       := VQry.FieldByName('clientes_id').AsInteger;
+      AReceberModel.documentos_id     := VQry.FieldByName('documentos_id').AsInteger;
+      AReceberModel.pedidos_id        := VQry.FieldByName('pedidos_id').AsInteger;
+      AReceberModel.descricao         := VQry.FieldByName('descricao').AsString;
+      AReceberModel.data_documento    := VQry.FieldByName('data_documento').Value;
+      AReceberModel.data_vencimento   := VQry.FieldByName('data_vencimento').Value;
+      AReceberModel.desconto          := VQry.FieldByName('desconto').Value;
+      AReceberModel.pago              := VQry.FieldByName('pago').Value;
+      AReceberModel.valor             := VQry.FieldByName('valor').Value;
+      AReceberModel.num_parcela       := VQry.FieldByName('num_parcela').AsString;
+      AReceberModel.data_cadastro     := VQry.FieldByName('data_cadastro').Value;
+      AReceberModel.obs_quitacao      := VQry.FieldByName('obs_quitacao').AsString;
+      AReceberModel.vencimento        := VQry.FieldByName('vencimento').Value;
+    finally
+      VQry.Close
+    end;
+    finally
+      FreeAndNil(VQry);
+    end;
+
+end;
+
+end.

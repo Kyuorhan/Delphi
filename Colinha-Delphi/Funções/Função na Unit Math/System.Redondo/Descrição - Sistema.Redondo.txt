@@ -1,0 +1,15 @@
+Delphi
+function Round(X Real) Int64;
+
+Tipo	|  Visibilidade	 |  Fonte	 |  Unidade	 |  Pai
+Função	|  Público	 |  System.pas	 |  Sistema	 |  Sistema
+
+Descrição
+
+Retorna o valor de X arredondado para o número inteiro.
+
+Em Delphi, a função Round gira em torno de um valor real para um valor do tipo inteiro.
+
+X é uma expressão real. Round retorna um valor Int64 que é o valor de X arredondado para um número inteiro. O modo de arredondamento padrão é . Se X está exatamente na metade entre dois números inteiros, o resultado é sempre o número igual. Este método de arredondamento é muitas vezes chamado de "arredondamento do banqueiro". rmNearest
+
+Se o valor arredondado de X não estiver dentro da faixa Int64, um erro de tempo de execução será gerado que pode ser manipulado usando a exceção EInvalidOp.

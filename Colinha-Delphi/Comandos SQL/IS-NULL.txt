@@ -1,0 +1,9 @@
+--(IS NULL) quando quero excluir umas das correspondências--
+
+--EXEMPLOS--
+
+SELECT T1.*, T2.Campo FROM tabela1 AS T1
+LEFT JOIN tabela2 AS T2 
+ON T1.ID = T2.ID_T1
+WHERE T2.Campo IS NULL
+

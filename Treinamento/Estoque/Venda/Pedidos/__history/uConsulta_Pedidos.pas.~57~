@@ -1,0 +1,348 @@
+unit uConsulta_Pedidos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset, Vcl.ActnList, Vcl.ExtCtrls, JvExExtCtrls,
+  JvExtComponent, JvPanel, Vcl.ComCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids,
+  JvExDBGrids, JvDBGrid, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls,
+  JvBaseEdits, Vcl.DBCtrls;
+
+type
+  TfrmConsulta_Pedidos = class(TForm)
+    JvDBGrid2: TJvDBGrid;
+    StatusBar1: TStatusBar;
+    JvPanel1: TJvPanel;
+    BalloonHint1: TBalloonHint;
+    Timer1: TTimer;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    btnExcluir: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnNovo: TSpeedButton;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    Label3: TLabel;
+    Label2: TLabel;
+    edtData: TJvDateEdit;
+    lbDesconto_Valor: TLabel;
+    edtDescont_Valor: TJvCalcEdit;
+    edtDescont: TJvCalcEdit;
+    Label4: TLabel;
+    edtClientes: TEdit;
+    Label7: TLabel;
+    lbect1: TLabel;
+    edtID_Cliente: TEdit;
+    Label1: TLabel;
+    edtVendedor: TEdit;
+    Label5: TLabel;
+    edtID_Vendedor: TEdit;
+    edtTotal_Pagar: TJvCalcEdit;
+    Label6: TLabel;
+    edtTotal_Produto: TJvCalcEdit;
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure actSalvar1Execute(Sender: TObject);
+    procedure actCancelarExecute(Sender: TObject);
+    procedure actEditarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure actNovoExecute(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure edtClientesKeyPress(Sender: TObject; var Key: Char);
+    procedure CalculaTotalPedido;
+    procedure edtDescont_ValorExit(Sender: TObject);
+    procedure edtDescontExit(Sender: TObject);
+    procedure edtVendedorKeyPress(Sender: TObject; var Key: Char);
+    procedure edtTotal_ProdutoChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    TextoItens : String;
+  end;
+
+var
+  frmConsulta_Pedidos: TfrmConsulta_Pedidos;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout, uFuncoes, uCadastro_Pedidos_Itens, uConsulta_Clientes, uVenda,
+  uConsulta_Vendedor, uConsulta_Produtos;
+
+procedure TfrmConsulta_Pedidos.actCancelarExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmConsulta_Pedidos.actEditarExecute(Sender: TObject);
+begin
+  frmCadastro_Pedidos_Itens := TfrmCadastro_Pedidos_Itens.Create(Self);
+  frmCadastro_Pedidos_itens.edtID_Produto.Text
+    := frmVenda.sqlPedidos_ItensID_Produtos.AsString;
+  frmCadastro_Pedidos_itens.edtValor.Value  := frmVenda.sqlPedidos_ItensValor.Value;
+  frmCadastro_Pedidos_itens.edtQTDE.Value   := frmVenda.sqlPedidos_ItensQTDE.Value;
+  frmCadastro_Pedidos_Itens.edtTotal.Value  := frmVenda.sqlPedidos_ItensTotal.Value;
+
+  if (frmCadastro_Pedidos_Itens.ShowModal) = mrOk then
+  begin
+
+    frmVenda.sqlPedidos_Itens.Edit;
+    frmVenda.sqlPedidos_ItensID_Produtos.AsString
+      := frmCadastro_Pedidos_itens.edtID_Produto.Text;
+    frmVenda.sqlPedidos_ItensValor.Value   := frmCadastro_Pedidos_itens.edtValor.Value;
+    frmVenda.sqlPedidos_ItensQTDE.Value    := frmCadastro_Pedidos_itens.edtQTDE.Value;
+    frmVenda.sqlPedidos_ItensTotal.Value   := frmCadastro_Pedidos_itens.edtTotal.Value;
+    frmVenda.sqlPedidos_Itens.Post;
+    CalculaTotalPedido;
+  end;
+
+end;
+
+procedure TfrmConsulta_Pedidos.actExcluirExecute(Sender: TObject);
+begin
+  if Application.MessageBox('Deseja realmente "Excluir" o registro?',
+    'Vendas - Pedidos/Itens', MB_YESNO) = mrYes then
+  begin
+    try
+      frmVenda.sqlPedidos_Itens.Delete;
+      frmVenda.sqlPedidos_Itens.ApplyUpdates;
+      MostraMensagem('Registro excluido com "Sucesso!"');
+      CalculaTotalPedido;
+    except
+      on E: Exception do
+        raise Exception.Create('Error ao "Excluir" o registro!' + E.Message);
+    end;
+  end;
+end;
+
+procedure TfrmConsulta_Pedidos.actNovoExecute(Sender: TObject);
+begin
+  frmCadastro_Pedidos_Itens := TfrmCadastro_Pedidos_Itens.Create(Self);
+  if (frmCadastro_Pedidos_Itens.ShowModal) = mrOk then
+  begin
+    frmVenda.sqlPedidos_Itens.Append;
+
+    frmVenda.sqlPedidos_ItensID_Produtos.AsString := frmCadastro_Pedidos_itens.edtID_Produto.Text;
+    frmVenda.sqlPedidos_ItensProduto.AsString     := frmCadastro_Pedidos_itens.edtDescricao.Text;
+
+    frmVenda.sqlPedidos_ItensValor.Value      := frmCadastro_Pedidos_itens.edtValor.Value;
+    frmVenda.sqlPedidos_ItensQTDE.Value       := frmCadastro_Pedidos_itens.edtQTDE.Value;
+    frmVenda.sqlPedidos_ItensTotal.Value      := frmCadastro_Pedidos_itens.edtTotal.Value;
+
+    frmVenda.sqlPedidos_Itens.Post;
+
+    CalculaTotalPedido;
+  end;
+end;
+
+procedure TfrmConsulta_Pedidos.actSalvar1Execute(Sender: TObject);
+begin
+
+  if edtClientes.Text = '' then
+  begin
+    MostraAviso('Campo "Cliente" é obrigatório');
+    if lbect1.Visible = False then
+    begin
+      lbect1.Visible := True;
+      edtClientes.SetFocus;
+      Exit;
+    end;
+  end;
+
+  if StrToDateDef(edtData.Text, 0) = 0 then
+  begin
+    MostraAviso('Ensira uma do "Data do Pedido"');
+    edtData.SetFocus;
+    Exit;
+  end;
+
+  if (edtTotal_Pagar.Value <= 0.00) or (edtTotal_Pagar.Value <= 0) then
+  begin
+    MostraAviso('O valor Total a Pagar deve ser Enserido!');
+    edtTotal_Pagar.SetFocus;
+    Exit;
+  end;
+
+  ModalResult := mrOk;
+end;
+
+procedure TfrmConsulta_Pedidos.btnCancelarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Pedidos.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Pedidos.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Pedidos.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Pedidos.btnSalvarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Pedidos.CalculaTotalPedido;
+begin
+  frmVenda.sqlPedidos.Edit;
+  frmVenda.sqlPedidosTotal_Produtos.Value := 0;
+  frmVenda.sqlPedidos_Itens.First;
+  while not frmVenda.sqlPedidos_Itens.Eof do
+  begin
+    frmVenda.sqlPedidosTotal_Produtos.Value := frmVenda.sqlPedidosTotal_Produtos.Value +
+      frmVenda.sqlPedidos_ItensTotal.Value;
+
+    frmVenda.sqlPedidos_Itens.Next;
+  end;
+  edtTotal_Produto.Value := frmVenda.sqlPedidosTotal_Produtos.Value;
+end;
+
+procedure TfrmConsulta_Pedidos.edtClientesKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = '+' then
+  begin
+    Key := #0;
+    frmConsulta := TfrmConsulta.Create(nil);
+    frmConsulta.ShowModal;
+    edtID_Cliente.Text  := frmConsulta.sqlClientesID.AsString;
+    edtClientes.Text    := frmConsulta.sqlClientesNome.AsString;
+    FreeAndNil(frmConsulta);
+  end;
+end;
+
+procedure TfrmConsulta_Pedidos.edtDescontExit(Sender: TObject);
+var
+  Total_Produto, Desc : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  Desc := edtDescont.Value;
+
+  if not (Desc <= 0.00) then
+  begin
+    edtDescont_Valor.Value := ((Desc * Total_Produto)/ 100);
+    edtTotal_Pagar.Value := (Total_Produto - edtDescont_Valor.Value);
+  end;
+
+  if (edtTotal_Pagar.Value < 0.00) then
+  begin
+    edtTotal_Pagar.Value    := 0.00;
+    Exit;
+  end;
+
+end;
+
+procedure TfrmConsulta_Pedidos.edtDescont_ValorExit(Sender: TObject);
+var
+  Total_Produto, Desc_Valor : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  Desc_Valor    := edtDescont_Valor.Value;
+
+  if not (Desc_Valor <= 0.00) then
+  begin
+    edtDescont.Value      := ((Desc_Valor / Total_Produto)* 100);
+    edtTotal_Pagar.Value  := (Total_Produto - Desc_Valor);
+  end;
+
+  if (edtTotal_Pagar.Value < 0.00) then
+  begin
+    edtTotal_Pagar.Value := 0.00;
+    Exit
+  end;
+
+end;
+
+procedure TfrmConsulta_Pedidos.edtTotal_ProdutoChange(Sender: TObject);
+var
+  Total_Produto : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  if (edtDescont.Value <= 0.00) then
+  begin
+    edtTotal_Pagar.Value := edtTotal_Produto.Value;
+    if (edtDescont_Valor.Value <= 0.00) then
+    begin
+      edtTotal_Pagar.Value := edtTotal_Produto.Value;
+      Exit;
+    end;
+    Exit;
+  end;
+
+  if (edtDescont.Value <> 0.00) or (edtDescont_Valor.Value <> 0.00) then
+  begin
+    edtDescont.Value        := 0.00;
+    edtDescont_Valor.Value  := 0.00;
+  end;
+
+end;
+
+procedure TfrmConsulta_Pedidos.edtVendedorKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = '+' then
+  begin
+    Key := #0;
+    frmConsulta_Vendedor := TfrmConsulta_Vendedor.Create(nil);
+    frmConsulta_Vendedor.ShowModal;
+    edtID_Vendedor.Text := frmConsulta_Vendedor.sqlVendedorID.AsString;
+    edtVendedor.Text    := frmConsulta_Vendedor.sqlVendedorVendedor.AsString;
+    FreeAndNil(frmConsulta_Vendedor);
+  end;
+end;
+
+procedure TfrmConsulta_Pedidos.FormCreate(Sender: TObject);
+begin
+  TextoItens := sqlPedidos_Itens.SQL.Text;
+end;
+
+procedure TfrmConsulta_Pedidos.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+procedure TfrmConsulta_Pedidos.FormShow(Sender: TObject);
+begin
+  sqlPedidos_Itens.SQL.Text := TextoItens + ' WHERE pi.id = 0';
+  sqlPedidos_Itens.Open;
+end;
+
+procedure TfrmConsulta_Pedidos.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

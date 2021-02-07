@@ -1,0 +1,203 @@
+object fCaixas_Aberturas_Cadastro: TfCaixas_Aberturas_Cadastro
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Caixa de Abert_Fecht/Cadastro'
+  ClientHeight = 271
+  ClientWidth = 464
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PageControl1: TPageControl
+    Left = 8
+    Top = 8
+    Width = 448
+    Height = 220
+    ActivePage = TabSheet1
+    TabOrder = 0
+    object TabSheet1: TTabSheet
+      Caption = 'Geral'
+      object Label2: TLabel
+        Left = 290
+        Top = 62
+        Width = 36
+        Height = 13
+        Caption = 'TROCO'
+      end
+      object Label5: TLabel
+        Left = 290
+        Top = 16
+        Width = 27
+        Height = 13
+        Caption = 'DATA'
+      end
+      object lbDescricao: TLabel
+        Left = 24
+        Top = 16
+        Width = 59
+        Height = 13
+        Caption = 'DESCRI'#199#195'O'
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 119
+        Width = 440
+        Height = 73
+        Align = alBottom
+        BevelOuter = bvNone
+        Color = clWindow
+        Enabled = False
+        ParentBackground = False
+        TabOrder = 0
+        object Label4: TLabel
+          Left = 163
+          Top = 15
+          Width = 31
+          Height = 13
+          Caption = 'SA'#205'DA'
+        end
+        object Label1: TLabel
+          Left = 290
+          Top = 15
+          Width = 33
+          Height = 13
+          Caption = 'SALDO'
+        end
+        object Label3: TLabel
+          Left = 24
+          Top = 15
+          Width = 47
+          Height = 13
+          Caption = 'ENTRADA'
+        end
+        object edtSaidas: TJvDBCalcEdit
+          Left = 163
+          Top = 34
+          Width = 121
+          Height = 19
+          Flat = True
+          ParentFlat = False
+          ButtonFlat = True
+          DisplayFormat = ',0.00;-,0.00'
+          FormatOnEditing = True
+          ImageIndex = 0
+          ImageKind = ikEllipsis
+          ShowButton = False
+          TabOrder = 0
+          DecimalPlacesAlwaysShown = False
+          DataField = 'saidas'
+          DataSource = dmCaixa.dsCaixas_Aberturas
+        end
+        object edtSaldo: TJvDBCalcEdit
+          Left = 290
+          Top = 34
+          Width = 121
+          Height = 19
+          Flat = True
+          ParentFlat = False
+          ButtonFlat = True
+          DisplayFormat = ',0.00;-,0.00'
+          FormatOnEditing = True
+          ImageIndex = 0
+          ImageKind = ikEllipsis
+          ShowButton = False
+          TabOrder = 1
+          DecimalPlacesAlwaysShown = False
+          DataField = 'saldo'
+          DataSource = dmCaixa.dsCaixas_Aberturas
+        end
+        object edtEntradas: TJvDBCalcEdit
+          Left = 24
+          Top = 34
+          Width = 121
+          Height = 19
+          Flat = True
+          ParentFlat = False
+          ButtonFlat = True
+          DisplayFormat = ',0.00;-,0.00'
+          FormatOnEditing = True
+          ImageIndex = 0
+          ImageKind = ikEllipsis
+          ShowButton = False
+          TabOrder = 2
+          DecimalPlacesAlwaysShown = False
+          DataField = 'entradas'
+          DataSource = dmCaixa.dsCaixas_Aberturas
+        end
+      end
+      object edtCaixa: TDBLookupComboBox
+        Left = 24
+        Top = 35
+        Width = 249
+        Height = 21
+        DataField = 'caixas_id'
+        DataSource = dmCaixa.dsCaixas_Aberturas
+        KeyField = 'id'
+        ListField = 'caixa'
+        ListSource = dmCaixa.dsCaixas
+        TabOrder = 1
+      end
+      object edtTroco: TJvDBCalcEdit
+        Left = 290
+        Top = 81
+        Width = 121
+        Height = 21
+        ButtonFlat = True
+        DisplayFormat = '0.00'
+        TabOrder = 2
+        DecimalPlacesAlwaysShown = False
+        DataField = 'troco'
+        DataSource = dmCaixa.dsCaixas_Aberturas
+      end
+      object edtData: TJvDBDateEdit
+        Left = 290
+        Top = 35
+        Width = 121
+        Height = 21
+        DataField = 'data'
+        DataSource = dmCaixa.dsCaixas_Aberturas
+        ButtonFlat = True
+        DefaultToday = True
+        Flat = False
+        ParentFlat = False
+        ShowNullDate = False
+        TabOrder = 3
+      end
+    end
+  end
+  object btnVoltar: TButton
+    Left = 369
+    Top = 234
+    Width = 79
+    Height = 29
+    Caption = 'Voltar'
+    TabOrder = 1
+    OnClick = btnVoltarClick
+  end
+  object btnSalvar: TButton
+    Left = 284
+    Top = 234
+    Width = 79
+    Height = 29
+    Caption = 'Salvar'
+    ImageIndex = 1
+    TabOrder = 2
+    OnClick = btnSalvarClick
+  end
+  object BalloonHint1: TBalloonHint
+    Style = bhsStandard
+    Left = 400
+    Top = 8
+  end
+end

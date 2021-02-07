@@ -1,0 +1,700 @@
+object frmLayout_Gerar: TfrmLayout_Gerar
+  Left = 0
+  Top = 0
+  Caption = 'Layout_Gerar'
+  ClientHeight = 641
+  ClientWidth = 764
+  Color = cl3DLight
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 764
+    Height = 66
+    Align = alTop
+    Color = clWindow
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitWidth = 1026
+    object btnAula2: TSpeedButton
+      Left = 1
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 2'
+      OnClick = btnAula2Click
+    end
+    object btnAula5: TSpeedButton
+      Left = 217
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 5'
+      OnClick = btnAula5Click
+      ExplicitLeft = 113
+      ExplicitTop = 2
+    end
+    object btnAula4: TSpeedButton
+      Left = 145
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 4'
+      OnClick = btnAula4Click
+      ExplicitLeft = 113
+      ExplicitTop = 2
+    end
+    object btnAula3: TSpeedButton
+      Left = 73
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 3'
+      OnClick = btnAula3Click
+      ExplicitLeft = 113
+      ExplicitTop = 2
+    end
+    object btnAula6: TSpeedButton
+      Left = 289
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      BiDiMode = bdLeftToRight
+      Caption = 'Aula 6'
+      ParentBiDiMode = False
+      OnClick = btnAula6Click
+      ExplicitLeft = 367
+      ExplicitTop = 0
+    end
+    object btnAula7_0: TSpeedButton
+      Left = 361
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      BiDiMode = bdLeftToRight
+      Caption = 'Aula 7'
+      ParentBiDiMode = False
+      OnClick = btnAula7_0Click
+      ExplicitLeft = 425
+      ExplicitTop = 2
+    end
+    object btnImprimir: TSpeedButton
+      Left = 538
+      Top = 10
+      Width = 97
+      Height = 45
+      Caption = 'Imprimir'
+      OnClick = btnImprimirClick
+    end
+    object btnVizualizar: TSpeedButton
+      Left = 641
+      Top = 10
+      Width = 97
+      Height = 45
+      Caption = 'Visualizar'
+      OnClick = btnImprimirClick
+    end
+    object btnAula7_1: TSpeedButton
+      Left = 433
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      BiDiMode = bdLeftToRight
+      Caption = 'Aula 7.1'
+      ParentBiDiMode = False
+      OnClick = btnAula7_1Click
+      ExplicitLeft = 481
+      ExplicitTop = 2
+    end
+  end
+  object Panel2: TPanel
+    Left = 692
+    Top = 66
+    Width = 72
+    Height = 575
+    Align = alRight
+    Color = clWindow
+    ParentBackground = False
+    TabOrder = 1
+    object btnCliente: TSpeedButton
+      Left = 1
+      Top = 1
+      Width = 70
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alTop
+      Caption = 'Cliente'
+      OnClick = btnAula2Click
+    end
+    object SpeedButton3: TSpeedButton
+      Left = 1
+      Top = 129
+      Width = 70
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alTop
+      OnClick = btnAula4Click
+    end
+    object SpeedButton4: TSpeedButton
+      Left = 1
+      Top = 65
+      Width = 70
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alTop
+      OnClick = btnAula3Click
+    end
+  end
+  object sqlCliente: TZQuery
+    SQL.Strings = (
+      'SELECT * FROM clientes')
+    Params = <>
+    Left = 32
+    Top = 168
+    object sqlClienteid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlClientenome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlClientesexo: TWideStringField
+      FieldName = 'sexo'
+    end
+    object sqlClienteendereco: TWideStringField
+      FieldName = 'endereco'
+      Size = 50
+    end
+    object sqlClientenum_end: TWideStringField
+      FieldName = 'num_end'
+    end
+    object sqlClientedata_nascimento: TDateField
+      FieldName = 'data_nascimento'
+    end
+  end
+  object RelClientes: TfrxDBDataset
+    UserName = 'Cliente'
+    CloseDataSource = False
+    DataSet = sqlCliente
+    BCDToCurrency = False
+    Left = 32
+    Top = 224
+  end
+  object RelReceber: TfrxDBDataset
+    UserName = 'Receber'
+    CloseDataSource = False
+    DataSet = sqlReceber
+    BCDToCurrency = False
+    Left = 104
+    Top = 224
+  end
+  object sqlReceber: TZQuery
+    SQL.Strings = (
+      'SELECT nome, id, vencimento, valor, historico FROM receber'
+      'ORDER BY vencimento')
+    Params = <>
+    Left = 104
+    Top = 168
+    object sqlRecebernome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlReceberid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlRecebervencimento: TDateField
+      FieldName = 'vencimento'
+    end
+    object sqlRecebervalor: TFloatField
+      FieldName = 'valor'
+    end
+    object sqlReceberhistorico: TWideStringField
+      FieldName = 'historico'
+      Size = 50
+    end
+  end
+  object sqlVendas: TZQuery
+    SQL.Strings = (
+      'SELECT v.data, td.documento, SUM(v.total) AS total'
+      'FROM vendas v'
+      'LEFT JOIN tipo_documentos td ON td.id = v.documento_id '
+      'GROUP BY v.data, td.documento'
+      '')
+    Params = <>
+    Left = 176
+    Top = 168
+    object sqlVendasdata: TDateField
+      FieldName = 'data'
+    end
+    object sqlVendasdocumento: TWideStringField
+      FieldName = 'documento'
+      Size = 50
+    end
+    object sqlVendastotal: TFloatField
+      FieldName = 'total'
+      ReadOnly = True
+    end
+  end
+  object frxCrossObject1: TfrxCrossObject
+    Left = 128
+    Top = 96
+  end
+  object dsMaster: TDataSource
+    DataSet = sqlMaster
+    Left = 32
+    Top = 424
+  end
+  object sqlDocumento: TZQuery
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT * FROM tipo_documentos')
+    Params = <>
+    Left = 248
+    Top = 168
+    object sqlDocumentoid: TLongWordField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlDocumentodocumento: TWideStringField
+      FieldName = 'documento'
+      Size = 50
+    end
+  end
+  object sqlDetail: TZQuery
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT p_i.*'
+      'FROM pedidos_itens p_i'
+      'WHERE p_i.id_pedidos = :id')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    DataSource = dsMaster
+    Left = 104
+    Top = 312
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object sqlDetailid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlDetailid_pedidos: TIntegerField
+      FieldName = 'id_pedidos'
+      Required = True
+    end
+    object sqlDetailproduto: TWideStringField
+      FieldName = 'produto'
+      Size = 120
+    end
+    object sqlDetailvalor: TFloatField
+      FieldName = 'valor'
+    end
+    object sqlDetailqtde: TIntegerField
+      FieldName = 'qtde'
+    end
+    object sqlDetailtotal: TFloatField
+      FieldName = 'total'
+    end
+  end
+  object sqlMaster: TZQuery
+    UpdateObject = updMaster
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT p.* FROM pedidos p'
+      'LEFT JOIN pedidos_itens p_i ON p_i.id_pedidos = p.id '
+      'GROUP BY p.data, p_i.id_pedidos')
+    Params = <>
+    Left = 32
+    Top = 312
+    object sqlMasterid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlMasterid_clientes: TIntegerField
+      FieldName = 'id_clientes'
+    end
+    object sqlMasterdata: TDateField
+      FieldName = 'data'
+    end
+    object sqlMasternome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlMastervalor: TFloatField
+      FieldName = 'valor'
+    end
+    object sqlMasterdesc: TFloatField
+      FieldName = 'desc'
+    end
+    object sqlMastervalor_total: TFloatField
+      FieldName = 'valor_total'
+    end
+  end
+  object RelMaster: TfrxDBDataset
+    UserName = 'Master'
+    CloseDataSource = False
+    DataSet = sqlMaster
+    BCDToCurrency = False
+    Left = 32
+    Top = 368
+  end
+  object RelDetail: TfrxDBDataset
+    UserName = 'Detail'
+    CloseDataSource = False
+    DataSet = sqlDetail
+    BCDToCurrency = False
+    Left = 104
+    Top = 368
+  end
+  object frxReport: TfrxReport
+    Version = '6.9.3'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Padr'#227'o'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 44217.436060023100000000
+    ReportOptions.LastChange = 44223.324970833330000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      ''
+      'begin'
+      ''
+      'end.')
+    Left = 32
+    Top = 96
+    Datasets = <
+      item
+        DataSet = frxVendas
+        DataSetName = 'Vendas'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
+      object PageHeader1: TfrxPageHeader
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 49.133890000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object Memo4: TfrxMemoView
+          Align = baRight
+          AllowVectorExport = True
+          Top = 7.559060000000000000
+          Width = 718.110700000000000000
+          Height = 30.236240000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Style = fsDot
+          Frame.Typ = [ftBottom]
+          Memo.UTF8W = (
+            'RELAT'#211'RIO DE VENDAS (PAGAMENTOS)')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+      end
+      object DBCross1: TfrxDBCrossView
+        AllowVectorExport = True
+        Left = 105.826840000000000000
+        Top = 158.740260000000000000
+        Width = 242.000000000000000000
+        Height = 88.000000000000000000
+        DownThenAcross = False
+        CellFields.Strings = (
+          'total')
+        ColumnFields.Strings = (
+          'documento')
+        DataSet = frxVendas
+        DataSetName = 'Vendas'
+        RowFields.Strings = (
+          'data')
+        Memos = {
+          3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D227574
+          662D3822207374616E64616C6F6E653D226E6F223F3E3C63726F73733E3C6365
+          6C6C6D656D6F733E3C546672784D656D6F5669657720416C6C6F77566563746F
+          724578706F72743D225472756522204C6566743D223138362C38323638342220
+          546F703D223230322C3734303236222057696474683D22383022204865696768
+          743D22323222205265737472696374696F6E733D2232342220416C6C6F774578
+          7072657373696F6E733D2246616C736522204672616D652E5479703D22313522
+          20476170583D22332220476170593D2233222048416C69676E3D226861526967
+          6874222056416C69676E3D22766143656E7465722220546578743D2230222F3E
+          3C546672784D656D6F5669657720416C6C6F77566563746F724578706F72743D
+          225472756522204C6566743D223138362C38323638342220546F703D22323234
+          2C3734303236222057696474683D22383022204865696768743D223232222052
+          65737472696374696F6E733D2232342220416C6C6F7745787072657373696F6E
+          733D2246616C736522204672616D652E5479703D2231352220476170583D2233
+          2220476170593D2233222048416C69676E3D2268615269676874222056416C69
+          676E3D22766143656E7465722220546578743D2230222F3E3C546672784D656D
+          6F5669657720416C6C6F77566563746F724578706F72743D225472756522204C
+          6566743D223236362C38323638342220546F703D223230322C37343032362220
+          57696474683D22383122204865696768743D2232322220526573747269637469
+          6F6E733D2232342220416C6C6F7745787072657373696F6E733D2246616C7365
+          22204672616D652E5479703D2231352220476170583D22332220476170593D22
+          33222048416C69676E3D2268615269676874222056416C69676E3D2276614365
+          6E7465722220546578743D2230222F3E3C546672784D656D6F5669657720416C
+          6C6F77566563746F724578706F72743D225472756522204C6566743D22323636
+          2C38323638342220546F703D223232342C3734303236222057696474683D2238
+          3122204865696768743D22323222205265737472696374696F6E733D22323422
+          20416C6C6F7745787072657373696F6E733D2246616C736522204672616D652E
+          5479703D2231352220476170583D22332220476170593D2233222048416C6967
+          6E3D2268615269676874222056416C69676E3D22766143656E74657222205465
+          78743D2230222F3E3C2F63656C6C6D656D6F733E3C63656C6C6865616465726D
+          656D6F733E3C546672784D656D6F5669657720416C6C6F77566563746F724578
+          706F72743D225472756522204C6566743D223132302220546F703D2236362220
+          57696474683D22333122204865696768743D2232322220526573747269637469
+          6F6E733D22382220416C6C6F7745787072657373696F6E733D2246616C736522
+          204672616D652E5479703D2231352220476170583D22332220476170593D2233
+          222056416C69676E3D22766143656E7465722220546578743D22746F74616C22
+          2F3E3C546672784D656D6F5669657720416C6C6F77566563746F724578706F72
+          743D225472756522204C6566743D223132302220546F703D2238382220576964
+          74683D22333122204865696768743D22323222205265737472696374696F6E73
+          3D22382220416C6C6F7745787072657373696F6E733D2246616C736522204672
+          616D652E5479703D2231352220476170583D22332220476170593D2233222056
+          416C69676E3D22766143656E7465722220546578743D22746F74616C222F3E3C
+          2F63656C6C6865616465726D656D6F733E3C636F6C756D6E6D656D6F733E3C54
+          6672784D656D6F5669657720416C6C6F77566563746F724578706F72743D2254
+          72756522204C6566743D223138362C38323638342220546F703D223138302C37
+          34303236222057696474683D22383022204865696768743D2232322220526573
+          7472696374696F6E733D2232342220416C6C6F7745787072657373696F6E733D
+          2246616C736522204672616D652E5479703D2231352220476170583D22332220
+          476170593D2233222048416C69676E3D22686143656E746572222056416C6967
+          6E3D22766143656E7465722220546578743D22222F3E3C2F636F6C756D6E6D65
+          6D6F733E3C636F6C756D6E746F74616C6D656D6F733E3C546672784D656D6F56
+          69657720416C6C6F77566563746F724578706F72743D225472756522204C6566
+          743D223236362C38323638342220546F703D223138302C373430323622205769
+          6474683D22383122204865696768743D22323222205265737472696374696F6E
+          733D22382220416C6C6F7745787072657373696F6E733D2246616C7365222046
+          6F6E742E436861727365743D22312220466F6E742E436F6C6F723D2230222046
+          6F6E742E4865696768743D222D31332220466F6E742E4E616D653D2241726961
+          6C2220466F6E742E5374796C653D223122204672616D652E5479703D22313522
+          20476170583D22332220476170593D2233222048416C69676E3D22686143656E
+          7465722220506172656E74466F6E743D2246616C7365222056416C69676E3D22
+          766143656E7465722220546578743D224772616E6420546F74616C222F3E3C2F
+          636F6C756D6E746F74616C6D656D6F733E3C636F726E65726D656D6F733E3C54
+          6672784D656D6F5669657720416C6C6F77566563746F724578706F72743D2254
+          72756522204C6566743D223130352C38323638342220546F703D223135382C37
+          34303236222057696474683D22383122204865696768743D2232322220526573
+          7472696374696F6E733D22382220416C6C6F7745787072657373696F6E733D22
+          46616C736522204672616D652E5479703D2231352220476170583D2233222047
+          6170593D2233222048416C69676E3D22686143656E746572222056416C69676E
+          3D22766143656E7465722220546578743D22746F74616C222F3E3C546672784D
+          656D6F5669657720416C6C6F77566563746F724578706F72743D225472756522
+          204C6566743D223138362C38323638342220546F703D223135382C3734303236
+          222057696474683D2231363122204865696768743D2232322220526573747269
+          6374696F6E733D22382220416C6C6F7745787072657373696F6E733D2246616C
+          736522204672616D652E5479703D2231352220476170583D2233222047617059
+          3D2233222048416C69676E3D22686143656E746572222056416C69676E3D2276
+          6143656E7465722220546578743D22646F63756D656E746F222F3E3C54667278
+          4D656D6F5669657720416C6C6F77566563746F724578706F72743D2254727565
+          22204C6566743D223132302220546F703D223232222057696474683D22333122
+          204865696768743D22343422205265737472696374696F6E733D223822205669
+          7369626C653D2246616C73652220416C6C6F7745787072657373696F6E733D22
+          46616C736522204672616D652E5479703D2231352220476170583D2233222047
+          6170593D2233222048416C69676E3D22686143656E746572222056416C69676E
+          3D22766143656E7465722220546578743D22222F3E3C546672784D656D6F5669
+          657720416C6C6F77566563746F724578706F72743D225472756522204C656674
+          3D223130352C38323638342220546F703D223138302C37343032362220576964
+          74683D22383122204865696768743D22323222205265737472696374696F6E73
+          3D22382220416C6C6F7745787072657373696F6E733D2246616C736522204672
+          616D652E5479703D2231352220476170583D22332220476170593D2233222048
+          416C69676E3D22686143656E746572222056416C69676E3D22766143656E7465
+          722220546578743D2264617461222F3E3C2F636F726E65726D656D6F733E3C72
+          6F776D656D6F733E3C546672784D656D6F5669657720416C6C6F77566563746F
+          724578706F72743D225472756522204C6566743D223130352C38323638342220
+          546F703D223230322C3734303236222057696474683D22383122204865696768
+          743D22323222205265737472696374696F6E733D2232342220416C6C6F774578
+          7072657373696F6E733D2246616C736522204672616D652E5479703D22313522
+          20476170583D22332220476170593D2233222048416C69676E3D22686143656E
+          746572222056416C69676E3D22766143656E7465722220546578743D22222F3E
+          3C2F726F776D656D6F733E3C726F77746F74616C6D656D6F733E3C546672784D
+          656D6F5669657720416C6C6F77566563746F724578706F72743D225472756522
+          204C6566743D223130352C38323638342220546F703D223232342C3734303236
+          222057696474683D22383122204865696768743D223232222052657374726963
+          74696F6E733D22382220416C6C6F7745787072657373696F6E733D2246616C73
+          652220466F6E742E436861727365743D22312220466F6E742E436F6C6F723D22
+          302220466F6E742E4865696768743D222D31332220466F6E742E4E616D653D22
+          417269616C2220466F6E742E5374796C653D223122204672616D652E5479703D
+          2231352220476170583D22332220476170593D2233222048416C69676E3D2268
+          6143656E7465722220506172656E74466F6E743D2246616C7365222056416C69
+          676E3D22766143656E7465722220546578743D224772616E6420546F74616C22
+          2F3E3C2F726F77746F74616C6D656D6F733E3C63656C6C66756E6374696F6E73
+          3E3C6974656D20312F3E3C2F63656C6C66756E6374696F6E733E3C636F6C756D
+          6E736F72743E3C6974656D20302F3E3C2F636F6C756D6E736F72743E3C726F77
+          736F72743E3C6974656D20302F3E3C2F726F77736F72743E3C2F63726F73733E}
+      end
+    end
+  end
+  object updMaster: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM pedidos'
+      'WHERE'
+      '  pedidos.id = :OLD_id')
+    InsertSQL.Strings = (
+      'INSERT INTO pedidos'
+      '  (id, id_clientes, data, nome, valor, desc, valor_total)'
+      'VALUES'
+      '  (:id, :id_clientes, :data, :nome, :valor, :desc, :valor_total)')
+    ModifySQL.Strings = (
+      'UPDATE pedidos SET'
+      '  id = :id,'
+      '  id_clientes = :id_clientes,'
+      '  data = :data,'
+      '  nome = :nome,'
+      '  valor = :valor,'
+      '  desc = :desc,'
+      '  valor_total = :valor_total'
+      'WHERE'
+      '  pedidos.id = :OLD_id')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 32
+    Top = 480
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_clientes'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'nome'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'valor'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'desc'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'valor_total'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_id'
+        ParamType = ptUnknown
+      end>
+  end
+  object RelScript_Variaveis: TfrxDBDataset
+    UserName = 'Scrip_Variaveis'
+    CloseDataSource = False
+    BCDToCurrency = False
+    Left = 192
+    Top = 368
+  end
+  object sqlEtiquetas: TZQuery
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT * FROM produtos')
+    Params = <>
+    Left = 288
+    Top = 312
+    object sqlEtiquetasid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlEtiquetasproduto: TWideStringField
+      FieldName = 'produto'
+      Size = 80
+    end
+    object sqlEtiquetaspreco_compra: TFloatField
+      FieldName = 'preco_compra'
+    end
+    object sqlEtiquetaspreco_venda: TFloatField
+      FieldName = 'preco_venda'
+    end
+    object sqlEtiquetasmargem_lucro: TFloatField
+      FieldName = 'margem_lucro'
+    end
+    object sqlEtiquetascod_barras: TWideStringField
+      FieldName = 'cod_barras'
+      Size = 30
+    end
+    object sqlEtiquetascod_referencias: TWideStringField
+      FieldName = 'cod_referencias'
+      Size = 30
+    end
+  end
+  object frxBarCodeObject1: TfrxBarCodeObject
+    Left = 232
+    Top = 96
+  end
+  object RelEtiquetas: TfrxDBDataset
+    UserName = 'Etiquetas'
+    CloseDataSource = False
+    DataSet = sqlEtiquetas
+    BCDToCurrency = False
+    Left = 288
+    Top = 368
+  end
+  object frxVendas: TfrxDBDataset
+    UserName = 'Vendas'
+    CloseDataSource = False
+    DataSet = sqlVendas
+    BCDToCurrency = False
+    Left = 176
+    Top = 224
+  end
+end

@@ -1,0 +1,56 @@
+unit uConsulta_Pedidos_Itens;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset, Vcl.ActnList, Vcl.ExtCtrls, JvExExtCtrls,
+  JvExtComponent, JvPanel, Vcl.ComCtrls, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids,
+  JvExDBGrids, JvDBGrid;
+
+type
+  TForm1 = class(TForm)
+    JvDBGrid2: TJvDBGrid;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    StatusBar1: TStatusBar;
+    JvPanel1: TJvPanel;
+    BalloonHint1: TBalloonHint;
+    Timer1: TTimer;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    sqlPedidos_Itens: TZQuery;
+    dsPedidos_Itens: TDataSource;
+    sqlPedidos_Itensid: TIntegerField;
+    sqlPedidos_Itensid_pedidos: TIntegerField;
+    sqlPedidos_Itensid_produtos: TIntegerField;
+    sqlPedidos_Itensqtde: TFloatField;
+    sqlPedidos_Itensvalor: TFloatField;
+    sqlPedidos_Itenstotal: TFloatField;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    actExcluir1: TAction;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout;
+
+end.

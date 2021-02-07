@@ -1,0 +1,244 @@
+unit uVenda1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
+  Vcl.ComCtrls, JvExExtCtrls, JvExtComponent, JvPanel, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ActnList, Vcl.StdCtrls, Vcl.Mask, JvExMask, JvToolEdit, Vcl.Buttons,
+  Data.DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ZSqlUpdate;
+
+type
+  TfrmVenda = class(TForm)
+    JvPanel1: TJvPanel;
+    BalloonHint1: TBalloonHint;
+    Timer1: TTimer;
+    StatusBar1: TStatusBar;
+    edtVenc2: TJvDateEdit;
+    edtVenc1: TJvDateEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    edtLocalizar: TEdit;
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    actSalvar: TAction;
+    actCancelar: TAction;
+    actQuitar: TAction;
+    actEstornar: TAction;
+    sqlPedidos: TZQuery;
+    dsPedidos: TDataSource;
+    sqlPedidosid: TIntegerField;
+    sqlPedidosid_vendedores: TIntegerField;
+    sqlPedidosid_clientes: TIntegerField;
+    sqlPedidosdata: TDateField;
+    sqlPedidostotal_produtos: TFloatField;
+    sqlPedidosdesconto: TFloatField;
+    sqlPedidosdesconto_valor: TFloatField;
+    sqlPedidostotal_pagar: TFloatField;
+    sqlPedidosnome: TWideStringField;
+    updPedidos: TZUpdateSQL;
+    JvPanel2: TJvPanel;
+    dsPedidos_Itens: TDataSource;
+    updtPedidos_Itens: TZUpdateSQL;
+    sqlPedidos_Itens: TZQuery;
+    sqlPedidos_Itensid: TIntegerField;
+    sqlPedidos_Itensid_pedidos: TIntegerField;
+    sqlPedidos_Itensid_produtos: TIntegerField;
+    sqlPedidos_Itensid_unid_medidas: TIntegerField;
+    sqlPedidos_Itensproduto: TWideStringField;
+    sqlPedidos_Itensqtde: TFloatField;
+    sqlPedidos_Itensvalor: TFloatField;
+    sqlPedidos_Itenstotal: TFloatField;
+    sqlPedidos_Itensabrev: TWideStringField;
+    procedure Timer1Timer(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure actNovoExecute(Sender: TObject);
+    procedure actEditarExecute(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edtLocalizarChange(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
+  private
+    procedure LocalizarPedido;
+    { Private declarations }
+  public
+    { Public declarations }
+    TextoPedidos, TextoItens : String;
+  end;
+
+var
+  frmVenda: TfrmVenda;
+
+implementation
+
+{$R *.dfm}
+
+uses uConsulta_Pedidos, uFuncoes, My_Layout;
+
+procedure TfrmVenda.actEditarExecute(Sender: TObject);
+begin
+
+ // sqlPedidos_Itens.SQL.Text := TextoItens + ' WHERE id > 0';
+  sqlPedidos_Itens.Open;
+
+  frmConsulta_Pedidos := TfrmConsulta_Pedidos.Create(Self);
+  frmConsulta_Pedidos.edtTotal_Produto.Value  := sqlPedidosTotal_Produtos.Value;
+  frmConsulta_Pedidos.edtDescont.Value        := sqlPedidosDesconto.Value;
+  frmConsulta_Pedidos.edtDescont_Valor.Value  := sqlPedidosDesconto_Valor.Value;
+  frmConsulta_Pedidos.edtTotal_Pagar.Value    := sqlPedidosTotal_Pagar.Value;
+  frmConsulta_Pedidos.edtData.Date            := sqlPedidosData.Value;
+
+  frmConsulta_Pedidos.edtID_Cliente.Text      := sqlPedidosID_Clientes.AsString;
+  frmConsulta_Pedidos.edtID_Vendedor.Text     := sqlPedidosID_Vendedores.AsString;
+  frmConsulta_Pedidos.edtClientes.Text        := sqlPedidosNome.AsString;
+
+  if frmConsulta_Pedidos.ShowModal = mrOK then
+  begin
+    sqlPedidos.Edit;
+    sqlPedidosTotal_Produtos.Value    := frmConsulta_Pedidos.edtTotal_Produto.Value;
+    sqlPedidosDesconto.Value          := frmConsulta_Pedidos.edtDescont.Value;
+    sqlPedidosDesconto_Valor.Value    := frmConsulta_Pedidos.edtDescont_Valor.Value;
+    sqlPedidosTotal_Pagar.Value       := frmConsulta_Pedidos.edtTotal_Pagar.Value;
+    sqlPedidosData.Value              := frmConsulta_Pedidos.edtData.Date;
+
+    sqlPedidosID_Clientes.AsString    := frmConsulta_Pedidos.edtID_Cliente.Text;
+    sqlPedidosID_Vendedores.AsString  := frmConsulta_Pedidos.edtID_Vendedor.Text;
+    sqlPedidosNome.AsString           := frmConsulta_Pedidos.edtClientes.Text;
+    sqlPedidos.Post;
+    sqlPedidos_Itens.First;
+    sqlPedidos_Itens.ApplyUpdates;
+    sqlPedidos_Itens.Close;
+  end;
+end;
+
+procedure TfrmVenda.actExcluirExecute(Sender: TObject);
+begin
+  if Application.MessageBox('Deseja realmente "Excluir" o registro?',
+    'Estoque - Venda', MB_YESNO) = mrYes then
+  begin
+    try
+      sqlPedidos.Delete;
+      sqlPedidos.ApplyUpdates;
+      MostraMensagem('Registro excluido com "Sucesso!"');
+
+    except
+      on E: Exception do
+        raise Exception.Create('Error ao "Excluir" o registro!' + E.Message);
+    end;
+  end;
+end;
+
+procedure TfrmVenda.actNovoExecute(Sender: TObject);
+begin
+  sqlPedidos_Itens.SQL.Text := TextoItens + ' WHERE pi.id = 0';
+  sqlPedidos_Itens.Open;
+
+  frmConsulta_Pedidos := TfrmConsulta_Pedidos.Create(Self);
+  if frmConsulta_Pedidos.ShowModal = mrOK then
+  begin
+    sqlPedidos.Append;
+    sqlPedidosTotal_Produtos.Value    := frmConsulta_Pedidos.edtTotal_Produto.Value;
+    sqlPedidosDesconto.Value          := frmConsulta_Pedidos.edtDescont.Value;
+    sqlPedidosDesconto_Valor.Value    := frmConsulta_Pedidos.edtDescont_Valor.Value;
+    sqlPedidosTotal_Pagar.Value       := frmConsulta_Pedidos.edtTotal_Pagar.Value;
+    sqlPedidosData.Value              := frmConsulta_Pedidos.edtData.Date;
+
+    sqlPedidosID_Clientes.AsString    := frmConsulta_Pedidos.edtID_Cliente.Text;
+    sqlPedidosID_Vendedores.AsString  := frmConsulta_Pedidos.edtID_Vendedor.Text;
+    sqlPedidosNome.AsString           := frmConsulta_Pedidos.edtClientes.Text;
+    sqlPedidos.Post;
+    sqlPedidos.ApplyUpdates;
+
+    ShowMessage('Pedido: ' + sqlPedidosID.AsString);
+    //sqlPedidos_Itens.First;
+{
+    while not sqlPedidos_Itens.Eof do
+    begin
+      sqlPedidos_Itens.Append;
+      sqlPedidos_ItensID_Pedidos.Value := sqlPedidosID.Value;
+      sqlPedidos_Itens.Post;
+      sqlPedidos_Itens.Next;
+    end;
+ }
+
+  end;
+
+  FreeAndNil(frmConsulta_Pedidos);
+end;
+
+procedure TfrmVenda.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmVenda.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmVenda.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmVenda.edtLocalizarChange(Sender: TObject);
+begin
+  LocalizarPedido;
+end;
+
+
+
+procedure TfrmVenda.LocalizarPedido;
+var
+  Texto: String;
+begin
+  Texto := TextoPedidos + ' WHERE p.id > 0';
+  if edtLocalizar.Text <> '' then
+    Texto := Texto + ' AND c.nome LIKE ' + Quotedstr(edtLocalizar.Text + '%');
+  sqlPedidos.SQL.Text := Texto;
+  sqlPedidos.Open;
+end;
+
+procedure TfrmVenda.FormCreate(Sender: TObject);
+begin
+  TextoPedidos := sqlPedidos.SQL.Text;
+  TextoItens := sqlPedidos_Itens.SQL.Text;
+end;
+
+procedure TfrmVenda.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #13) then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if (Key = #27) then
+  begin
+    Key := #0;
+    Close;
+  end;
+
+end;
+
+procedure TfrmVenda.FormShow(Sender: TObject);
+begin
+  LocalizarPedido;
+end;
+
+procedure TfrmVenda.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

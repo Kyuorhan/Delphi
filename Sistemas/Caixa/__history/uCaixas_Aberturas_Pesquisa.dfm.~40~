@@ -1,0 +1,196 @@
+object fCaixas_Aberturas_Pesquisa: TfCaixas_Aberturas_Pesquisa
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Caixa de Abert_Fecht/Pesquisa'
+  ClientHeight = 548
+  ClientWidth = 842
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poDefaultSizeOnly
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 842
+    Height = 66
+    Align = alTop
+    Alignment = taRightJustify
+    TabOrder = 1
+    object btnReabrir: TSpeedButton
+      Left = 131
+      Top = 1
+      Width = 65
+      Height = 64
+      Align = alLeft
+      Caption = 'Reabrir'
+      Layout = blGlyphTop
+      OnClick = btnReabrirClick
+      ExplicitLeft = 43
+      ExplicitTop = 4
+    end
+    object btnFechar: TSpeedButton
+      Left = 66
+      Top = 1
+      Width = 65
+      Height = 64
+      Align = alLeft
+      Caption = 'Fechar'
+      Layout = blGlyphTop
+      OnClick = btnFecharClick
+      ExplicitLeft = 35
+      ExplicitTop = 4
+    end
+    object btnAbrir: TSpeedButton
+      Left = 1
+      Top = 1
+      Width = 65
+      Height = 64
+      Align = alLeft
+      Caption = 'Abrir'
+      Layout = blGlyphTop
+      OnClick = btnAbrirClick
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 66
+    Width = 842
+    Height = 55
+    Align = alTop
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 9
+      Top = 6
+      Width = 57
+      Height = 13
+      Caption = 'PESQUISAR'
+    end
+    object Label2: TLabel
+      Left = 220
+      Top = 6
+      Width = 46
+      Height = 13
+      Caption = 'PERIODO'
+    end
+    object edtPeriodo1: TJvDateEdit
+      Left = 220
+      Top = 24
+      Width = 100
+      Height = 21
+      ButtonFlat = True
+      ShowNullDate = False
+      TabOrder = 0
+      OnChange = edtPesqChange
+    end
+    object edtPeriodo2: TJvDateEdit
+      Left = 326
+      Top = 24
+      Width = 100
+      Height = 21
+      ButtonFlat = True
+      ShowNullDate = False
+      TabOrder = 1
+      OnChange = edtPesqChange
+    end
+    object edtCaixa: TDBLookupComboBox
+      Left = 9
+      Top = 24
+      Width = 187
+      Height = 21
+      KeyField = 'id'
+      ListField = 'caixa'
+      ListSource = dmCaixa.dsCaixas_Aberturas
+      TabOrder = 2
+      OnClick = edtCaixaClick
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 121
+    Width = 842
+    Height = 427
+    Align = alClient
+    DataSource = dmCaixa.dsCaixas_Aberturas
+    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Width = 35
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'caixas_id'
+        Width = 55
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'data'
+        Width = 75
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'caixa'
+        Width = 225
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'situacao'
+        Title.Alignment = taCenter
+        Width = 35
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'troco'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'entradas'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'saidas'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'saldo'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'data_hora_fecham'
+        Width = 100
+        Visible = True
+      end>
+  end
+end

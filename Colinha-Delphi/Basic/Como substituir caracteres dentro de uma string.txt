@@ -1,0 +1,19 @@
+Como substituir caracteres dentro de uma string
+
+
+
+
+{ É necessário declarar SysUtils }
+
+// StringReplace(texto, caractar antigo, novo caracter, [filtros])
+
+{ Exemplo de uso }
+
+// Substitui todos caracteres de mesma caixa
+ShowMessage(StringReplace('abAcate', 'a', '@', [rfReplaceAll]));
+   
+// Substitui todos caracteres ignorando a caixa
+ShowMessage(StringReplace('abAcate', 'a', '@', [rfIgnoreCase, rfReplaceAll]));
+
+// Substitui o primeiro caracter de mesma caixa 
+ShowMessage(StringReplace('abAcate', 'a', '@', []));

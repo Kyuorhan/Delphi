@@ -1,0 +1,63 @@
+unit uClientes_Pesquisa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, frameLocalizar_Cliente;
+
+type
+  TfClientes_Pesquisa = class(TForm)
+    Panel1: TPanel;
+    btnAlterar: TSpeedButton;
+    btnNovo: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    btnImprimir: TSpeedButton;
+    Panel2: TPanel;
+    lbPesq: TLabel;
+    edtNome: TEdit;
+    DBGrid1: TDBGrid;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    ListBox1: TListBox;
+    frameLocalizaCliente1: TframeLocalizaCliente;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    TextSQL_Clientes : String;
+  end;
+
+var
+  fClientes_Pesquisa: TfClientes_Pesquisa;
+
+implementation
+
+{$R *.dfm}
+
+uses udmClientes, uFuncoes_Gerais;
+
+procedure TfClientes_Pesquisa.FormCreate(Sender: TObject);
+begin
+//  TextSQL_Clientes := dmCliente.sqlCliente.SQL.Text;
+end;
+
+procedure TfClientes_Pesquisa.FormShow(Sender: TObject);
+var
+  itens : TListBox;
+  frame : TframeLocalizaCliente;
+begin
+    ListarSQL(dmCliente.sqlCliente, 'SELECT * FROM clientes');
+
+  itens := TListBox.Create(Self);
+  frame := TframeLocalizaCliente.Create(Self);
+  frame.Parent := itens; // o Frame vai ser criado dentro do Iten
+  frame.Align := TAlign.alClient;
+  itens.Height := 85
+
+end;
+
+end.

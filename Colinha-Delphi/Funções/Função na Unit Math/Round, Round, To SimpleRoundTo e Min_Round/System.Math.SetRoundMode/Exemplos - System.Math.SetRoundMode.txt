@@ -1,0 +1,115 @@
+SetRoundMode (Delfos)
+
+
+Descrição
+
+
+O aplicativo abaixo envolve um formulário contendo um controle TMemo e um controle TButton. Os resultados dos cálculos aparecem no controle do Memorando do formulário 
+no momento da execução.
+
+Clicar no botão neste aplicativo VCL completo demonstra que, de acordo com o modo de arredondamento, o Delphi arredonda certos valores de forma diferente.
+
+Os valores 5.7 e -1.3 são utilizados aqui:
+
+5.7 é arredondado para:
+5.00 se rmDown ou rmTruncate for definido
+6.00 se rmUp ou rmNearest for definido
+-1.3 é arredondado para:
+-2.00 se rmDown for definido
+-1.00 se rmUp, rmNearest ou rmTruncate for definido
+
+Como você pode ver, quando SetRoundMode() é dado rmDown, a aplicação round() produz o número inteiro mais próximo que é menor ou igual ao valor passado como parâmetro, 
+para 5.7, o valor de retorno é 5.00 e para -1.3, este valor é -2.00.
+
+Quando o rmUp é especificado, o número inteiro mais próximo que é maior do que o parâmetro é devolvido, ou seja, 6,00 e -1,00, respectivamente.
+
+Para rmNearest, o número inteiro mais próximo é devolvido sem considerar-o por ser menor ou maior do que o valor passado para Round().
+
+Com rmTruncate, Round() basta retornar o valor do parâmetro passado com a porção fracionada removida.
+
+
+Código
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Memo1: TMemo;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  System.Math;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  OldRM: TRoundingMode;
+  TestValue: Real;
+
+  procedure RecordRound(const TextStr: String; Value: Real);
+  { Calls Round() and shows its value in the Memo control.
+    Affected by the value passed to SetRoundMode(). }
+  var RetVal: Real;
+  begin
+    RetVal := Round(Value);
+    Memo1.Lines.Add(Format('%-15s   RetVal=%f', [TextStr, RetVal]));
+  end;
+
+begin
+  OldRM := GetRoundMode; { Save the original setting for the Round Mode }
+
+  TestValue := 5.7;  { First test value }
+  Memo1.Lines.Add(Format('Value=%f', [TestValue]));
+
+  SetRoundMode(rmDown);
+  RecordRound('rmDown #1', TestValue);
+
+  SetRoundMode(rmUp);
+  RecordRound('rmUp #2', TestValue);
+
+  SetRoundMode(rmNearest);
+  RecordRound('rmNearest #3', TestValue);
+
+  SetRoundMode(rmTruncate);
+  RecordRound('rmTruncate #4', TestValue);
+
+  Memo1.Lines.Add('');  { Adds a blank line to the memo }
+
+  TestValue := -1.3;   { Second test value }
+  Memo1.Lines.Add(Format('Value=%f', [TestValue]));
+
+  SetRoundMode(rmDown);
+  RecordRound('rmDown #5', TestValue);
+
+  SetRoundMode(rmUp);
+  RecordRound('rmUp #6', TestValue);
+
+  SetRoundMode(rmNearest);
+  RecordRound('rmNearest #7', TestValue);
+
+  SetRoundMode(rmTruncate);
+  RecordRound('rmTruncate #8', TestValue);
+
+  SetRoundMode(OldRM); { Restore the original Rounding Mode }
+end;
+
+end.s

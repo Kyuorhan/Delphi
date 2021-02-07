@@ -1,0 +1,66 @@
+unit uVendedores;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.ActnList, JvExExtCtrls, JvExtComponent, JvPanel,
+  Vcl.ComCtrls, Vcl.Buttons;
+
+type
+  TfrmConsulta_Vendedores = class(TForm)
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    StatusBar1: TStatusBar;
+    JvPanel1: TJvPanel;
+    ActionList1: TActionList;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    actExcluir1: TAction;
+    Timer1: TTimer;
+    edtLocalizar: TEdit;
+    Label1: TLabel;
+    DBGrid1: TDBGrid;
+    sqlVendedores: TZQuery;
+    dsVendedores: TDataSource;
+    sqlVendedoresid: TIntegerField;
+    sqlVendedoresvendedor: TWideStringField;
+    sqlVendedorescomissao: TFloatField;
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Vendedores: TfrmConsulta_Vendedores;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout;
+
+procedure TfrmConsulta_Vendedores.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Vendedores.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmConsulta_Vendedores.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+end.

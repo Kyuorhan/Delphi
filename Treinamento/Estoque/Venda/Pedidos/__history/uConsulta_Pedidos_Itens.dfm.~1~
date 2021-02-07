@@ -1,0 +1,210 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Venda - Pedidos/Itens'
+  ClientHeight = 685
+  ClientWidth = 584
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object SpeedButton1: TSpeedButton
+    Left = 142
+    Top = 251
+    Width = 50
+    Height = 42
+    Cursor = crHandPoint
+    Action = actExcluir1
+    Flat = True
+  end
+  object SpeedButton2: TSpeedButton
+    Left = 86
+    Top = 251
+    Width = 50
+    Height = 42
+    Cursor = crHandPoint
+    Action = actEditar1
+    Flat = True
+  end
+  object SpeedButton3: TSpeedButton
+    Left = 30
+    Top = 251
+    Width = 50
+    Height = 42
+    Cursor = crHandPoint
+    Action = actNovo1
+    Flat = True
+  end
+  object JvDBGrid2: TJvDBGrid
+    Left = 22
+    Top = 299
+    Width = 539
+    Height = 208
+    Align = alCustom
+    BiDiMode = bdLeftToRight
+    DataSource = dsPedidos_Itens
+    DrawingStyle = gdsGradient
+    GradientEndColor = cl3DLight
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBiDiMode = False
+    ParentFont = False
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 622
+    Width = 584
+    Height = 44
+    Align = alBottom
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 1
+    ExplicitLeft = -43
+    ExplicitTop = 255
+    ExplicitWidth = 678
+    object btnNovo: TSpeedButton
+      Left = 4
+      Top = 2
+      Width = 84
+      Height = 40
+      Cursor = crHandPoint
+      Action = actNovo
+      Flat = True
+    end
+    object btnEditar: TSpeedButton
+      Left = 94
+      Top = 2
+      Width = 84
+      Height = 40
+      Cursor = crHandPoint
+      Action = actEditar
+      Flat = True
+    end
+    object btnExcluir: TSpeedButton
+      Left = 184
+      Top = 2
+      Width = 84
+      Height = 40
+      Cursor = crHandPoint
+      Action = actExcluir
+      Flat = True
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 666
+    Width = 584
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitLeft = -43
+    ExplicitTop = 280
+    ExplicitWidth = 678
+  end
+  object JvPanel1: TJvPanel
+    Left = 0
+    Top = 0
+    Width = 584
+    Height = 121
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 13095379
+    ParentBackground = False
+    TabOrder = 3
+    ExplicitLeft = 64
+    ExplicitTop = 160
+    ExplicitWidth = 960
+  end
+  object BalloonHint1: TBalloonHint
+    Style = bhsStandard
+    Left = 530
+    Top = 64
+  end
+  object Timer1: TTimer
+    Interval = 100
+    Left = 539
+    Top = 8
+  end
+  object ActionList1: TActionList
+    Images = frmPrincipal.ImageList32
+    Left = 483
+    Top = 8
+    object actNovo: TAction
+      Caption = 'Novo'
+      ImageIndex = 0
+    end
+    object actEditar: TAction
+      Caption = 'Editar'
+      ImageIndex = 1
+    end
+    object actExcluir: TAction
+      Caption = 'Excluir'
+      ImageIndex = 2
+    end
+    object actNovo1: TAction
+      ImageIndex = 0
+    end
+    object actEditar1: TAction
+      ImageIndex = 1
+    end
+    object actExcluir1: TAction
+      ImageIndex = 2
+    end
+  end
+  object sqlPedidos_Itens: TZQuery
+    Connection = frmPrincipal.ZConnection1
+    Active = True
+    SQL.Strings = (
+      'SELECT * FROM pedidos_itens')
+    Params = <>
+    Left = 360
+    Top = 8
+    object sqlPedidos_Itensid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlPedidos_Itensid_pedidos: TIntegerField
+      FieldName = 'id_pedidos'
+    end
+    object sqlPedidos_Itensid_produtos: TIntegerField
+      FieldName = 'id_produtos'
+    end
+    object sqlPedidos_Itensqtde: TFloatField
+      FieldName = 'qtde'
+    end
+    object sqlPedidos_Itensvalor: TFloatField
+      FieldName = 'valor'
+    end
+    object sqlPedidos_Itenstotal: TFloatField
+      FieldName = 'total'
+    end
+  end
+  object dsPedidos_Itens: TDataSource
+    DataSet = frmPrincipal.sqlContas_pagar
+    Left = 360
+    Top = 64
+  end
+end

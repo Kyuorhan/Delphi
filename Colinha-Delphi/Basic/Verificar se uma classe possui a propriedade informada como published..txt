@@ -1,0 +1,16 @@
+Verificar se uma classe possui a propriedade informada como published.
+
+
+
+// Declarar no Uses a unit TypInfo.
+
+// Utilize a função IsPublishedProp.
+
+{ Informe a classe e a propriedade. }
+IsPublishedProp( Classe, Propriedade );
+
+
+// Exemplo de uso:
+
+  if (IsPublishedProp(TEdit, 'Color')) then
+    ShowMessage('TEdit possui a propriedade Color visível no Object Inspector.');

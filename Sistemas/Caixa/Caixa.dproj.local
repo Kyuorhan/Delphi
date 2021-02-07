@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/08/11 17:45:22.000.117,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 07:44:33.000.021,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 11:13:38.000.618,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/10/01 11:01:45.000.849,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/12/17 07:53:08.000.341,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/12/17 07:53:37.000.221,C:\My-Projects\Delphi\Delphi\Sistemas\uPrincipal.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.dfm</Transaction>
+    <Transaction>2020/12/17 07:53:37.000.221,C:\My-Projects\Delphi\Delphi\Sistemas\uPrincipal.pas=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/12/17 07:53:58.000.770,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Caixa.dproj=C:\Users\Programação\Documents\RAD Studio\Projects\Project7.dproj</Transaction>
+    <Transaction>2020/12/17 07:57:41.000.175,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 07:57:57.000.361,C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uPesquisaPadrao.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 07:57:57.000.361,C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uPesquisaPadrao.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm</Transaction>
+    <Transaction>2020/12/17 08:02:10.000.674,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit2.pas</Transaction>
+    <Transaction>2020/12/17 08:02:23.000.310,C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uCadastroPadrao.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit2.dfm</Transaction>
+    <Transaction>2020/12/17 08:02:23.000.310,C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uCadastroPadrao.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit2.pas</Transaction>
+    <Transaction>2020/12/17 08:08:42.000.810,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:10:00.000.399,C:\My-Projects\Delphi\Delphi\Sistemas\data_modules\udmPrincipal.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm</Transaction>
+    <Transaction>2020/12/17 08:10:00.000.399,C:\My-Projects\Delphi\Delphi\Sistemas\data_modules\udmPrincipal.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:10:12.000.564,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:10:45.000.006,C:\My-Projects\Delphi\Delphi\Sistemas\data_modules\udmCaixa.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm</Transaction>
+    <Transaction>2020/12/17 08:10:45.000.006,C:\My-Projects\Delphi\Delphi\Sistemas\data_modules\udmCaixa.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:13:58.000.327,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:14:08.000.762,C:\My-Projects\Delphi\Delphi\Sistemas\funcoes_gerais\uFuncoes_Gerais.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:21:03.000.208,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:21:14.000.203,C:\My-Projects\Delphi\Delphi\Sistemas\funcoes_gerais\uFuncoes_Caixa.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 08:28:10.000.338,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Pesquisa.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uPesquisaPadrao.dfm</Transaction>
+    <Transaction>2020/12/17 08:28:10.000.338,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Pesquisa.pas=C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uPesquisaPadrao.pas</Transaction>
+    <Transaction>2020/12/17 08:46:56.000.055,C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uCadastroPadrao.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Cadastro.dfm</Transaction>
+    <Transaction>2020/12/17 08:46:56.000.055,C:\My-Projects\Delphi\Delphi\Sistemas\arqs_padroes\uCadastroPadrao.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Cadastro.pas</Transaction>
+    <Transaction>2020/12/17 09:51:48.000.107,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 09:59:08.000.218,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uPlano_Contas_Pesquisa.pas</Transaction>
+    <Transaction>2020/12/17 09:59:08.000.218,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uPlano_Contas_Pesquisa.dfm</Transaction>
+    <Transaction>2020/12/17 10:58:03.000.086,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/17 11:29:29.000.411,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uPlano_Contas_Cadastro.pas</Transaction>
+    <Transaction>2020/12/17 11:29:29.000.411,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uPlano_Contas_Cadastro.dfm</Transaction>
+    <Transaction>2020/12/18 07:48:27.000.974,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/18 08:10:14.000.673,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Aberturas_Pesquisa.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/18 08:10:14.000.674,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Aberturas_Pesquisa.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm</Transaction>
+    <Transaction>2020/12/18 08:11:39.000.655,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/18 09:01:10.000.849,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Aberturas_Cadastro.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/18 09:01:10.000.849,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Aberturas_Cadastro.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm</Transaction>
+    <Transaction>2020/12/29 08:09:56.000.412,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/29 08:12:58.000.392,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Movimentos_Pesquisa.pas</Transaction>
+    <Transaction>2020/12/29 08:12:58.000.392,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Movimentos_Pesquisa.dfm</Transaction>
+    <Transaction>2020/12/29 08:20:31.000.333,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/29 08:20:43.000.310,=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas</Transaction>
+    <Transaction>2020/12/29 08:24:37.000.263,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.dfm=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Movimentos_Cadastro.dfm</Transaction>
+    <Transaction>2020/12/29 08:24:37.000.263,C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\Unit1.pas=C:\My-Projects\Delphi\Delphi\Sistemas\Caixa\uCaixas_Movimentos_Cadastro.pas</Transaction>
+  </Transactions>
+</BorlandProject>

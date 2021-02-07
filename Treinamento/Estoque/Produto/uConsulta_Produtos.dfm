@@ -1,0 +1,366 @@
+object frmConsulta_Produto: TfrmConsulta_Produto
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Estoque - Produto'
+  ClientHeight = 611
+  ClientWidth = 1018
+  Color = cl3DLight
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 22
+    Top = 152
+    Width = 72
+    Height = 16
+    Caption = 'LOCALIZAR'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object JvPanel1: TJvPanel
+    Left = 0
+    Top = 0
+    Width = 1018
+    Height = 121
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 13095379
+    ParentBackground = False
+    TabOrder = 2
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 592
+    Width = 1018
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 548
+    Width = 1018
+    Height = 44
+    Align = alBottom
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 4
+    object btnNovo: TSpeedButton
+      Left = 4
+      Top = 2
+      Width = 84
+      Height = 40
+      Cursor = crHandPoint
+      Action = actNovo
+      Flat = True
+    end
+    object btnEditar: TSpeedButton
+      Left = 94
+      Top = 2
+      Width = 84
+      Height = 40
+      Cursor = crHandPoint
+      Action = actEditar
+      Flat = True
+    end
+    object btnExcluir: TSpeedButton
+      Left = 184
+      Top = 2
+      Width = 84
+      Height = 40
+      Cursor = crHandPoint
+      Action = actExcluir
+      Flat = True
+    end
+  end
+  object JvDBGrid2: TJvDBGrid
+    Left = 0
+    Top = 208
+    Width = 1018
+    Height = 340
+    Align = alBottom
+    BiDiMode = bdLeftToRight
+    DataSource = dsProdutos
+    DrawingStyle = gdsGradient
+    GradientEndColor = cl3DLight
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBiDiMode = False
+    ParentFont = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Width = 45
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'produto'
+        Width = 323
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'preco_compra'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'preco_venda'
+        Width = 85
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'margem_lucro'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cod_barras'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cod_referencias'
+        Width = 105
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'id_produto_grupo'
+        Width = 75
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'id_unid_medidas'
+        Width = 100
+        Visible = True
+      end>
+  end
+  object edtLocalizar: TEdit
+    Left = 22
+    Top = 174
+    Width = 246
+    Height = 21
+    TabOrder = 0
+    OnChange = edtLocalizarChange
+  end
+  object tbPesquisar: TJvPageControl
+    Left = 0
+    Top = 121
+    Width = 1018
+    Height = 24
+    ActivePage = tbsPesquisar
+    Align = alTop
+    BiDiMode = bdRightToLeftNoAlign
+    ParentBiDiMode = False
+    TabOrder = 5
+    ParentColor = False
+    Color = clSilver
+    object tbsPesquisar: TTabSheet
+      Caption = 'PESQUISAR'
+      ImageIndex = 1
+    end
+  end
+  object BalloonHint1: TBalloonHint
+    Style = bhsStandard
+    Left = 962
+    Top = 64
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 971
+    Top = 8
+  end
+  object ActionList1: TActionList
+    Images = frmPrincipal.ImageList32
+    Left = 907
+    Top = 8
+    object actNovo: TAction
+      Caption = 'Novo'
+      ImageIndex = 0
+      OnExecute = actNovoExecute
+    end
+    object actEditar: TAction
+      Caption = 'Editar'
+      ImageIndex = 1
+      OnExecute = actEditarExecute
+    end
+    object actExcluir: TAction
+      Caption = 'Excluir'
+      ImageIndex = 2
+      OnExecute = actExcluirExecute
+    end
+    object actSalvar: TAction
+      Caption = 'Salvar'
+      ImageIndex = 3
+    end
+    object actCancelar: TAction
+      Caption = 'Cancelar'
+      ImageIndex = 4
+    end
+    object actLanca_Movimentacao: TAction
+      ImageIndex = 5
+      OnExecute = actLanca_MovimentacaoExecute
+    end
+    object actMovimentacao: TAction
+      ImageIndex = 6
+      OnExecute = actMovimentacaoExecute
+    end
+  end
+  object sqlProdutos: TZQuery
+    Connection = frmPrincipal.ZConnection1
+    SQL.Strings = (
+      'SELECT * FROM produtos')
+    Params = <>
+    Left = 24
+    Top = 8
+    object sqlProdutosid: TIntegerField
+      DisplayLabel = 'C'#211'D.'
+      DisplayWidth = 6
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlProdutosproduto: TWideStringField
+      DisplayLabel = 'PRODUTO'
+      DisplayWidth = 35
+      FieldName = 'produto'
+      Size = 60
+    end
+    object sqlProdutospreco_compra: TFloatField
+      DisplayLabel = 'PRE'#199'O/COMPRA'
+      FieldName = 'preco_compra'
+      DisplayFormat = ',0.00'
+    end
+    object sqlProdutospreco_venda: TFloatField
+      DisplayLabel = 'PRE'#199'O/VENDA'
+      FieldName = 'preco_venda'
+      DisplayFormat = ',0.00'
+    end
+    object sqlProdutosmargem_lucro: TFloatField
+      DisplayLabel = 'MARGEM/LUCRO'
+      FieldName = 'margem_lucro'
+      DisplayFormat = ',0.00'
+    end
+    object sqlProdutoscod_barras: TWideStringField
+      DisplayLabel = 'C'#211'D. BARRAS'
+      DisplayWidth = 20
+      FieldName = 'cod_barras'
+      Size = 30
+    end
+    object sqlProdutoscod_referencias: TWideStringField
+      DisplayLabel = 'C'#211'D REFER'#202'NCIAS'
+      FieldName = 'cod_referencias'
+      Size = 30
+    end
+    object sqlProdutosid_produto_grupo: TIntegerField
+      DisplayLabel = 'C'#211'D. PRODUTO'
+      FieldName = 'id_produto_grupo'
+    end
+    object sqlProdutosid_unid_medidas: TIntegerField
+      DisplayLabel = 'C'#211'D. UNID/MEDIDAS'
+      FieldName = 'id_unid_medidas'
+    end
+  end
+  object dsProdutos: TDataSource
+    AutoEdit = False
+    DataSet = sqlProdutos
+    Left = 24
+    Top = 64
+  end
+  object sqlUnid_Medidas: TZQuery
+    Connection = frmPrincipal.ZConnection1
+    SQL.Strings = (
+      'SELECT * FROM unid_medidas')
+    Params = <>
+    Left = 104
+    Top = 8
+    object sqlUnid_Medidasid: TIntegerField
+      DisplayLabel = 'C'#211'D.'
+      DisplayWidth = 22
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlUnid_Medidasunid_medida: TWideStringField
+      DisplayLabel = 'UNIDADE DE MEDIDAS'
+      DisplayWidth = 78
+      FieldName = 'unid_medida'
+      Size = 30
+    end
+    object sqlUnid_Medidasabrev: TWideStringField
+      DisplayLabel = 'ABREV.'
+      DisplayWidth = 7
+      FieldName = 'abrev'
+      Size = 3
+    end
+  end
+  object dsUnid_Medidas: TDataSource
+    AutoEdit = False
+    DataSet = sqlUnid_Medidas
+    Left = 104
+    Top = 64
+  end
+  object sqlGrupos: TZQuery
+    Connection = frmPrincipal.ZConnection1
+    SQL.Strings = (
+      'SELECT * FROM produtos_grupo')
+    Params = <>
+    Left = 184
+    Top = 8
+    object sqlGruposid: TIntegerField
+      DisplayLabel = 'C'#211'D.'
+      DisplayWidth = 5
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlGruposprodutos_grupo: TWideStringField
+      DisplayLabel = 'PRODUTOS DE GRUPO'
+      DisplayWidth = 59
+      FieldName = 'produtos_grupo'
+      Size = 50
+    end
+  end
+  object dsGrupos: TDataSource
+    AutoEdit = False
+    DataSet = sqlGrupos
+    Left = 184
+    Top = 64
+  end
+end

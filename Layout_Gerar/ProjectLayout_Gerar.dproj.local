@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/08/11 17:45:22.000.117,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 07:44:33.000.021,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/08/12 11:13:38.000.618,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/10/01 11:01:45.000.849,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/10/01 11:08:13.000.669,=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/10/01 13:05:22.000.509,C:\My-Projects\Delphi\Delphi\My-Test\Layout_Gerar\Layout_Gerar.pas=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2020/10/01 13:05:22.000.509,C:\My-Projects\Delphi\Delphi\My-Test\Layout_Gerar\Layout_Gerar.dfm=C:\Users\Programação\Documents\RAD Studio\Projects\Unit7.dfm</Transaction>
+    <Transaction>2020/10/01 16:32:48.000.348,C:\My-Projects\Delphi\Delphi\My-Test\Layout_Gerar\ProjectLayout_Gerar.dproj=C:\Users\Programação\Documents\RAD Studio\Projects\Project7.dproj</Transaction>
+    <Transaction>2021/01/26 16:02:43.000.137,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 08:00:26.000.357,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 08:01:57.000.234,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit2.pas</Transaction>
+    <Transaction>2021/01/27 08:18:44.000.196,=C:\My-Projects\Delphi\Delphi\Treinamento\Geral\Cidade\uConsulta_Cidades.pas</Transaction>
+    <Transaction>2021/01/27 08:18:44.000.113,=C:\My-Projects\Delphi\Delphi\Treinamento\Geral\Cidade\uCadastro_Cidades.pas</Transaction>
+    <Transaction>2021/01/27 08:19:59.000.302,C:\My-Projects\Delphi\Delphi\Treinamento\Geral\Cidade\uCadastro_Cidades.pas=</Transaction>
+    <Transaction>2021/01/27 08:19:59.000.245,C:\My-Projects\Delphi\Delphi\Treinamento\Geral\Cidade\uConsulta_Cidades.pas=</Transaction>
+    <Transaction>2021/01/27 08:21:37.000.731,C:\My-Projects\Delphi\Delphi\Layout_Gerar\frameLocalizar_Cliente.pas=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit2.pas</Transaction>
+    <Transaction>2021/01/27 08:21:37.000.731,C:\My-Projects\Delphi\Delphi\Layout_Gerar\frameLocalizar_Cliente.dfm=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit2.dfm</Transaction>
+    <Transaction>2021/01/27 08:31:31.000.892,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cidade\uConsulta_Cidades.pas</Transaction>
+    <Transaction>2021/01/27 08:31:31.000.837,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cidade\uCadastro_Cidades.pas</Transaction>
+    <Transaction>2021/01/27 08:33:25.000.658,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cidade\uCadastro_Cidades.pas=</Transaction>
+    <Transaction>2021/01/27 08:33:25.000.607,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cidade\uConsulta_Cidades.pas=</Transaction>
+    <Transaction>2021/01/27 08:36:35.000.960,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Clientes\uCadastro_Clientes.pas</Transaction>
+    <Transaction>2021/01/27 08:36:36.000.041,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Clientes\uConsulta_Clientes.pas</Transaction>
+    <Transaction>2021/01/27 08:39:32.000.430,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Clientes\uConsulta_Clientes.pas=</Transaction>
+    <Transaction>2021/01/27 08:39:41.000.555,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Clientes\uCadastro_Clientes.pas=</Transaction>
+    <Transaction>2021/01/27 08:39:54.000.186,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 08:43:49.000.907,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cliente\uClientes_Pesquisa.dfm=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.dfm</Transaction>
+    <Transaction>2021/01/27 08:43:49.000.907,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cliente\uClientes_Pesquisa.pas=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 08:56:14.000.439,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\funcoes_gerais\uFuncoes_Gerais.pas</Transaction>
+    <Transaction>2021/01/27 08:58:09.000.209,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\data_modules\udmPrincipal.pas</Transaction>
+    <Transaction>2021/01/27 09:00:42.000.809,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 09:01:50.000.922,C:\My-Projects\Delphi\Delphi\Layout_Gerar\data_modules\udmClientes.dfm=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.dfm</Transaction>
+    <Transaction>2021/01/27 09:01:50.000.922,C:\My-Projects\Delphi\Delphi\Layout_Gerar\data_modules\udmClientes.pas=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 10:39:00.000.976,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 13:30:05.000.634,=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 13:30:26.000.023,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cliente\uClientes_Cadastro.pas=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.pas</Transaction>
+    <Transaction>2021/01/27 13:30:26.000.023,C:\My-Projects\Delphi\Delphi\Layout_Gerar\Cliente\uClientes_Cadastro.dfm=C:\My-Projects\Delphi\Delphi\Layout_Gerar\Unit1.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

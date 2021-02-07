@@ -1,0 +1,9 @@
+Como descobrir a posição de um caracter dentro de uma string a partir de uma posição inicial
+
+
+
+
+// Função: PosEx(Caracter a ser localizado, texto, posição inicial);
+
+{ Exemplo de uso }
+ShowMessage(IntToStr(PosEx('t', 'texto', 3)));

@@ -1,0 +1,34 @@
+unit uFuncoes_Gerais;
+
+interface
+
+uses
+  ZDataSet, udmPrincipal;
+
+procedure ListarSQL(AQuery: TZQuery; ATexto: String);
+procedure ExecutarSQL(ATexto: String);
+
+implementation
+
+uses
+  System.SysUtils;
+
+procedure ListarSQL(AQuery: TZQuery; ATexto: String);
+begin
+  AQuery.Close;
+  AQuery.SQL.Text := ATexto;
+  AQuery.Open;
+end;
+
+procedure ExecutarSQL(ATexto: String);
+var AQuery: TZQuery;
+begin
+  AQuery := TZQuery.Create(nil);
+  AQuery.Connection := dmPrincipal.DBase;
+  AQuery.Close;
+  AQuery.SQL.Text := ATexto;
+  AQuery.ExecSQL;
+  FreeAndNil(AQuery);
+end;
+
+end.

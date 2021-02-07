@@ -1,0 +1,9 @@
+Como converter os caracteres de uma string para maiúsculo
+
+
+
+// Função: UpperCase(texto);
+
+
+{ Exemplo de uso }
+ShowMessage(UpperCase('Teste'));

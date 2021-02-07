@@ -1,0 +1,427 @@
+object dmCaixa: TdmCaixa
+  OldCreateOrder = False
+  Height = 444
+  Width = 602
+  object sqlCaixas: TZQuery
+    Connection = dmPrincipal.DBase
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT * FROM caixas')
+    Params = <>
+    Left = 22
+    Top = 16
+    object sqlCaixasid: TLongWordField
+      DisplayLabel = 'ID'
+      FieldName = 'id'
+    end
+    object sqlCaixascaixa: TWideStringField
+      DisplayLabel = 'DESCRI'#199#195'O'
+      FieldName = 'caixa'
+      Size = 30
+    end
+    object sqlCaixasativo: TWideStringField
+      Alignment = taCenter
+      DisplayLabel = 'ATIVO'
+      FieldName = 'ativo'
+      Size = 1
+    end
+  end
+  object dsCaixas: TDataSource
+    AutoEdit = False
+    DataSet = sqlCaixas
+    Left = 22
+    Top = 72
+  end
+  object sqlPlano_contas: TZQuery
+    Connection = dmPrincipal.DBase
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT * FROM plano_contas')
+    Params = <>
+    Left = 127
+    Top = 17
+    object sqlPlano_contasid: TLongWordField
+      DisplayLabel = 'ID'
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlPlano_contasplano_contas: TWideStringField
+      DisplayLabel = 'DESCRI'#199#195'O'
+      FieldName = 'plano_contas'
+      Size = 60
+    end
+    object sqlPlano_contasestrutura: TWideStringField
+      DisplayLabel = 'ESTRUTURA'
+      FieldName = 'estrutura'
+      Size = 30
+    end
+    object sqlPlano_contastipo: TWideStringField
+      Alignment = taCenter
+      FieldName = 'tipo'
+      Size = 50
+    end
+    object sqlPlano_contassituacao: TWideStringField
+      Alignment = taCenter
+      DisplayLabel = 'SITUA'#199#195'O'
+      FieldName = 'situacao'
+      Size = 1
+    end
+  end
+  object dsPlano_contas: TDataSource
+    AutoEdit = False
+    DataSet = sqlPlano_contas
+    Left = 130
+    Top = 73
+  end
+  object updCaixas_Aberturas: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM caixas_aberturas'
+      'WHERE'
+      '  caixas_aberturas.id = :OLD_id')
+    InsertSQL.Strings = (
+      'INSERT INTO caixas_aberturas'
+      
+        '  (id, caixas_id, data, situacao, troco, entradas, saidas, saldo' +
+        ', data_hora_fecham)'
+      'VALUES'
+      
+        '  (:id, :caixas_id, :data, :situacao, :troco, :entradas, :saidas' +
+        ', :saldo, '
+      '   :data_hora_fecham)')
+    ModifySQL.Strings = (
+      'UPDATE caixas_aberturas SET'
+      '  id = :id,'
+      '  caixas_id = :caixas_id,'
+      '  data = :data,'
+      '  situacao = :situacao,'
+      '  troco = :troco,'
+      '  entradas = :entradas,'
+      '  saidas = :saidas,'
+      '  saldo = :saldo,'
+      '  data_hora_fecham = :data_hora_fecham'
+      'WHERE'
+      '  caixas_aberturas.id = :OLD_id')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 350
+    Top = 128
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'caixas_id'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'situacao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'troco'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'entradas'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'saidas'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'saldo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data_hora_fecham'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_id'
+        ParamType = ptUnknown
+      end>
+  end
+  object sqlCaixas_Movimentos: TZQuery
+    Connection = dmPrincipal.DBase
+    UpdateObject = updCaixas_Movimentos
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT cm.*, cx.caixa, pc.plano_contas'
+      'FROM caixas_movimentos cm'
+      'LEFT JOIN caixas_aberturas ca ON ca.id = cm.caixas_aberturas_id'
+      'LEFT JOIN caixas cx ON cx.id = ca.caixas_id'
+      'LEFT JOIN plano_contas pc ON pc.id = cm.plano_contas_id')
+    Params = <>
+    Left = 470
+    Top = 16
+    object sqlCaixas_Movimentosid: TLongWordField
+      DisplayLabel = 'ID'
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlCaixas_Movimentosdata: TDateField
+      DisplayLabel = 'DATA'
+      FieldName = 'data'
+    end
+    object sqlCaixas_Movimentoshistorico: TWideStringField
+      DisplayLabel = 'HIST'#211'RICO'
+      FieldName = 'historico'
+      Size = 60
+    end
+    object sqlCaixas_Movimentosvalor: TFloatField
+      DisplayLabel = 'VALOR'
+      FieldName = 'valor'
+    end
+    object sqlCaixas_Movimentosentrada: TFloatField
+      DisplayLabel = 'ENTRADA'
+      FieldName = 'entrada'
+    end
+    object sqlCaixas_Movimentossaida: TFloatField
+      DisplayLabel = 'SA'#205'DA'
+      FieldName = 'saida'
+    end
+    object sqlCaixas_Movimentostipo: TWideStringField
+      Alignment = taCenter
+      DisplayLabel = 'TIPO'
+      FieldName = 'tipo'
+      Size = 1
+    end
+    object sqlCaixas_Movimentossituacao: TWideStringField
+      Alignment = taCenter
+      DisplayLabel = 'SIT.'
+      FieldName = 'situacao'
+      Size = 1
+    end
+    object sqlCaixas_Movimentosdata_hora_lancam: TDateTimeField
+      DisplayLabel = 'DATA/FECHMNT.'
+      FieldName = 'data_hora_lancam'
+    end
+    object sqlCaixas_Movimentoscaixa: TWideStringField
+      DisplayLabel = 'CAIXA'
+      FieldName = 'caixa'
+      Size = 30
+    end
+    object sqlCaixas_Movimentosplano_contas: TWideStringField
+      DisplayLabel = 'PLANO/CONTAS'
+      FieldName = 'plano_contas'
+      Size = 60
+    end
+    object sqlCaixas_Movimentoscaixas_aberturas_id: TLongWordField
+      DisplayLabel = 'C'#211'D. CX/ABERT.'
+      FieldName = 'caixas_aberturas_id'
+      Required = True
+    end
+    object sqlCaixas_Movimentosplano_contas_id: TLongWordField
+      DisplayLabel = 'C'#211'D. PLANO/CONTA'
+      FieldName = 'plano_contas_id'
+      Required = True
+    end
+  end
+  object dsCaixas_Movimentos: TDataSource
+    AutoEdit = False
+    DataSet = sqlCaixas_Movimentos
+    Left = 470
+    Top = 72
+  end
+  object updCaixas_Movimentos: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM caixas_movimentos'
+      'WHERE'
+      '  caixas_movimentos.id = :OLD_id')
+    InsertSQL.Strings = (
+      'INSERT INTO caixas_movimentos'
+      
+        '  (id, caixas_aberturas_id, plano_contas_id, data, historico, va' +
+        'lor, entrada, '
+      '   saida, tipo, data_hora_lancam, situacao)'
+      'VALUES'
+      
+        '  (:id, :caixas_aberturas_id, :plano_contas_id, :data, :historic' +
+        'o, :valor, '
+      '   :entrada, :saida, :tipo, :data_hora_lancam, :situacao)')
+    ModifySQL.Strings = (
+      'UPDATE caixas_movimentos SET'
+      '  id = :id,'
+      '  caixas_aberturas_id = :caixas_aberturas_id,'
+      '  plano_contas_id = :plano_contas_id,'
+      '  data = :data,'
+      '  historico = :historico,'
+      '  valor = :valor,'
+      '  entrada = :entrada,'
+      '  saida = :saida,'
+      '  tipo = :tipo,'
+      '  data_hora_lancam = :data_hora_lancam,'
+      '  situacao = :situacao'
+      'WHERE'
+      '  caixas_movimentos.id = :OLD_id')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 470
+    Top = 128
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'caixas_aberturas_id'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'plano_contas_id'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'historico'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'valor'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'entrada'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'saida'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'tipo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data_hora_lancam'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'situacao'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_id'
+        ParamType = ptUnknown
+      end>
+  end
+  object sqlCaixas_Aberturas: TZQuery
+    Connection = dmPrincipal.DBase
+    UpdateObject = updCaixas_Aberturas
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT ca.*, c.caixa'
+      ' FROM caixas_aberturas ca'
+      'LEFT JOIN caixas c ON c.id = ca.caixas_id')
+    Params = <>
+    Left = 350
+    Top = 16
+    object sqlCaixas_Aberturasid: TLongWordField
+      DisplayLabel = 'ID'
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlCaixas_Aberturascaixas_id: TLongWordField
+      DisplayLabel = 'C'#211'D. CX'
+      FieldName = 'caixas_id'
+      Required = True
+    end
+    object sqlCaixas_Aberturascaixa: TWideStringField
+      DisplayLabel = 'CAIXA'
+      FieldName = 'caixa'
+      Size = 30
+    end
+    object sqlCaixas_Aberturasdata: TDateField
+      DisplayLabel = 'DATA'
+      FieldName = 'data'
+    end
+    object sqlCaixas_Aberturassituacao: TWideStringField
+      Alignment = taCenter
+      DisplayLabel = 'SIT.'
+      FieldName = 'situacao'
+      Size = 1
+    end
+    object sqlCaixas_Aberturasdata_hora_fecham: TDateTimeField
+      DisplayLabel = 'DATA/FECHMNT'
+      FieldName = 'data_hora_fecham'
+    end
+    object sqlCaixas_Aberturastroco: TFloatField
+      DisplayLabel = 'TROCO'
+      FieldName = 'troco'
+    end
+    object sqlCaixas_Aberturasentradas: TFloatField
+      DisplayLabel = 'ENTRADAS'
+      FieldName = 'entradas'
+    end
+    object sqlCaixas_Aberturassaidas: TFloatField
+      DisplayLabel = 'SA'#205'DAS'
+      FieldName = 'saidas'
+    end
+    object sqlCaixas_Aberturassaldo: TFloatField
+      DisplayLabel = 'SALDO'
+      FieldName = 'saldo'
+    end
+  end
+  object dsCaixas_Aberturas: TDataSource
+    AutoEdit = False
+    DataSet = sqlCaixas_Aberturas
+    Left = 350
+    Top = 72
+  end
+  object sqlNatureza: TZQuery
+    Connection = dmPrincipal.DBase
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT * FROM natureza')
+    Params = <>
+    Left = 216
+    Top = 16
+    object sqlNaturezaid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlNaturezanatureza: TWideStringField
+      FieldName = 'natureza'
+      Size = 15
+    end
+    object sqlNaturezatipo: TWideStringField
+      FieldName = 'tipo'
+      Size = 1
+    end
+  end
+  object dsNatureza: TDataSource
+    AutoEdit = False
+    DataSet = sqlNatureza
+    Left = 216
+    Top = 72
+  end
+end

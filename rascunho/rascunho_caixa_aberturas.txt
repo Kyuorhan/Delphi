@@ -1,0 +1,108 @@
+procedure TfCaixas_Aberturas_Pesquisa.btnAbrirClick(Sender: TObject);
+var
+  Situacao, TextoSQL : String;
+begin
+  Situacao := dmCaixa.sqlCaixas_Aberturas.FieldByName('situacao').AsString;
+{
+  if edtPesq.Text = '' then // Verificar se  a Pesquisa foi selecionado
+  begin
+    MostraAviso('Verifique-se o caixa foi Selecionado!');
+    edtPesq.SetFocus;
+    Exit;
+  end;
+ }
+
+  fCaixas_Aberturas_Cadastro := TfCaixas_Aberturas_Cadastro.Create(Self);
+  if TComponent(Sender).Name = 'btnAbrir' then
+  begin
+    if (Situacao = 'A') then  // Verificar se o caixa esta aberto
+    begin
+      MostraAviso('Verifique-se o caixa ja foi Aberto!');
+      Exit;
+    end;
+
+    if (Situacao = 'R') then   // Não permitir abrir caixa 2 vezes
+    begin
+      MostraAviso('Não foi possivel abrir o caixa!');
+      MostraAviso('Verifique-se o caixa ja foi Reaberto!');
+      Exit;
+    end;
+
+    dmCaixa.sqlCaixas_Aberturas.Append;
+    dmCaixa.sqlCaixas_AberturasData.Value
+      := fCaixas_Aberturas_Cadastro.edtData.Date;
+    dmCaixa.sqlCaixas_AberturasSituacao.AsString := 'A';
+    fCaixas_Aberturas_Cadastro.Panel1.Enabled := False;
+  end
+  else
+  begin
+    if (Situacao = 'F') then  // Verificar se o caixa esta fechado
+    begin
+      MostraAviso('Verifique-se o caixa ja foi Fechado!');
+      Exit;
+    end;
+{
+    if (Dbgrid = 'R') then   //
+    begin
+      MostraAviso('Não foi possivel fechar o caixa!');
+      MostraAviso('Verifique-se o caixa ja foi Reaberto!');
+      Exit;
+    end;
+ }
+    dmCaixa.sqlCaixas_Aberturas.Edit;
+    dmCaixa.sqlCaixas_AberturasData_Hora_Fecham.Value
+      := fCaixas_Aberturas_Cadastro.edtData.Date;
+    dmCaixa.sqlCaixas_AberturasSituacao.AsString := 'F';
+    dmCaixa.sqlCaixas_Aberturasdata_hora_fecham.Value := Date;
+  end;
+
+  if fCaixas_Aberturas_Cadastro.ShowModal = mrOk then   //  Abrir a tela
+  begin
+    ZAtualiza(dmCaixa.sqlCaixas_Aberturas);
+    dmCaixa.sqlCaixas_Aberturas.SortedFields := 'situacao';
+    dmCaixa.sqlCaixas_Aberturas.Refresh;
+  end
+  else
+    dmCaixa.sqlCaixas_Aberturas.Cancel;
+
+  FreeAndNil(fCaixas_Aberturas_Cadastro);
+end;
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+procedure TfCaixas_Aberturas_Pesquisa.btnAbrirClick(Sender: TObject);
+begin
+  fCaixas_Aberturas_Cadastro := TfCaixas_Aberturas_Cadastro.Create(Self);
+  if TComponent(Sender).Name = 'btnAbrir' then
+  begin
+
+    dmCaixa.sqlCaixas_Aberturas.Append;
+    dmCaixa.sqlCaixas_AberturasData.Value
+      := fCaixas_Aberturas_Cadastro.edtData.Date;
+    dmCaixa.sqlCaixas_AberturasSituacao.AsString := 'A';
+    fCaixas_Aberturas_Cadastro.Panel1.Enabled := False;
+  end
+  else
+    dmCaixa.sqlCaixas_Aberturas.Edit;
+    dmCaixa.sqlCaixas_AberturasData_Hora_Fecham.Value
+      := fCaixas_Aberturas_Cadastro.edtData.Date;
+    dmCaixa.sqlCaixas_AberturasSituacao.AsString := 'F';
+    dmCaixa.sqlCaixas_Aberturasdata_hora_fecham.Value := Date;
+
+  if fCaixas_Aberturas_Cadastro.ShowModal = mrOk then   //  Abrir a tela
+  begin
+    ZAtualiza(dmCaixa.sqlCaixas_Aberturas);
+    dmCaixa.sqlCaixas_Aberturas.SortedFields := 'situacao';
+    dmCaixa.sqlCaixas_Aberturas.Refresh;
+  end
+  else
+    dmCaixa.sqlCaixas_Aberturas.Cancel;
+
+  FreeAndNil(fCaixas_Aberturas_Cadastro);
+end;

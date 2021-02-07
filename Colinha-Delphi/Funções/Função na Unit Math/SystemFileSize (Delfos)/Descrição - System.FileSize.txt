@@ -1,0 +1,18 @@
+System.FileSize
+
+Delphi
+
+function FileSize(var F: File): Integer;
+
+
+Descrição
+
+Retorna o número de registros em um arquivo.
+
+No código Delphi, ligue para fileSize para determinar o tamanho do arquivo especificado pela variável arquivo F. O tamanho é expresso como o número de registros em um arquivo de registro. Assim:
+
+Se o arquivo for declarado como um arquivo de byte, então o tamanho do registro padrão para um byte e o FileSize retorna o número de bytes no arquivo.
+O procedimento Reset pode definir o tamanho do registro (em bytes) quando ele abre o arquivo. Neste caso, o FileSize retorna o número de registros no arquivo.
+Nota: Se o arquivo for declarado como um arquivo não digitado e você não especificar um tamanho de registro quando você chamar Reset,então o FileSize assume um tamanho recorde de 128. Ou seja, o FileSize dá o número de bytes dividido por 128.
+
+Para usar fileSize,o arquivo deve estar aberto. Se o arquivo estiver vazio, o FileSize(F) retornará 0.

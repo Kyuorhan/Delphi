@@ -1,0 +1,21 @@
+Como converter um Char para minúsculo
+
+
+
+
+// Função: LoCase(caracter);
+function LoCase( ch : Char ) : Char;
+asm
+        CMP     AL,'A'
+        JB      @@exit
+        CMP     AL,'Z'
+        JA      @@exit
+        SUB     AL,'A' - 'a'
+@@exit:
+end;
+
+{ Exemplo de uso }
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  ShowMessage(LoCase('X'));
+end;

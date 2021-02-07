@@ -1,0 +1,7 @@
+Modo de uso de qualquer uma delas, bastando apenas trocar o nome da função:
+
+Código:
+
+vSomaIPI := Min_Round(
+    (vSomaMercadoria.Value *
+      dsOrdem.DataSet.FieldByName('ipi').Value) / 100,-2); //Usando a função Min_Round

@@ -1,0 +1,83 @@
+object fPrincipal: TfPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Controle de Caixa'
+  ClientHeight = 500
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  Menu = MainMenu1
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 635
+    Height = 66
+    Align = alTop
+    TabOrder = 0
+    object SpeedButton1: TSpeedButton
+      Left = 131
+      Top = 1
+      Width = 65
+      Height = 64
+      Align = alLeft
+      ExplicitLeft = 137
+    end
+    object SpeedButton2: TSpeedButton
+      Left = 66
+      Top = 1
+      Width = 65
+      Height = 64
+      Align = alLeft
+      ExplicitLeft = 8
+      ExplicitTop = 16
+      ExplicitHeight = 65
+    end
+    object SpeedButton3: TSpeedButton
+      Left = 1
+      Top = 1
+      Width = 65
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Movim. Cxa'
+      ExplicitLeft = 8
+      ExplicitTop = 16
+      ExplicitHeight = 65
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 40
+    Top = 96
+    object Caiuxa1: TMenuItem
+      Caption = 'Caixa'
+      object MovimentodeCaixa1: TMenuItem
+        Caption = 'Movimento de Caixa'
+      end
+      object AberturaFechamentodeCaixa1: TMenuItem
+        Caption = 'Abertura/Fechamento de Caixa'
+      end
+      object PlanodeContas1: TMenuItem
+        Caption = 'Plano de Contas'
+        OnClick = PlanodeContas1Click
+      end
+      object CadastrodeCaixas1: TMenuItem
+        Caption = 'Cadastro de Caixas'
+        OnClick = CadastrodeCaixas1Click
+      end
+    end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+      object MovimentodoCaixa1: TMenuItem
+        Caption = 'Movimento do Caixa'
+      end
+    end
+  end
+end

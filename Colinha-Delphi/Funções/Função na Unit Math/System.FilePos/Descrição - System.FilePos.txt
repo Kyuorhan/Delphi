@@ -1,0 +1,19 @@
+System.FilePos
+
+
+Delphi
+
+function FilePos(var F: File): Integer;
+
+
+
+Descrição
+
+Retorna a posição de arquivo atual.
+
+No código Delphi, use FilePos na variável arquivo de um arquivo aberto para determinar a posição atual no arquivo. Se a posição atual no arquivo estiver no início, FilePos retornará 0. Caso contrário, FilePos retorna o byte offset desde o início da posição atual.
+
+FilePos funciona em um arquivo que não está aberto.
+
+
+Nota: {$I+} lida com erros de tempo de execução usando exceções. Ao usar {$I-}, use IOResult para verificar se há erros de I/O.

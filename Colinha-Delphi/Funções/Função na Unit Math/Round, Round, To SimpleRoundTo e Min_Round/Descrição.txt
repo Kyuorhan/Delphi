@@ -1,0 +1,32 @@
+System.Math.SimpleRoundTo
+
+
+function SimpleRoundTo(const AValue: Single; const ADigit: TRoundToRange = -2): Single;
+function SimpleRoundTo(const AValue: Double; const ADigit: TRoundToRange = -2): Double;
+function SimpleRoundTo(const AValue: Extended; const ADigit: TRoundToRange = -2): Extended;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Descrição
+
+
+Arredonda um valor de ponto flutuante para um dígito especificado ou potência de dez usando arredondamento aritmético simétrico.
+
+Ligue para o SimpleRoundTo para arredondar para um poder especificado de dez. AValue
+
+ADigit indica o poder de dez para os quais você quer arredondado. Pode ser qualquer valor na faixa de -37 a 37. AValue
+
+SimpleRoundTo retorna o valor mais próximo que tem o poder especificado de dez. Caso esteja exatamente no meio dos dois valores mais próximos que têm o poder especificado 
+de dez (acima e abaixo), esta função retorna: AValue
+
+O valor para mais infinito se for positivo.AValue
+O valor para menos infinito se for negativo e o modo de arredondamento da FPU não estiver definido para .AValuermUp
+Nota: O resultado desta função depende do modo de arredondamento atual da FPU. Você pode alterar o modo de arredondamento da FPU usando a função SetRoundMode.
+
+
+
+
+Os exemplos a seguir ilustram os resultados do SimpleRoundTo: 
+
+	-SimpleRoundTo(1234567, 3) 	= 1235000
+	-SimpleRoundTo(1.234, -2)	= 1.23
+	-SimpleRoundTo(1.235, -2)	= 1.24
+	-SimpleRoundTo(-1.235, -2)	= -1.23 ou -1.24 (dependendo do modo de arredondamento atual da FPU)

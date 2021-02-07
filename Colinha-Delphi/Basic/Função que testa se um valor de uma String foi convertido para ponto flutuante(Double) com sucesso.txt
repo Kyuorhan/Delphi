@@ -1,0 +1,18 @@
+Função que testa se um valor de uma String foi convertido para ponto flutuante(Double) com sucesso
+
+
+
+
+
+// Função: TryStrToFloat(String, variavel que recebera o número convertido);
+
+{ Exemplo de uso }
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  valor : Double;
+begin
+  if TryStrToFloat('9,7', valor) then
+    showmessage('Sucesso')
+  else
+    showmessage('erro');
+end;

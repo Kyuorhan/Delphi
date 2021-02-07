@@ -1,0 +1,323 @@
+unit uPedidos_Parcelas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls,
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ActnList, JvExExtCtrls, JvExtComponent, JvPanel,
+  Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Mask, JvExMask, JvToolEdit, JvBaseEdits,
+  Data.DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ZSqlUpdate, System.Math;
+
+type
+  TfrmPedidos_Parcelas = class(TForm)
+    BalloonHint1: TBalloonHint;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    Timer1: TTimer;
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    StatusBar1: TStatusBar;
+    DBGrid1: TDBGrid;
+    Label3: TLabel;
+    lbDesconto_Valor: TLabel;
+    Label4: TLabel;
+    Label1: TLabel;
+    edtDescont_Valor: TJvCalcEdit;
+    edtDescont: TJvCalcEdit;
+    edtTotal_Pagar: TJvCalcEdit;
+    edtDias_Atrasos: TEdit;
+    lbDias_Atraso: TLabel;
+    Label7: TLabel;
+    edtClientes: TEdit;
+    lbTipo_Parcelamento: TLabel;
+    edtID_Cliente: TEdit;
+    edtID_FPagamento: TEdit;
+    JvPanel1: TJvPanel;
+    btnGerarParcela: TSpeedButton;
+    lbect1: TLabel;
+    Label5: TLabel;
+    edtNum_Parcelas: TEdit;
+    Label2: TLabel;
+    edtVencimento: TJvDateEdit;
+    edtTotal_Produto: TJvCalcEdit;
+    edtID_Pedidos: TEdit;
+    ActionList1: TActionList;
+    edtTipo_Documento: TDBLookupComboBox;
+    procedure actSalvar1Execute(Sender: TObject);
+    procedure actCancelarExecute(Sender: TObject);
+    procedure edtTotal_Produto1Change(Sender: TObject);
+    procedure edtDescontExit(Sender: TObject);
+    procedure edtDescont_ValorExit(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnGerarParcelaClick(Sender: TObject);
+    procedure edtClientesKeyPress(Sender: TObject; var Key: Char);
+    procedure edtNum_ParcelasKeyPress(Sender: TObject; var Key: Char);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure GerarParcela;
+    procedure GerarParcela1;
+  public
+    { Public declarations }
+    SqlText_Parcelas : String;
+  end;
+
+var
+  frmPedidos_Parcelas: TfrmPedidos_Parcelas;
+
+implementation
+
+{$R *.dfm}
+
+uses uPedidos, My_Layout, uConsulta_Clientes, uContas_Receber, uPedidos_Itens;
+
+procedure TfrmPedidos_Parcelas.actCancelarExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmPedidos_Parcelas.actSalvar1Execute(Sender: TObject);
+begin
+
+  ModalResult := mrOk;
+end;
+
+procedure TfrmPedidos_Parcelas.btnGerarParcelaClick(Sender: TObject);
+begin
+  GerarParcela;
+  //frmPedidos.sqlContas_Receber.ApplyUpdates;
+end;
+
+procedure TfrmPedidos_Parcelas.GerarParcela1;
+var
+  Valor_Parcela, Total_Pagar : Currency;
+  QtdeParcelas : Integer;
+  Date, Vencimento: TDate;
+  I: shortint;
+begin
+
+
+  frmPedidos.sqlContas_Receber.SQL.Text := 'SELECT * FROM contas_receber WHERE id = 0';
+  frmPedidos.sqlContas_Receber.Open;
+
+  Total_Pagar   := edtTotal_Pagar.Value;
+  QtdeParcelas  := StrToInt(edtNum_Parcelas.Text);
+
+  Valor_Parcela := SimpleRoundTo(Total_Pagar / QtdeParcelas, -2);// valor da parcela
+  Vencimento := Date;
+
+
+
+  try
+    for I := 1 to QtdeParcelas do
+      begin
+        frmPedidos.sqlContas_Receber.Append;
+        frmPedidos.sqlContas_ReceberData_Documento.Value   := Date;
+        frmPedidos.sqlContas_ReceberVencimento.Value  := Vencimento;
+
+
+        frmPedidos.sqlContas_ReceberValor.Value := Valor_Parcela;
+        frmPedidos.sqlContas_ReceberNum_Parcela.Value := Format('%.2d/%.d2', [I, QtdeParcelas]);
+
+        frmPedidos.sqlContas_ReceberValor.Value := Valor_Parcela;
+          QtdeParcelas := I; // numero da parcela
+        frmPedidos.sqlContas_ReceberNum_Parcela.Value := IntToStr(QtdeParcelas);
+        frmPedidos.sqlContas_Receber.Post;  // grava o registro em cache
+          Vencimento := IncMonth(Vencimento);
+
+      end;
+  except
+    on E: Exception do
+          raise Exception.Create('Error ao "Gerar" a parcela!' + E.Message);
+  end;
+
+end;
+
+
+procedure TfrmPedidos_Parcelas.GerarParcela;
+var
+  Valor_Parcela, Total_Pagar: Currency;
+  QtdeParcelas : Integer;
+  Date, Vencimento: TDate;
+  I: shortint;
+
+begin
+  frmPedidos.sqlContas_Receber.sql.Text := 'SELECT * FROM contas_receber WHERE id = 0';
+  frmPedidos.sqlContas_Receber.Open;
+
+
+  Total_Pagar   := edtTotal_Pagar.Value;
+  QtdeParcelas := StrToInt(edtNum_Parcelas.Text);
+
+  Valor_Parcela := SimpleRoundTo(Total_Pagar / QtdeParcelas, -2); // valor da parcela
+  Vencimento := edtVencimento.Date;
+  try
+    for I := 1 to QtdeParcelas do
+    begin
+      frmPedidos.sqlContas_Receber.Append;
+      frmPedidos.sqlContas_ReceberData_Documento.Value     := Date;
+      frmPedidos.sqlContas_ReceberVencimento.Value         := Vencimento;
+      frmPedidos.sqlContas_ReceberValor.Value := Valor_Parcela;
+      frmPedidos.sqlContas_ReceberNum_Parcela.Value := Format('%.2d/%.d2', [i, QtdeParcelas]);
+      Vencimento := IncMonth(Vencimento);
+      edtNum_Parcelas.Text  := frmPedidos.sqlContas_ReceberNum_Parcela.Value;
+
+      if i >= 1 then
+      begin
+        frmPedidos.sqlContas_ReceberValor.Value := Total_Pagar - (Valor_Parcela * (QtdeParcelas -1));
+      end;
+
+    frmPedidos.sqlContas_Receber.Post;
+    end;
+
+  except
+    on E: Exception do
+      raise Exception.Create('Error ao "Gerar" a parcela!' + E.Message);
+  end;
+end;
+
+procedure TfrmPedidos_Parcelas.edtClientesKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = '+' then
+  begin
+    Key := #0;
+    frmPedidos := TfrmPedidos.Create(nil);
+    frmPedidos.ShowModal;
+    edtClientes.Text        := frmPedidos.sqlPedidosNome.AsString;
+    edtID_Cliente.Text      := frmPedidos.sqlPedidosID_Clientes.AsString;
+    edtID_Pedidos.Text      := frmPedidos.sqlPedidosID.AsString;
+    edtTotal_Produto.Value  := frmPedidos.sqlPedidosTotal_Produtos.Value;
+    //edtTotal_Pagar.Value    := frmVenda.sqlPedidostotal_pagar.Value;
+    FreeAndNil(frmPedidos);
+  end;
+end;
+
+procedure TfrmPedidos_Parcelas.edtDescontExit(Sender: TObject);
+var
+  Total_Produto, Desc : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  Desc := edtDescont.Value;
+
+  if not (Desc <= 0.00) then
+  begin
+    edtDescont_Valor.Value := ((Desc * Total_Produto)/ 100);
+    edtTotal_Pagar.Value := (Total_Produto - edtDescont_Valor.Value);
+  end;
+
+  if (edtTotal_Pagar.Value < 0.00) then
+  begin
+    edtTotal_Pagar.Value := 0.00;
+    Exit;
+  end;
+
+end;
+
+procedure TfrmPedidos_Parcelas.edtDescont_ValorExit(Sender: TObject);
+var
+  Total_Produto, Desc_Valor : Currency;
+begin
+  Total_Produto := edtTotal_Produto.Value;
+  Desc_Valor    := edtDescont_Valor.Value;
+
+  if not (Desc_Valor <= 0.00) then
+  begin
+    edtDescont.Value      := ((Desc_Valor / Total_Produto)* 100);
+    edtTotal_Pagar.Value  := (Total_Produto - Desc_Valor);
+  end;
+
+  if (edtTotal_Pagar.Value < 0.00) then
+  begin
+    edtTotal_Pagar.Value := 0.00;
+    Exit
+  end;
+
+end;
+
+procedure TfrmPedidos_Parcelas.edtNum_ParcelasKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+begin
+  //É só colocar no evento onkeypress do edit para que ele aceite apenas números e o backspace
+  if ((Key in ['0'..'9'] = False) and (WORD(Key) <> VK_BACK)) then
+  Key := #0;
+end;
+end;
+
+procedure TfrmPedidos_Parcelas.edtTotal_Produto1Change(Sender: TObject);
+var
+  Total_Produto : Currency;
+begin
+
+  Total_Produto := edtTotal_Produto.Value;
+  if (edtDescont.Value <= 0.00) then
+  begin
+    edtTotal_Pagar.Value := edtTotal_Produto.Value;
+    if (edtDescont_Valor.Value <= 0.00) then
+    begin
+      edtTotal_Pagar.Value := edtTotal_Produto.Value;
+      Exit;
+    end;
+    Exit;
+  end;
+
+  if (edtDescont.Value <> 0.00) or (edtDescont_Valor.Value <> 0.00) then
+  begin
+    edtDescont.Value        := 0.00;
+    edtDescont_Valor.Value  := 0.00;
+  end;
+
+end;
+
+function RemoverString (Texto :String):String;
+var
+I: integer;
+S: string;
+Virgula : Boolean;//Pra verificar se ja Possui virgula
+begin
+S := '';
+Virgula:=False;
+
+for I := 1 To Length(Texto) Do
+begin
+if (Texto[I] in ['0'..'9']) or ((Texto[I] in [',']) and (Virgula<>True)) then
+begin
+if (Texto[I] in [',']) then Virgula:=True;
+S := S + Copy(Texto, I, 1);
+end;
+end;
+
+result := S;
+end;
+
+procedure TfrmPedidos_Parcelas.FormCreate(Sender: TObject);
+begin
+  SqlText_Parcelas := frmPedidos.sqlContas_Receber.SQL.Text;
+end;
+
+procedure TfrmPedidos_Parcelas.FormKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if (Key = #13) then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0);
+  end
+  else if (Key =#27) then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+procedure TfrmPedidos_Parcelas.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

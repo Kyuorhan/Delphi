@@ -1,0 +1,14 @@
+procedure TfrmConsulta.ListarClientes;
+var
+  Texto: String;
+begin
+
+  Texto := 'SELECT * from clientes c INNER JOIN cidades cid ON cid.id = c.id  WHERE c.id > 0';
+  if edtNome.Text <> '' then
+    Texto := Texto + ' AND c.nome LIKE ' + Quotedstr(edtNome.Text + '%');
+    //Texto := Texto + ' ORDER BY nome';
+  if edtCidade.Text <> '' then
+    Texto := Texto + ' AND cid.cidade LIKE ' + Quotedstr(edtCidade.Text + '%');
+  sqlClientes.SQL.Text := Texto;
+  sqlClientes.Open;
+end;

@@ -1,0 +1,8 @@
+Função para montar uma string de caracteres
+
+
+// StringOfChar( Caracter, Quantidade )
+
+// Exemplo de uso
+
+ShowMessage(StringOfChar('a', 10));

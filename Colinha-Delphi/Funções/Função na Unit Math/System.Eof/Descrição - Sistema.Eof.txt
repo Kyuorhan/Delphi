@@ -1,0 +1,18 @@
+Sistema.Eof
+
+
+Delphi
+function Eof([var F: File]): Boolean; overload;
+function Eof([var F: File]): Boolean; overload;
+
+
+Descrição
+Testa se a posição do arquivo está no final de um arquivo.
+
+No código Delfos, Eof testa se a posição atual do arquivo é o fim do arquivo. F é uma variável de arquivo que foi aberta para leitura. Se F for omitido, a entrada 
+de variável de arquivo padrão é assumida.
+
+Eof(F) retorna True se a posição atual do arquivo estiver além do último caractere do arquivo ou se o arquivo estiver vazio; caso contrário, Eof(F) retorna False.
+
+Nota: Eof falha se o arquivo F tiver sido aberto no modo somente de gravação. Por exemplo, você não pode usar o Eof com arquivos abertos usando o Anexo ou Reescrever, 
+que abrem arquivos no modo somente gravação.

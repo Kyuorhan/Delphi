@@ -1,0 +1,32 @@
+SystemReset (Delfos)
+
+
+Descrição
+Este exemplo deve ser executado a partir de uma linha de comando formatada como esta: "SystemReset_proj foo.txt". O caminho do arquivo é relativo ao diretório do projeto.
+
+
+
+Código
+
+function FileIsThere(FileName: string): Boolean;
+{ Boolean function that returns True if the file exists; otherwise,
+  it returns False. Closes the file if it exists. }
+ var
+  F: file;
+begin
+  {$I-}
+  AssignFile(F, FileName);
+  FileMode := 0;  {Set file access to read-only. }
+  Reset(F);
+  CloseFile(F);
+  {$I+}
+  FileIsThere := (IOResult = 0) and (FileName <> '');
+end;  { FileIsThere }
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  if FileIsThere(ParamStr(1)) then { Get file name from command line. }
+    Canvas.TextOut(10, 10, 'File exists')
+  else
+    Canvas.TextOut(10, 10, 'File not found');
+end;

@@ -1,0 +1,14 @@
+program Project7;
+
+uses
+  Vcl.Forms,
+  Blog.View.Principal in 'src\View\Blog.View.Principal.pas' {Form7};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm7, Form7);
+  Application.Run;
+end.

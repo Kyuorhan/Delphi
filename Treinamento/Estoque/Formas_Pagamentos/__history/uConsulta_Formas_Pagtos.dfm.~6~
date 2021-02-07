@@ -1,0 +1,140 @@
+object frmFormas_Pagtos: TfrmFormas_Pagtos
+  Left = 0
+  Top = 0
+  ClientHeight = 581
+  ClientWidth = 539
+  Color = cl3DLight
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 19
+    Top = 136
+    Width = 72
+    Height = 16
+    Caption = 'LOCALIZAR'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 514
+    Width = 539
+    Height = 48
+    Align = alBottom
+    Color = clWindow
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitTop = 484
+    ExplicitWidth = 414
+    object btnNovo: TSpeedButton
+      Left = 4
+      Top = 8
+      Width = 86
+      Height = 32
+      Action = actNovo1
+      Flat = True
+      ParentShowHint = False
+      ShowHint = False
+      OnClick = btnNovoClick
+    end
+    object btnEditar: TSpeedButton
+      Left = 96
+      Top = 8
+      Width = 86
+      Height = 32
+      Action = actEditar1
+      Flat = True
+      ParentShowHint = False
+      ShowHint = False
+      OnClick = btnEditarClick
+    end
+    object btnExcluir: TSpeedButton
+      Left = 188
+      Top = 8
+      Width = 86
+      Height = 32
+      Action = actExcluir1
+      Flat = True
+      ParentShowHint = False
+      ShowHint = False
+      OnClick = btnExcluirClick
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 562
+    Width = 539
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitTop = 528
+    ExplicitWidth = 414
+  end
+  object edtLocalizar: TEdit
+    Left = 19
+    Top = 158
+    Width = 246
+    Height = 21
+    TabOrder = 2
+  end
+  object JvPanel1: TJvPanel
+    Left = 0
+    Top = 0
+    Width = 539
+    Height = 121
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 13095379
+    ParentBackground = False
+    TabOrder = 3
+    ExplicitWidth = 414
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 200
+    Width = 539
+    Height = 314
+    Align = alBottom
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 483
+    Top = 8
+  end
+  object ActionList1: TActionList
+    Images = frmPrincipal.ImageList32
+    Left = 472
+    Top = 64
+    object actNovo1: TAction
+      Caption = 'Novo'
+      ImageIndex = 0
+    end
+    object actEditar1: TAction
+      Caption = 'Editar'
+      ImageIndex = 1
+    end
+    object actExcluir1: TAction
+      Caption = 'Excluir'
+      ImageIndex = 2
+    end
+  end
+end

@@ -1,0 +1,15 @@
+Sistema.Truncate
+
+
+Delphi
+procedure Truncate(var F: File);
+
+
+Descrição
+
+
+Exclui todos os registros após a posição atual do arquivo.
+
+No código Delphi, ligue para Truncate para fazer com que a posição atual do arquivo se torne final de arquivo (Eof(F) é verdadeira.
+
+F é uma variável de arquivo de qualquer tipo, exceto um arquivo de texto. O Truncate não funciona em arquivos de texto. F deve estar aberto.

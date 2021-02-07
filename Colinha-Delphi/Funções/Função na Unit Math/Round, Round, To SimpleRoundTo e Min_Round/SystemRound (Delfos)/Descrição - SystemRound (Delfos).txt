@@ -1,0 +1,11 @@
+Código:
+
+
+function RoundTo(const AValue: Double; const ADigit: TRoundToRange): Double;
+var
+  LFactor: Double;
+begin
+  LFactor := IntPower(10, ADigit);
+  Result := Round(AValue / LFactor) * LFactor;
+
+end;

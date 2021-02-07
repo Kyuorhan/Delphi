@@ -1,0 +1,18 @@
+System.SetString
+
+Delphi
+procedure SetString(var S: String; Buffer: PChar; Length: Integer);
+
+
+Descrição
+Define o conteúdo e o comprimento da sequência dada.
+
+No código Delfos, o SetString define o conteúdo e o comprimento da determinada variável de sequência para o bloco de caracteres dado pelos parâmetros. BufferLength
+
+Para uma variável de sequência curta, SetString define o caractere indicador de comprimento (o caractere em [0]) para o valor dado por e, em seguida, se o parâmetro 
+não for nulo, copie caracteres da cadeia, começando em [1]. Para uma variável de corda curta, o parâmetro deve ser um valor de 0 a 255. SLengthBufferLengthBufferSLength
+
+Para uma variável de cadeia longa, setString define para referenciar uma sequência recém-alocada do comprimento dado. Se o parâmetro não for nulo, o SetString 
+então copia caracteres da string; caso contrário, o conteúdo da nova sequência é deixado unnitializado. Se não houver memória suficiente disponível para criar a 
+sequência, uma exceção EOutOfMemory será levantada. Após uma chamada para SetString,é garantido que se refere a uma sequência única (uma sequência com uma 
+contagem de referência de um). SBufferLengthBufferS

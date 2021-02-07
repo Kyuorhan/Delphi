@@ -1,0 +1,17 @@
+Vc pode criar a uma função para arredondar pra baixo
+0,165 = 0,16
+
+Código:
+
+{:Serve para arredondar valores, com duas
+casas decimais mudando por exemplo de 0,165 para 0,16, ou seja sempre para baixo,
+tem que declarar a unit math na uses da lib's}
+
+function Tfr_EnviarPedido.Min_Round(const AValue: Double;
+  const ADigit: TRoundToRange): Double;
+var
+  LFactor: Double;
+begin
+  LFactor := IntPower(10, ADigit);
+  Result := Trunc((AValue / LFactor) - 0.5) * LFactor;
+end;

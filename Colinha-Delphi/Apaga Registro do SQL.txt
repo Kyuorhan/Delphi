@@ -1,0 +1,9 @@
+  for i := 1 to sqlContas_Receber.RecordCount do
+  begin
+    sqlContas_Receber.Insert;
+    sqlContas_Receber.SQL.Clear;
+    sqlContas_Receber.SQL.Add('TRUNCATE TABLE contas_receber');
+    sqlContas_Receber.ExecSQL;
+    sqlContas_Receber.Next;
+  end;
+  sqlContas_Receber.Open;

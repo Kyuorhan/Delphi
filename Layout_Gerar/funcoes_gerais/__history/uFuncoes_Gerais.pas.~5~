@@ -1,0 +1,48 @@
+unit uFuncoes_Gerais;
+
+interface
+
+uses
+  ZDataSet, udmPrincipal;
+
+procedure ListarSQL(AQuery: TZQuery; ATexto: String);
+procedure ExecutarSQL(ATexto: String);
+procedure ZAtualiza(AQuery: TZQuery);
+function SimNao(ATitulo, ATexto: String): Boolean;
+
+implementation
+
+uses
+  System.SysUtils, Data.DB, Vcl.Forms;
+
+procedure ListarSQL(AQuery: TZQuery; ATexto: String);
+begin
+  AQuery.Close;
+  AQuery.SQL.Text := ATexto;
+  AQuery.Open;
+end;
+
+procedure ExecutarSQL(ATexto: String);
+var AQuery: TZQuery;
+begin
+  AQuery := TZQuery.Create(nil);
+  AQuery.Connection := dmPrincipal.DBase;
+  AQuery.Close;
+  AQuery.SQL.Text := ATexto;
+  AQuery.ExecSQL;
+  FreeAndNil(AQuery);
+end;
+
+procedure ZAtualiza(AQuery: TZQuery);
+begin
+    if (AQuery.State IN [dsInsert, dsEdit]) then
+      AQuery.Post;
+    AQuery.ApplyUpdates;
+end;
+
+function SimNao(ATitulo, ATexto: String): Boolean;
+begin
+  Result := Application.MessageBox(PChar(ATexto), PChar(ATitulo),
+    MBYesNo) = mrYes;
+end;
+end.

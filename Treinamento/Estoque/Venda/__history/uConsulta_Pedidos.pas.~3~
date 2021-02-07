@@ -1,0 +1,54 @@
+unit uConsulta_Pedidos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, JvExDBGrids,
+  JvDBGrid, JvExExtCtrls, JvExtComponent, JvPanel, Vcl.ActnList, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, ZAbstractRODataset, ZAbstractDataset,
+  ZDataset;
+
+type
+  TfrmConsulta_Pedidos = class(TForm)
+    StatusBar1: TStatusBar;
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    BalloonHint1: TBalloonHint;
+    ActionList1: TActionList;
+    actNovo: TAction;
+    actEditar: TAction;
+    actExcluir: TAction;
+    actSalvar: TAction;
+    actCancelar: TAction;
+    actQuitar: TAction;
+    actEstornar: TAction;
+    JvPanel1: TJvPanel;
+    JvDBGrid2: TJvDBGrid;
+    sqlPedidos: TZQuery;
+    dsPedidos: TDataSource;
+    sqlPedidosid: TIntegerField;
+    sqlPedidosid_vendedores: TIntegerField;
+    sqlPedidosid_clientes: TIntegerField;
+    sqlPedidosdata: TDateField;
+    sqlPedidostotal_produtos: TFloatField;
+    sqlPedidosdesconto: TFloatField;
+    sqlPedidosdesconto_valor: TFloatField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsulta_Pedidos: TfrmConsulta_Pedidos;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout;
+
+end.

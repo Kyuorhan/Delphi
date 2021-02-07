@@ -1,0 +1,67 @@
+TEncoding (Delfos)
+
+
+Descrição
+
+Este exemplo determina a codificação de um arquivo de origem e, em seguida, grava o arquivo em qualquer codificação escolhida. Use este projeto para criar arquivos 
+de qualquer codificação. Este exemplo requer duas edições de texto e uma caixa de combinação.
+
+Código
+procedure TForm1.Button1Click(Sender TObject);
+var
+  LBuffer TBytes;
+  LByteOrderMark TBytes;
+  LOffset Integer;
+  LEncoding, DestEncoding TEncoding;
+  LFileStream TFileStream;
+  EncodingArray array[0..5] of TEncoding;
+begin
+  LEncoding= nil;
+  EncodingArray[0]= TEncoding.UTF8;
+  EncodingArray[1]= TEncoding.UTF7;
+  EncodingArray[2]= TEncoding.Unicode;
+  EncodingArray[3]= TEncoding.Default;
+  EncodingArray[4]= TEncoding.BigEndianUnicode;
+  EncodingArray[5]= TEncoding.ASCII;
+  DestEncoding = EncodingArray[ComboBox1.ItemIndex];
+  LFileStream = TFileStream.Create(Edit1.Text, fmOpenRead);
+  try
+     Read file into buffer.
+    SetLength(LBuffer, LFileStream.Size);
+    LFileStream.Read(LBuffer[0], Length(LBuffer));
+    LFileStream.ReadBuffer(Pointer(LBuffer)^, Length(LBuffer));
+
+     Identify encoding and convert buffer to UTF8.
+    LOffset = TEncoding.GetBufferEncoding(LBuffer, LEncoding);
+    for I = 0 to Length(LBuffer) - 1 do
+      Memo1.Lines.Add((LBuffer[I]));
+    LBuffer = LEncoding.Convert(LEncoding, DestEncoding, LBuffer,
+      LOffset, Length(LBuffer) - LOffset);
+  finally
+    LFileStream.Free;
+  end;
+
+  LFileStream = TFileStream.Create(Edit2.Text, fmCreate);
+  try
+     Write an encoding byte-order mark and buffer to output file.
+    LByteOrderMark = DestEncoding.GetPreamble;
+    LFileStream.Write(LByteOrderMark[0], Length(LByteOrderMark));
+    LFileStream.Write(LBuffer[0], Length(LBuffer));
+  finally
+    LFileStream.Free;
+  end;
+end;
+
+procedure TForm1.FormCreate(Sender TObject);
+begin
+   with ComboBox1, Items do begin
+     Add('TEncoding.UTF8');
+     Add('TEncoding.UTF7');
+     Add('TEncoding.Unicode');
+     Add('TEncoding.Default');
+     Add('TEncoding.BigEndianUnicode');
+     Add('TEncoding.ASCII');
+     ItemIndex = 0;
+  end;
+end;
+Usa

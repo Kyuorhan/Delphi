@@ -1,0 +1,10 @@
+Função que retorna uma string ao contrário
+
+
+
+{ É necessário declarar StrUtils }
+
+// Função ReverseString(Texto)
+
+{ Exemplo de uso. }
+ShowMessage( ReverseString('Texto') );

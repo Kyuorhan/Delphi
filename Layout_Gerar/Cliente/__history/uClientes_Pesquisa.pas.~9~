@@ -1,0 +1,49 @@
+unit uClientes_Pesquisa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfClientes_Pesquisa = class(TForm)
+    Panel1: TPanel;
+    btnAlterar: TSpeedButton;
+    btnNovo: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    btnImprimir: TSpeedButton;
+    Panel2: TPanel;
+    lbPesq: TLabel;
+    edtNome: TEdit;
+    DBGrid1: TDBGrid;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    TextSQL_Clientes : String;
+  end;
+
+var
+  fClientes_Pesquisa: TfClientes_Pesquisa;
+
+implementation
+
+{$R *.dfm}
+
+uses udmClientes, uFuncoes_Gerais;
+
+procedure TfClientes_Pesquisa.FormCreate(Sender: TObject);
+begin
+//  TextSQL_Clientes := dmCliente.sqlCliente.SQL.Text;
+end;
+
+procedure TfClientes_Pesquisa.FormShow(Sender: TObject);
+begin
+    ListarSQL(dmCliente.sqlCliente, 'SELECT * FROM clientes');
+end;
+
+end.

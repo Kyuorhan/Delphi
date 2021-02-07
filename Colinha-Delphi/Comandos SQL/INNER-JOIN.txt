@@ -1,0 +1,30 @@
+--[INNER JOIN] Selecionando todos campos das Tabelas--
+
+SELECT * FROM tabela1
+INNER JOIN  tabela2 
+ON tabela1.ID = tabela2.ID
+
+--Usando Aliases--
+
+SELECT * FROM tabela1 AS T1
+INNER JOIN tabela2 AS T2
+ON T1.ID = T2.ID
+
+----------------------------------------------------------------
+
+--[INNER JOIN] Selecionando só os Campos das Tabelas--
+
+SELECT tabela1.Campo, tabela2.Campo * FROM tabela1
+INNER JOIN tabela2
+ON tabela1.ID = tabela2.ID
+
+--Usando Aliases--
+
+SELECT T1.Campo, T2.Campo * FROM Tabela1 AS T1
+INNER JOIN tabela2 AS T2
+ON T1.ID = T2.ID
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+

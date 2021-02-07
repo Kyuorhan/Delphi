@@ -1,0 +1,32 @@
+System.Math.TRoundingMode
+
+Delphi
+
+TRoundingMode = (rmNearest, rmDown, rmUp, rmTruncate);
+
+
+Propriedades
+
+Tipo		|  Visibilidade		|  Fonte	 	|  Unidade 		|  Pai
+Função		|  Público		|  Sistema.Math.pas	|  Sistema.Matemática	|  Sistema.Matemática
+		|  			|  Sistema.Math.hpp 	|			|
+
+
+Descrição
+Enumera os modos de arredondamento de ponto flutuante.
+
+TRoundingModedefina os seguintes valores.
+
+----------------|-------------------------------------------------------|
+Valor		|  Significado						|
+		|							|
+----------------|-------------------------------------------------------|
+rmNearest	|  Rodadas para o valor inteiro mais próximo.		|
+----------------|-------------------------------------------------------|
+rmDown		|  Rodadas em direção ao infinito negativo.	 	|
+----------------|-------------------------------------------------------|
+rmUp		|  Rodadas em direção ao infinito positivo.	  	|
+----------------|-------------------------------------------------------|
+rmTruncate	|  Trunca o valor, arredondando números positivos	| 
+		|  para baixo e números negativos para cima.		|
+----------------|-------------------------------------------------------|

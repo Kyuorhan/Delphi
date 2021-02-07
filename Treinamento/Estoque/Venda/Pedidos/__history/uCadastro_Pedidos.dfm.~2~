@@ -1,0 +1,188 @@
+object frmCadastro_Pedidos: TfrmCadastro_Pedidos
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Cadastro/Pedidos'
+  ClientHeight = 447
+  ClientWidth = 453
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label2: TLabel
+    Left = 91
+    Top = 232
+    Width = 36
+    Height = 16
+    Caption = 'DATA'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lbDesconto_Valor: TLabel
+    Left = 195
+    Top = 281
+    Width = 44
+    Height = 16
+    Caption = 'VALOR'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 91
+    Top = 281
+    Width = 65
+    Height = 16
+    Caption = 'DESCONTO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 224
+    Top = 232
+    Width = 82
+    Height = 16
+    Caption = 'T/PRODUTOS'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object JvPanel2: TJvPanel
+    Left = 0
+    Top = 378
+    Width = 453
+    Height = 50
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = cl3DLight
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitTop = 293
+    ExplicitWidth = 372
+    object btnSalvar: TSpeedButton
+      Left = 10
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'SALVAR'
+      CustomHint = BalloonHint1
+      Action = actSalvar1
+      Flat = True
+    end
+    object btnCancelar: TSpeedButton
+      Left = 78
+      Top = 0
+      Width = 50
+      Height = 50
+      Hint = 'CANCELAR'
+      CustomHint = BalloonHint1
+      Action = actCancelar
+      Flat = True
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 428
+    Width = 453
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitTop = 343
+    ExplicitWidth = 372
+  end
+  object JvPanel1: TJvPanel
+    Left = 0
+    Top = 0
+    Width = 453
+    Height = 121
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 13095379
+    ParentBackground = False
+    TabOrder = 2
+    ExplicitWidth = 372
+  end
+  object Edit1: TEdit
+    Left = 91
+    Top = 303
+    Width = 81
+    Height = 21
+    CharCase = ecUpperCase
+    TabOrder = 3
+  end
+  object edtData_Documento: TJvDateEdit
+    Left = 91
+    Top = 254
+    Width = 110
+    Height = 21
+    DateFormat = '99/99/9999'
+    ShowNullDate = False
+    TabOrder = 4
+  end
+  object edtDesconto_Valor: TJvCalcEdit
+    Left = 195
+    Top = 303
+    Width = 110
+    Height = 19
+    TabStop = False
+    Flat = True
+    ParentFlat = False
+    ButtonFlat = True
+    DisplayFormat = ',0.00;,0.00-'
+    ImageKind = ikCustom
+    ShowButton = False
+    TabOrder = 5
+    DecimalPlacesAlwaysShown = False
+  end
+  object Edit2: TEdit
+    Left = 224
+    Top = 254
+    Width = 81
+    Height = 21
+    CharCase = ecUpperCase
+    TabOrder = 6
+  end
+  object BalloonHint1: TBalloonHint
+    Style = bhsStandard
+    Left = 298
+    Top = 64
+  end
+  object ActionList2: TActionList
+    Images = frmPrincipal.ImageList48
+    Left = 248
+    Top = 8
+    object actSalvar1: TAction
+      ImageIndex = 0
+    end
+    object actCancelar: TAction
+      ImageIndex = 1
+    end
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 307
+    Top = 8
+  end
+end

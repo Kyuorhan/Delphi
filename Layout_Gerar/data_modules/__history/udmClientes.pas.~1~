@@ -1,0 +1,35 @@
+unit udmClientes;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset;
+
+type
+  TDataModule1 = class(TDataModule)
+    sqlCliente: TZQuery;
+    sqlClienteid: TIntegerField;
+    sqlClientenome: TWideStringField;
+    sqlClientesexo: TWideStringField;
+    sqlClienteendereco: TWideStringField;
+    sqlClientenum_end: TWideStringField;
+    sqlClientedata_nascimento: TDateField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModule1: TDataModule1;
+
+implementation
+
+{%CLASSGROUP 'System.Classes.TPersistent'}
+
+uses udmPrincipal;
+
+{$R *.dfm}
+
+end.

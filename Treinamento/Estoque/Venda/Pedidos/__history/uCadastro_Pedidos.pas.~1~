@@ -1,0 +1,45 @@
+unit uCadastro_Pedidos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons, JvExExtCtrls, JvExtComponent, JvPanel;
+
+type
+  TfrmCadastro_Pedidos = class(TForm)
+    JvPanel2: TJvPanel;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    StatusBar1: TStatusBar;
+    edtAbrevia: TEdit;
+    Label1: TLabel;
+    lbDescricao: TLabel;
+    edtDescricao: TEdit;
+    BalloonHint1: TBalloonHint;
+    ActionList2: TActionList;
+    actSalvar1: TAction;
+    actCancelar: TAction;
+    Timer1: TTimer;
+    JvPanel1: TJvPanel;
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastro_Pedidos: TfrmCadastro_Pedidos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadastro_Pedidos.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

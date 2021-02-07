@@ -1,0 +1,33 @@
+object DataModule1: TDataModule1
+  OldCreateOrder = False
+  Height = 448
+  Width = 554
+  object sqlCliente: TZQuery
+    SQL.Strings = (
+      'SELECT * FROM clientes')
+    Params = <>
+    Left = 80
+    Top = 72
+    object sqlClienteid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlClientenome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlClientesexo: TWideStringField
+      FieldName = 'sexo'
+    end
+    object sqlClienteendereco: TWideStringField
+      FieldName = 'endereco'
+      Size = 50
+    end
+    object sqlClientenum_end: TWideStringField
+      FieldName = 'num_end'
+    end
+    object sqlClientedata_nascimento: TDateField
+      FieldName = 'data_nascimento'
+    end
+  end
+end

@@ -1,0 +1,28 @@
+System.Math.Floor
+
+Delphi
+
+	function Floor(const X: Single): Integer;
+	function Floor(const X: Double): Integer;
+ 	function Floor(const X: Extended): Integer;
+
+
+Propriedades
+
+Tipo		|  Visibilidade		|  Fonte	 	|  Unidade 		|  Pai
+Função		|  Público		|  Sistema.Math.pas	|  Sistema.Matemática	|  Sistema.Matemática
+		|  			|  Sistema.Math.hpp 	|			|
+
+
+
+Rodadas variáveis para o infinito negativo.
+
+Ligue para o Floor para obter o maior inteiro menor ou igual a X. Por exemplo:
+
+Piso(-2,8) = -3
+
+Piso(2,8) = 2
+
+Piso(-1,0) = -1
+
+Nota: O valor absoluto de X deve ser menor que MaxInt.

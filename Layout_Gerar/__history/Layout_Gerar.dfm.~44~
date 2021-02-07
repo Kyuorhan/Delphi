@@ -1,0 +1,829 @@
+object frmLayout_Gerar: TfrmLayout_Gerar
+  Left = 0
+  Top = 0
+  Caption = 'Layout_Gerar'
+  ClientHeight = 545
+  ClientWidth = 1026
+  Color = cl3DLight
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 1026
+    Height = 66
+    Align = alTop
+    Color = clWindow
+    ParentBackground = False
+    TabOrder = 0
+    object btnAula2: TSpeedButton
+      Left = 1
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 2'
+      OnClick = btnAula2Click
+    end
+    object btnAula5: TSpeedButton
+      Left = 217
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 5'
+      OnClick = btnAula5Click
+      ExplicitLeft = 113
+      ExplicitTop = 2
+    end
+    object btnAula4: TSpeedButton
+      Left = 145
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 4'
+      OnClick = btnAula4Click
+      ExplicitLeft = 113
+      ExplicitTop = 2
+    end
+    object btnAula3: TSpeedButton
+      Left = 73
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      Caption = 'Aula 3'
+      OnClick = btnAula3Click
+      ExplicitLeft = 113
+      ExplicitTop = 2
+    end
+    object btnAula6: TSpeedButton
+      Left = 289
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      BiDiMode = bdLeftToRight
+      Caption = 'Aula 6'
+      ParentBiDiMode = False
+      OnClick = btnAula6Click
+      ExplicitLeft = 367
+      ExplicitTop = 0
+    end
+    object btnAula7_0: TSpeedButton
+      Left = 361
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      BiDiMode = bdLeftToRight
+      Caption = 'Aula 7'
+      ParentBiDiMode = False
+      OnClick = btnAula7_0Click
+      ExplicitLeft = 425
+      ExplicitTop = 2
+    end
+    object btnImprimir: TSpeedButton
+      Left = 722
+      Top = 9
+      Width = 97
+      Height = 45
+      Caption = 'Imprimir'
+      OnClick = btnImprimirClick
+    end
+    object btnVizualizar: TSpeedButton
+      Left = 825
+      Top = 9
+      Width = 97
+      Height = 45
+      Caption = 'Visualizar'
+      OnClick = btnImprimirClick
+    end
+    object btnAula7_1: TSpeedButton
+      Left = 433
+      Top = 1
+      Width = 72
+      Height = 64
+      Hint = 'Movimento do Caixa'
+      Align = alLeft
+      BiDiMode = bdLeftToRight
+      Caption = 'Aula 7.1'
+      ParentBiDiMode = False
+      OnClick = btnAula7_1Click
+      ExplicitLeft = 481
+      ExplicitTop = 2
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 8
+    Top = 128
+    Width = 497
+    Height = 409
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object DBase: TZConnection
+    ControlsCodePage = cCP_UTF16
+    AutoEncodeStrings = True
+    Connected = True
+    HostName = 'localhost'
+    Port = 0
+    Database = 'my_test'
+    User = 'root'
+    Password = '123'
+    Protocol = 'MariaDB-10'
+    LibraryLocation = 'C:\Program Files (x86)\MariaDB 10.5\lib\libmariadb.dll'
+    Left = 636
+    Top = 14
+  end
+  object sqlCliente: TZQuery
+    Connection = DBase
+    Active = True
+    SQL.Strings = (
+      'SELECT * FROM clientes')
+    Params = <>
+    Left = 704
+    Top = 160
+    object sqlClienteid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlClientenome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlClientesexo: TWideStringField
+      FieldName = 'sexo'
+    end
+    object sqlClienteendereco: TWideStringField
+      FieldName = 'endereco'
+      Size = 50
+    end
+    object sqlClientenum_end: TWideStringField
+      FieldName = 'num_end'
+    end
+    object sqlClientedata_nascimento: TDateField
+      FieldName = 'data_nascimento'
+    end
+  end
+  object RelClientes: TfrxDBDataset
+    UserName = 'Cliente'
+    CloseDataSource = False
+    DataSet = sqlCliente
+    BCDToCurrency = False
+    Left = 704
+    Top = 216
+  end
+  object RelReceber: TfrxDBDataset
+    UserName = 'Receber'
+    CloseDataSource = False
+    DataSet = sqlReceber
+    BCDToCurrency = False
+    Left = 776
+    Top = 216
+  end
+  object sqlReceber: TZQuery
+    Connection = DBase
+    Active = True
+    SQL.Strings = (
+      'SELECT nome, id, vencimento, valor, historico FROM receber'
+      'ORDER BY vencimento')
+    Params = <>
+    Left = 776
+    Top = 160
+    object sqlRecebernome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlReceberid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlRecebervencimento: TDateField
+      FieldName = 'vencimento'
+    end
+    object sqlRecebervalor: TFloatField
+      FieldName = 'valor'
+    end
+    object sqlReceberhistorico: TWideStringField
+      FieldName = 'historico'
+      Size = 50
+    end
+  end
+  object sqlVendas: TZQuery
+    Connection = DBase
+    SQL.Strings = (
+      'SELECT v.data, d.descricao, SUM(v.total) AS total'
+      'FROM vendas v'
+      'LEFT JOIN documentos d ON d.id = v.id_documento '
+      'GROUP BY v.data, d.descricao'
+      '')
+    Params = <>
+    Left = 848
+    Top = 160
+    object sqlVendasdata: TDateField
+      FieldName = 'data'
+    end
+    object sqlVendasdescricao: TWideStringField
+      FieldName = 'descricao'
+      Size = 50
+    end
+    object sqlVendastotal: TFloatField
+      FieldName = 'total'
+    end
+  end
+  object RelVendas: TfrxDBDataset
+    UserName = 'Vendas'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'data=data'
+      'descricao=descricao'
+      'total=total')
+    DataSet = sqlVendas
+    BCDToCurrency = False
+    Left = 848
+    Top = 216
+  end
+  object frxCrossObject1: TfrxCrossObject
+    Left = 800
+    Top = 88
+  end
+  object dsMaster: TDataSource
+    DataSet = sqlMaster
+    Left = 704
+    Top = 416
+  end
+  object sqlDocumento: TZQuery
+    Connection = DBase
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT * FROM tipo_documentos')
+    Params = <>
+    Left = 920
+    Top = 160
+    object sqlDocumentoid: TLongWordField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlDocumentodocumento: TWideStringField
+      FieldName = 'documento'
+      Size = 50
+    end
+  end
+  object sqlDetail: TZQuery
+    Connection = DBase
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT p_i.*'
+      'FROM pedidos_itens p_i'
+      'WHERE p_i.id_pedidos = :id')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    DataSource = dsMaster
+    Left = 776
+    Top = 304
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object sqlDetailid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlDetailid_pedidos: TIntegerField
+      FieldName = 'id_pedidos'
+      Required = True
+    end
+    object sqlDetailproduto: TWideStringField
+      FieldName = 'produto'
+      Size = 75
+    end
+    object sqlDetailvalor: TFloatField
+      FieldName = 'valor'
+    end
+    object sqlDetailqtde: TIntegerField
+      FieldName = 'qtde'
+    end
+    object sqlDetailtotal: TFloatField
+      FieldName = 'total'
+    end
+  end
+  object sqlMaster: TZQuery
+    Connection = DBase
+    UpdateObject = updMaster
+    CachedUpdates = True
+    SQL.Strings = (
+      'SELECT p.* FROM pedidos p'
+      'LEFT JOIN pedidos_itens p_i ON p_i.id_pedidos = p.id '
+      'GROUP BY p.data, p_i.id_pedidos')
+    Params = <>
+    Left = 704
+    Top = 304
+    object sqlMasterid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlMasterid_clientes: TIntegerField
+      FieldName = 'id_clientes'
+    end
+    object sqlMasterdata: TDateField
+      FieldName = 'data'
+    end
+    object sqlMasternome: TWideStringField
+      FieldName = 'nome'
+      Size = 50
+    end
+    object sqlMastervalor: TFloatField
+      FieldName = 'valor'
+    end
+    object sqlMasterdesc: TFloatField
+      FieldName = 'desc'
+    end
+    object sqlMastervalor_total: TFloatField
+      FieldName = 'valor_total'
+      ReadOnly = True
+    end
+  end
+  object RelMaster: TfrxDBDataset
+    UserName = 'Master'
+    CloseDataSource = False
+    DataSet = sqlMaster
+    BCDToCurrency = False
+    Left = 704
+    Top = 360
+  end
+  object RelDetail: TfrxDBDataset
+    UserName = 'Detail'
+    CloseDataSource = False
+    DataSet = sqlDetail
+    BCDToCurrency = False
+    Left = 776
+    Top = 360
+  end
+  object frxReport: TfrxReport
+    Version = '6.9.3'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Padr'#227'o'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 44217.410375474500000000
+    ReportOptions.LastChange = 44222.678633391200000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      ''
+      'begin'
+      ''
+      'end.')
+    Left = 704
+    Top = 88
+    Datasets = <
+      item
+        DataSet = RelReceber
+        DataSetName = 'Receber'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 22.677180000000000000
+        Top = 177.637910000000000000
+        Width = 718.110700000000000000
+        DataSet = RelReceber
+        DataSetName = 'Receber'
+        RowCount = 0
+        object Recebernome: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 98.267780000000000000
+          Top = 3.779530000000000000
+          Width = 279.685220000000000000
+          Height = 18.897650000000000000
+          DataField = 'nome'
+          DataSet = RelReceber
+          DataSetName = 'Receber'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 11184640
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[Receber."nome"]')
+          ParentFont = False
+        end
+        object Recebernumero: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Top = 3.779530000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          DataField = 'id'
+          DataSet = RelReceber
+          DataSetName = 'Receber'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 11184640
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[Receber."id"]')
+          ParentFont = False
+        end
+        object Receberhistorico: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 461.102660000000000000
+          Top = 3.779530000000000000
+          Width = 257.008040000000000000
+          Height = 18.897650000000000000
+          DataSet = RelReceber
+          DataSetName = 'Receber'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 11184640
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '  [Receber."historico"]')
+          ParentFont = False
+        end
+        object Recebervalor: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 381.732530000000000000
+          Top = 3.779530000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          DataSet = RelReceber
+          DataSetName = 'Receber'
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 11184640
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[Receber."valor"]')
+          ParentFont = False
+        end
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 22.677180000000000000
+        Top = 306.141930000000000000
+        Width = 718.110700000000000000
+        object Memo1: TfrxMemoView
+          AllowVectorExport = True
+          Left = 642.520100000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[Page#]')
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 52.913420000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object Memo2: TfrxMemoView
+          AllowVectorExport = True
+          Left = 98.267780000000000000
+          Top = 34.015770000000000000
+          Width = 279.685220000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Fill.BackColor = 15000804
+          Memo.UTF8W = (
+            'NOME')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          Align = baWidth
+          AllowVectorExport = True
+          Width = 718.110700000000000000
+          Height = 30.236240000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Style = fsDot
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'RELAT'#211'RIO CONTAS A RECEBER')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo3: TfrxMemoView
+          AllowVectorExport = True
+          Top = 34.015770000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Fill.BackColor = 15000804
+          Memo.UTF8W = (
+            'N'#218'MERO')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          AllowVectorExport = True
+          Left = 381.732530000000000000
+          Top = 34.015770000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Fill.BackColor = 15000804
+          Memo.UTF8W = (
+            'VALOR')
+          ParentFont = False
+        end
+        object Memo6: TfrxMemoView
+          AllowVectorExport = True
+          Left = 461.102660000000000000
+          Top = 34.015770000000000000
+          Width = 257.008040000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Fill.BackColor = 15000804
+          Memo.UTF8W = (
+            '  HIST'#211'RICO')
+          ParentFont = False
+        end
+      end
+      object GroupHeader1: TfrxGroupHeader
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 22.677180000000000000
+        Top = 132.283550000000000000
+        Width = 718.110700000000000000
+        Condition = 'Receber."vencimento"'
+        object Memo4: TfrxMemoView
+          AllowVectorExport = True
+          Top = 3.779530000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Memo.UTF8W = (
+            'VENCIMENTO')
+          ParentFont = False
+        end
+        object Recebervencimento1: TfrxMemoView
+          IndexTag = 1
+          Align = baBottom
+          AllowVectorExport = True
+          Left = 98.267780000000000000
+          Top = 3.779530000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataField = 'vencimento'
+          DataSet = RelReceber
+          DataSetName = 'Receber'
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[Receber."vencimento"]')
+        end
+      end
+      object GroupFooter1: TfrxGroupFooter
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 22.677180000000000000
+        Top = 222.992270000000000000
+        Width = 718.110700000000000000
+        object Memo8: TfrxMemoView
+          AllowVectorExport = True
+          Left = 98.267780000000000000
+          Top = 3.779530000000000000
+          Width = 279.685220000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Fill.BackColor = 15000804
+          Memo.UTF8W = (
+            'TOTAL')
+          ParentFont = False
+        end
+        object Memo9: TfrxMemoView
+          AllowVectorExport = True
+          Left = 381.732530000000000000
+          Top = 3.779530000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          Fill.BackColor = 15000804
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[SUM(<Receber."valor">,MasterData1)]')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object updMaster: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'DELETE FROM pedidos'
+      'WHERE'
+      '  pedidos.id = :OLD_id')
+    InsertSQL.Strings = (
+      'INSERT INTO pedidos'
+      '  (id, id_clientes, data, nome, valor, desc, valor_total)'
+      'VALUES'
+      '  (:id, :id_clientes, :data, :nome, :valor, :desc, :valor_total)')
+    ModifySQL.Strings = (
+      'UPDATE pedidos SET'
+      '  id = :id,'
+      '  id_clientes = :id_clientes,'
+      '  data = :data,'
+      '  nome = :nome,'
+      '  valor = :valor,'
+      '  desc = :desc,'
+      '  valor_total = :valor_total'
+      'WHERE'
+      '  pedidos.id = :OLD_id')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 704
+    Top = 472
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_clientes'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'nome'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'valor'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'desc'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'valor_total'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'OLD_id'
+        ParamType = ptUnknown
+      end>
+  end
+  object RelScript_Variaveis: TfrxDBDataset
+    UserName = 'Scrip_Variaveis'
+    CloseDataSource = False
+    BCDToCurrency = False
+    Left = 864
+    Top = 360
+  end
+  object sqlEtiquetas: TZQuery
+    Connection = DBase
+    SQL.Strings = (
+      'SELECT * FROM produtos')
+    Params = <>
+    Left = 960
+    Top = 304
+    object sqlEtiquetasid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object sqlEtiquetasproduto: TWideStringField
+      FieldName = 'produto'
+      Size = 80
+    end
+    object sqlEtiquetasunid_medidas: TWideStringField
+      FieldName = 'unid_medidas'
+      Size = 3
+    end
+    object sqlEtiquetaspreco_venda: TFloatField
+      FieldName = 'preco_venda'
+    end
+    object sqlEtiquetascod_barras: TWideStringField
+      FieldName = 'cod_barras'
+      Size = 30
+    end
+    object sqlEtiquetascod_referencias: TWideStringField
+      FieldName = 'cod_referencias'
+      Size = 30
+    end
+  end
+  object frxBarCodeObject1: TfrxBarCodeObject
+    Left = 904
+    Top = 88
+  end
+  object RelEtiquetas: TfrxDBDataset
+    UserName = 'Etiquetas'
+    CloseDataSource = False
+    DataSet = sqlEtiquetas
+    BCDToCurrency = False
+    Left = 960
+    Top = 360
+  end
+  object qTemp: TZQuery
+    Connection = DBase
+    Params = <>
+    Left = 576
+    Top = 16
+  end
+end

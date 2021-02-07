@@ -1,0 +1,161 @@
+//PROCEDIMENTO QUE INSERE OS CHECKBOXES NO DBGRID
+procedure TfrmPrincipal.DBGrid1DrawColumnCell(Sender: TObject;
+const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+Var Check: Integer;
+    R: TRect;
+begin
+  if Column.FieldName = 'Imprimir' then
+    begin
+      DBGrid1.Canvas.FillRect(Rect);
+      Check := 0;
+ 
+      if uDataModule.ModuloSQL.cdsRuntimeImprimir.AsBoolean = true then
+        Check := DFCS_CHECKED
+                                                                   else
+        Check := 0;
+ 
+      R:=Rect;
+      InflateRect(R,-2,-2);
+      DBCheckBox1.Caption := '';
+      DrawFrameControl(DBGrid1.Canvas.Handle,R,DFC_BUTTON, DFCS_BUTTONCHECK or Check);
+    end;
+end;
+
+//IMPRIMIR LINHA SELECIONADA SELECIONADA
+procedure TfrmPrincipal.DBGrid1TitleClick(Column TColumn);
+var I integer;
+begin
+  if Column.Title.Caption = 'Imprimir' then
+    begin
+      ModuloSQL.cdsRuntime.First;
+      while not ModuloSQL.cdsRuntime.Eof do
+        begin
+          if (ModuloSQL.cdsRuntimeImprimir.AsBoolean = false) and
+            (DBGrid1.SelectedIndex = 0) then
+              for I= 0 to ModuloSQL.cdsRuntime.RecordCount - 1 do
+                begin
+                  ModuloSQL.cdsRuntime.Edit;
+                  ModuloSQL.cdsRuntimeImprimir.AsBoolean = true;
+                  ModuloSQL.cdsRuntime.Post;
+                  ModuloSQL.cdsRuntime.Next;
+                end
+                                        else
+          if (ModuloSQL.cdsRuntimeImprimir.AsBoolean = true) and
+            (DBGrid1.SelectedIndex = 0) then
+              for I= 0 to ModuloSQL.cdsRuntime.RecordCount - 1 do
+                begin
+                  ModuloSQL.cdsRuntime.Edit;
+                  ModuloSQL.cdsRuntimeImprimir.AsBoolean = false;
+                  ModuloSQL.cdsRuntime.Post;
+                  ModuloSQL.cdsRuntime.Next;
+                end;
+        end;
+    end;
+end;
+
+
+procedure TfrmPrincipal.DBGrid1ColExit(Sender: TObject);
+begin
+ if DBGrid1.SelectedField.FieldName = DBCheckBox1.DataField then
+   DBCheckBox1.Visible := False;
+end;
+
+//PROCEDIMENTO PARA MARCAR OU DESMARCAR OS CHECKBOX NO DBGRID
+procedure TfrmPrincipal.DBGrid1CellClick(Column: TColumn);
+begin
+  ModuloSQL.cdsRuntime.Edit;
+ 
+  if (ModuloSQL.cdsRuntimeImprimir.AsBoolean = false) and
+     (DBGrid1.SelectedIndex = 0) then
+       ModuloSQL.cdsRuntimeImprimir.AsBoolean := true
+ 
+                                 else
+ 
+  if (ModuloSQL.cdsRuntimeImprimir.AsBoolean = true) and
+    (DBGrid1.SelectedIndex = 0) then
+      ModuloSQL.cdsRuntimeImprimir.AsBoolean := false;
+ 
+  uDataModule.ModuloSQL.cdsRuntime.Post;
+end;
+
+procedure TfrmPrincipal.btnImprimirClick(Sender: TObject);
+var I: Integer;
+begin
+  //FILTRA O CLIENTDATASET ATRAVÉS DOS CHECKBOXES MARCADOS NO DBGRID
+  ModuloSQL.cdsRuntime.Filtered:= False;
+  ModuloSQL.cdsRuntime.Filter:= 'Imprimir = ' + BoolToStr(True);
+  ModuloSQL.cdsRuntime.Filtered:= True;
+  ModuloSQL.cdsRuntime.First;
+ 
+  //ENVIA OS REGISTROS SELECIONADOS PARA IMPRESSÃO
+  while not ModuloSQL.cdsRuntime.Eof do
+    begin
+      for I := 1 to ModuloSQL.cdsRuntimeEtiquetas.AsInteger do
+        begin
+          frmEtiqueta.frxReport1.PrintOptions.Printer:= cbbImpressoras.Text;
+          frmEtiqueta.frxReport1.PrintOptions.ShowDialog:= False;
+          frmEtiqueta.frxReport1.PrepareReport;
+          frmEtiqueta.frxReport1.Print;
+        end;
+      ModuloSQL.cdsRuntime.Next;
+    end;
+ 
+  if ModuloSQL.cdsRuntime.RecordCount = 0 then
+    ShowMessage('Nenhum registro selecionado para impressão');
+ 
+  ModuloSQL.cdsRuntime.Filtered:= False;
+  edtNumeroNF.Clear;
+  edtNumeroNF.SetFocus;
+end;
+
+procedure TfrmPrincipal.btnBuscarClick(Sender: TObject);
+begin
+    //SELECT NA QUERY PARA POPULAR DATASET
+    begin
+        //CASO ENCONTRE ALGUM REGISTRO, ESVAZIA E DEPOIS POPULA NO
+        //CLIENTDATASET(cdsRuntime)
+        begin
+          ModuloSQL.cdsRuntime.EmptyDataSet;
+          ModuloSQL.Query.First;
+ 
+          while not ModuloSQL.Query.Eof do
+            begin
+              ModuloSQL.cdsRuntime.Append;
+              ModuloSQL.cdsRuntimeImprimir.AsBoolean:= True;
+ 
+              ModuloSQL.cdsRuntimeCodCliente.AsString:=
+                ModuloSQL.Query['CAMPO1'];
+ 
+              ModuloSQL.cdsRuntimeNomeCliente.AsString:=
+                ModuloSQL.Query['CAMPO2'];
+ 
+              ModuloSQL.cdsRuntimeCodItem.AsString:=
+                ModuloSQL.Query['CAMPO3'];
+ 
+              ModuloSQL.cdsRuntimeNomeItem.AsString:=
+                ModuloSQL.Query['CAMPO4'];
+ 
+              ModuloSQL.cdsRuntimeNumeroNF.AsString:=
+                ModuloSQL.Query['CAMPO5'];
+ 
+              ModuloSQL.cdsRuntimeDataEmissao.AsString:=
+                ModuloSQL.Query['CAMPO6'];
+ 
+              ModuloSQL.cdsRuntimeUnidade.AsString:=
+                ModuloSQL.Query['CAMPO7'];
+ 
+              ModuloSQL.cdsRuntimeQuantidade.AsString:=
+                ModuloSQL.Query['CAMPO8'];
+ 
+              ModuloSQL.cdsRuntimeEtiquetas.AsInteger:= 1;
+ 
+              ModuloSQL.cdsRuntime.Post;
+              ModuloSQL.Query.Next;
+             end;
+          DBGrid1.Show;
+          btnImprimir.Enabled:= true;
+          cbbImpressoras.Enabled:= true;
+        end;
+    end;
+end;
+

@@ -1,0 +1,69 @@
+unit uConsulta_Formas_Pagtos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, JvExExtCtrls, JvExtComponent, JvPanel,
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids, Data.DB, ZAbstractRODataset, ZAbstractDataset,
+  ZDataset;
+
+type
+  TfrmFormas_Pagtos = class(TForm)
+    Panel1: TPanel;
+    btnNovo: TSpeedButton;
+    btnEditar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    StatusBar1: TStatusBar;
+    edtLocalizar: TEdit;
+    Label1: TLabel;
+    Timer1: TTimer;
+    ActionList1: TActionList;
+    actNovo1: TAction;
+    actEditar1: TAction;
+    actExcluir1: TAction;
+    JvPanel1: TJvPanel;
+    DBGrid1: TDBGrid;
+    sqlFormas_Pagtos: TZQuery;
+    dsFormas_Pagtos: TDataSource;
+    procedure Timer1Timer(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmFormas_Pagtos: TfrmFormas_Pagtos;
+
+implementation
+
+{$R *.dfm}
+
+uses My_Layout;
+
+procedure TfrmFormas_Pagtos.btnEditarClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmFormas_Pagtos.btnExcluirClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmFormas_Pagtos.btnNovoClick(Sender: TObject);
+begin
+//
+end;
+
+procedure TfrmFormas_Pagtos.Timer1Timer(Sender: TObject);
+begin
+  StatusBar1.Panels.Items[0].Text := DateTimeToStr(now);
+end;
+
+end.

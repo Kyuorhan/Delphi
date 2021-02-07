@@ -1,0 +1,25 @@
+
+
+
+
+
+
+
+
+
+
+
+--EXEMPLOS--
+
+SELECT T1.*, T2.Campo FROM tabela1 AS T1
+LEFT JOIN tabela2 AS T2 
+ON T1.ID = T2.ID_T1
+
+-----------------------------
+SELECT T1.*, T2.Campo = 
+1 - T1 é o apelido(aliases) da tabela1, e T2 apelido(aliases) da tabela2
+2- [ * ]traz todos os campos da tabela (tabela1 no caso) e outro campo (tabela2) será trazido da tabela2 pra tabela principal(No caso tabela1).
+
+FROM tabela1 AS T1 LEFT JOIN tabela2 AS T2 = Aqui se identifica quais as tabelas e seus apelidos. Left Join é o tipo de relacionamento entre as tabelas.
+
+ON T1.ID = T2.ID_T1 = Aqui são colocados os campos em comum que ligam as tabelas.

@@ -1,0 +1,9 @@
+Como converter um Char para maiúsculo
+
+
+
+
+// Função: UpCase(caracter);
+
+{ Exemplo de uso }
+ShowMessage(UpCase('x'));

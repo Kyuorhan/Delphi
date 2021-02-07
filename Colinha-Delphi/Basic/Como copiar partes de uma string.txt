@@ -1,0 +1,8 @@
+Como copiar partes de uma string
+
+
+
+// Copy('texto', posição inicial, quantidade de caractares a serem copiados)
+
+{ Exemplo de uso }
+ShowMessage(Copy('texto', 2, 3));

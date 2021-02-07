@@ -1,0 +1,16 @@
+Sistema.Swap
+
+
+
+Delphi
+function Swap(X: Integer): Integer;
+
+
+Descrição
+
+
+Troca o byte de alta ordem com o byte de baixa ordem de um valor integral de 16 bits (palavra).
+
+No código Delphi, swap troca o byte de alta ordem com o byte de baixa ordem do argumento, ou seja, byte 1 com byte 0. Se o argumento for um valor de 32 bits, então byte 3 e byte 2 não são afetados.
+
+Nota: Isso é fornecido apenas para compatibilidade retrógrada.

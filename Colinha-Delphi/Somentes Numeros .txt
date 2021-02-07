@@ -1,0 +1,26 @@
+// Metodo: pra digitar somente numeros
+procedure TfrmCadastro_Pedidos_itens.edtQtdeKeyPress(Sender: TObject;
+  var Key: Char);
+
+begin
+  //É só colocar no evento onkeypress do edit para que ele aceite apenas números e o backspace
+  if ((Key in ['0'..'9'] = False) and (WORD(Key) <> VK_BACK)) then
+  Key := #0;
+end;
+
+
+// Função: pra ler somente numeros
+function SoNumeros(ATexto: String): String;
+var
+  x: Integer;
+  y: String;
+begin
+  x := 0;
+  y := '';
+  for x := 1 to Length(ATexto) do
+  begin
+    if (ATexto[x] IN ['0' .. '9']) then
+      y := y + Copy(ATexto, x, 1);
+  end;
+  Result := y;
+end;

@@ -1,0 +1,28 @@
+program Caixa;
+
+uses
+  Vcl.Forms,
+  uPrincipal in '..\uPrincipal.pas' {fPrincipal},
+  uCaixas_Pesquisa in 'uCaixas_Pesquisa.pas' {fCaixas_Pesquisa},
+  uCaixas_Cadastro in 'uCaixas_Cadastro.pas' {fCaixas_Cadastro},
+  udmPrincipal in '..\data_modules\udmPrincipal.pas' {dmPrincipal: TDataModule},
+  udmCaixa in '..\data_modules\udmCaixa.pas' {dmCaixa: TDataModule},
+  uFuncoes_Gerais in '..\funcoes_gerais\uFuncoes_Gerais.pas',
+  uFuncoes_Caixa in '..\funcoes_gerais\uFuncoes_Caixa.pas',
+  uPlano_Contas_Pesquisa in 'uPlano_Contas_Pesquisa.pas' {fPlanos_Contas_Pesquisa},
+  uPlano_Contas_Cadastro in 'uPlano_Contas_Cadastro.pas' {fPlanos_Contas_Cadastro};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfPrincipal, fPrincipal);
+  Application.CreateForm(TfCaixas_Pesquisa, fCaixas_Pesquisa);
+  Application.CreateForm(TfCaixas_Cadastro, fCaixas_Cadastro);
+  Application.CreateForm(TdmPrincipal, dmPrincipal);
+  Application.CreateForm(TdmCaixa, dmCaixa);
+  Application.CreateForm(TfPlanos_Contas_Pesquisa, fPlanos_Contas_Pesquisa);
+  Application.CreateForm(TfPlanos_Contas_Cadastro, fPlanos_Contas_Cadastro);
+  Application.Run;
+end.

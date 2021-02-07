@@ -1,0 +1,45 @@
+VerificarValidar valores de entrada em um TEdit.
+
+
+
+{ Com a Função é possível permitir a entrada de somente letras, números ou letras e números. }
+
+// É necessário declarar Windows no Uses.
+
+function ValidateField(var Key: Char; TipoFiltro: Byte = 0): Boolean;
+
+// Explicando a Função:
+
+{  Key é a variável que contém o caracter a ser válidado. 
+   Tipo de Filtro Indica a validação a ser aplicada. (Opcional) }
+
+function ValidateField(var Key: Char; TipoFiltro: Byte = 0): Boolean;
+  function IsDigit(Key : Char) : Boolean;
+  begin
+    Result := (Key in ['0'..'9']);
+  end;
+begin
+  if not (Key in [#8, #37, #38, #39, #40, #46]) then
+    case TipoFiltro of
+      0 : if not (IsCharAlphaNumeric(Key)) then Key := #0; // Aceita letras e números
+      1 : if not (IsCharAlpha(Key)) then Key := #0;        // Aceita letras
+      2 : if not (IsDigit(Key)) then Key := #0;            // Aceita Números
+      else
+        raise Exception.Create('Tipo de filtro inválido.');
+    end;
+  Result := (not (Key = #0));
+end;
+
+// Exemplos de uso
+
+procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: Char);
+begin
+  { Alterando o tipo de filtro. }
+  ValidateField(Key, 2);
+end;
+
+procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: Char);
+begin
+  { Utilizando valores default. }
+  ValidateField(Key); 
+end;

@@ -1,0 +1,15 @@
+program MVC_ORM;
+
+uses
+  Vcl.Forms,
+  uPrincipalView in 'View\uPrincipalView.pas' {fPrincipal},
+  uConexao in 'Model\Conexao\uConexao.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfPrincipal, fPrincipal);
+  Application.Run;
+end.

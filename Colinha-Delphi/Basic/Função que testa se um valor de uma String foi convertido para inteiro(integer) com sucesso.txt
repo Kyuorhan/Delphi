@@ -1,0 +1,18 @@
+Função que testa se um valor de uma String foi convertido para inteiro(integer) com sucesso
+
+
+
+
+
+// Função: TryStrToInt(String, variavel que recebera o número convertido);
+
+{ Exemplo de uso }
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  valor : Integer;
+begin
+  if TryStrToInt('5', valor) then
+    showmessage('Sucesso')
+  else
+    showmessage('erro');
+end;

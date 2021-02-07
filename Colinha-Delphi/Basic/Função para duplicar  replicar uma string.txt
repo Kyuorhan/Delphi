@@ -1,0 +1,10 @@
+Função para duplicar  replicar uma string
+
+
+
+{ É necessário declarar StrUtils }
+
+// DupeString(texto, nº de repetições);
+ 
+// Exemplo de uso
+ShowMessage(DupeString('texto', 3));

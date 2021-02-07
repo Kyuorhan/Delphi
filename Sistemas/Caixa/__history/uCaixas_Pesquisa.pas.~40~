@@ -1,0 +1,143 @@
+unit uCaixas_Pesquisa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.ExtCtrls, udmCaixa, uFuncoes_Gerais, uFuncoes_Caixa;
+
+type
+  TfCaixas_Pesquisa = class(TForm)
+    Panel1: TPanel;
+    btnAlterar: TSpeedButton;
+    btnNovo: TSpeedButton;
+    Panel2: TPanel;
+    Label1: TLabel;
+    edtCaixa: TEdit;
+    DBGrid1: TDBGrid;
+    btnExcluir: TSpeedButton;
+    cInativos: TCheckBox;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
+    procedure edtCaixaChange(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure FiltrarCaixa;
+  public
+    { Public declarations }
+  end;
+
+var
+  fCaixas_Pesquisa: TfCaixas_Pesquisa;
+
+implementation
+
+{$R *.dfm}
+
+uses uCaixas_Cadastro, udmPrincipal;
+
+procedure TfCaixas_Pesquisa.btnNovoClick(Sender: TObject);
+begin
+  fCaixas_Cadastro := TfCaixas_Cadastro.Create(Self); // Vai dar um Create(Criar) a tela
+  if TComponent(Sender).Name = 'btnNovo' then  // Verficando qual componente na tela
+  begin                                        // Vai busca Pelo nome do(Componente)
+    dmCaixa.sqlCaixas.Append;
+    //dmCaixa.sqlCaixasAtivo.AsString := 'S';
+  end else
+  begin
+    dmPrincipal.qTemp.SQL.Text := 'SELECT caixas_id FROM caixas_aberturas'
+      + ' WHERE caixas_id = ' + dmCaixa.sqlCaixasID.AsString;
+    dmPrincipal.qTemp.Open;
+
+    if dmPrincipal.qTemp.fields[0].AsString <> '' then
+    begin
+      MostraAviso('Este caixa possui registros no caixa movimentos');
+      Exit;
+    end;
+
+    fCaixas_Cadastro.OperacaoCaixa := ocAlterar;
+    fCaixas_Cadastro.edtCaixa.Enabled := False;
+    dmCaixa.sqlCaixas.Edit;
+  end;
+
+  if fCaixas_Cadastro.ShowModal = mrOK then  // Vai dar um ShowModal(Abrir) a tela
+  begin
+
+    ZAtualiza(dmCaixa.sqlCaixas);
+    dmCaixa.sqlCaixas.SortedFields := 'caixa';
+  end else
+    dmCaixa.sqlCaixas.Cancel;
+
+  dmCaixa.sqlCaixas.Refresh;
+  FreeandNil(fCaixas_Cadastro);
+end;
+
+procedure TfCaixas_Pesquisa.edtCaixaChange(Sender: TObject);
+begin
+  FiltrarCaixa;
+end;
+
+procedure TfCaixas_Pesquisa.FiltrarCaixa;
+var
+  s: String;
+begin
+  s := 'id > 0';
+  if edtCaixa.Text <> '' then
+    s := s + ' AND caixa LIKE ' + QuotedStr(edtCaixa.Text + '*');
+  if not cInativos.Checked then
+    s := s + ' AND ativo = ''S'' ';
+
+  dmCaixa.sqlCaixas.Filter := s;
+  dmCaixa.sqlCaixas.Filtered := True;
+end;
+
+procedure TfCaixas_Pesquisa.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #27 then
+  begin
+    Key := #0;
+    Close;
+  end;
+end;
+
+procedure TfCaixas_Pesquisa.FormShow(Sender: TObject);
+begin
+  ListarSQL(dmCaixa.sqlCaixas, 'SELECT * FROM caixas ORDER BY caixa');
+  FiltrarCaixa;
+end;
+
+procedure TfCaixas_Pesquisa.btnAlterarClick(Sender: TObject);
+begin
+  fCaixas_Cadastro := TfCaixas_Cadastro.Create(Self);
+  dmCaixa.sqlCaixas.Edit;
+
+  if fCaixas_Cadastro.ShowModal = mrOK then  // Vai dar um ShowModal(Abrir) a tela
+  begin
+{
+    if SalvarCaixa(fCaixas_Cadastro.edtDescricao.Text) then
+    begin
+      dmCaixa.sqlCaixas.Refresh;
+      FreeandNil(fCaixas_Cadastro);
+      Exit;
+    end;
+ }
+  end
+  else
+    dmCaixa.sqlCaixas.Cancel;
+
+  dmCaixa.sqlCaixas.Refresh;
+  FreeandNil(fCaixas_Cadastro);
+end;
+
+procedure TfCaixas_Pesquisa.btnExcluirClick(Sender: TObject);
+begin
+  if SimNao('Excluir', 'Deseja excluir o caixa '
+      + dmCaixa.sqlCaixasCaixa.AsString + '?') then
+    ZDeleta(dmCaixa.sqlCaixas);
+end;
+
+end.
